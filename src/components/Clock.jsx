@@ -1,46 +1,57 @@
+import { Container, Flex, Text } from "@radix-ui/themes";
 import TextTransition from "react-text-transition";
 import useTime from "../hooks/useTime";
 
 const digitMap = [
     (time) => (time[0] === "0" ? "" : time[0]),
-    (time) => (time[1]),
+    (time) => time[1],
     () => ":",
-    (time) => (time[3]),
-    (time) => (time[4]),
-]
+    (time) => time[3],
+    (time) => time[4],
+];
 
 export default function Clock({}) {
-    const {time} = useTime();
+    const { time } = useTime();
 
     return (
-        <div className="min-w-full min-h-full h-full">
-            <div className="flex flex-col items-center justify-center gap-10 h-full w-full" >
-                <div className="flex flex-row items-end h-auto">
+        <Container height="100%" minHeight="100%" minWidth="100%">
+            <Flex
+                width="100%"
+                height="100%"
+                dir="column"
+                justify="center"
+                align="center"
+                gap={10}
+            >
+                <Flex height="auto" dir="row" align="end">
                     {digitMap.map((digit, index) => {
                         return (
-                            <p
+                            <TextTransition
+                                inline
+                                delay={(digitMap.length - index) * 100}
+                                key={index}
                                 style={{
                                     fontFamily: "Rubik Doodle Shadow",
                                     fontSize: "250px",
                                     fontWeight: 400,
                                     lineHeight: 0.8,
                                 }}
-                                key={index}
                             >
-                                <TextTransition
-                                    inline
-                                    delay={(digitMap.length - index) * 100}
-                                >
-                                    {digit(time[0])}
-                                </TextTransition>
-                            </p>
+                                {digit(time[0])}
+                            </TextTransition>
                         );
                     })}
-                    <p style={{ fontFamily: "Rubik Doodle Shadow", fontSize: "50px", lineHeight: 1 }}>
+                    <Text
+                        style={{
+                            fontFamily: "Rubik Doodle Shadow",
+                            fontSize: "50px",
+                            lineHeight: 1,
+                        }}
+                    >
                         {time[1]}
-                    </p>
-                </div>
-            </div>
-        </div>
+                    </Text>
+                </Flex>
+            </Flex>
+        </Container>
     );
 }

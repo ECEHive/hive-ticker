@@ -2,18 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-/* If the user prefers dark mode, 
-we of course apply color-scheme: dark, as usual */
-@media (prefers-color-scheme: dark) {
-    html {
-      color-scheme: dark;
-    }
-  }
-  
-  /* If the user prefers light mode, 
-  we still enforce color-scheme: dark, despite the user preference */
-  @media (prefers-color-scheme: light) {
-    html {
-      color-scheme: dark;
-    }
-  }
+.radix-themes {
+    --default-font-family: "Sora", sans-serif;
+    --heading-font-family: "Rubik", sans-serif;
+    /* --code-font-family:     Your custom font for <Code> components */
+    /* --strong-font-family:   Your custom font for <Strong> components */
+    /* --em-font-family:       Your custom font for <Em> components */
+    /* --quote-font-family:    Your custom font for <Quote> components */
+}
