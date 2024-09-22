@@ -1,8 +1,10 @@
 import dayjs from "dayjs";
+import duration from "dayjs/plugin/duration";
 import PropTypes from "prop-types";
 import { createContext, useEffect, useState } from "react";
 
 const TimeContext = createContext();
+dayjs.extend(duration);
 
 function TimeProvider({ children }) {
     const [time, setTime] = useState(["12:00", "AM"]);
@@ -17,7 +19,11 @@ function TimeProvider({ children }) {
         return () => clearInterval(interval);
     }, []);
 
-    return <TimeContext.Provider value={{time, date}}>{children}</TimeContext.Provider>;
+    return (
+        <TimeContext.Provider value={{ time, date }}>
+            {children}
+        </TimeContext.Provider>
+    );
 }
 
 TimeProvider.propTypes = {

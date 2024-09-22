@@ -1,4 +1,4 @@
-import { Container, Flex, Text } from "@radix-ui/themes";
+import { Box, Flex, Text } from "@radix-ui/themes";
 import TextTransition from "react-text-transition";
 import useTime from "../hooks/useTime";
 
@@ -14,16 +14,16 @@ export default function Clock({}) {
     const { time } = useTime();
 
     return (
-        <Container height="100%" minHeight="100%" minWidth="100%">
+        <Box height="100%" minHeight="100%" minWidth="100%">
             <Flex
                 width="100%"
                 height="100%"
-                dir="column"
+                direction="column"
                 justify="center"
                 align="center"
                 gap={10}
             >
-                <Flex height="auto" dir="row" align="end">
+                <Flex height="auto" direction="row" align="end">
                     {digitMap.map((digit, index) => {
                         return (
                             <TextTransition
@@ -32,9 +32,9 @@ export default function Clock({}) {
                                 key={index}
                                 style={{
                                     fontFamily: "Rubik Doodle Shadow",
-                                    fontSize: "250px",
                                     fontWeight: 400,
                                     lineHeight: 0.8,
+                                    fontSize: "250px",
                                 }}
                             >
                                 {digit(time[0])}
@@ -52,6 +52,6 @@ export default function Clock({}) {
                     </Text>
                 </Flex>
             </Flex>
-        </Container>
+        </Box>
     );
 }
