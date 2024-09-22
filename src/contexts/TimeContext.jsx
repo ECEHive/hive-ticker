@@ -1,10 +1,11 @@
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
+import utc from "dayjs/plugin/utc";
 import PropTypes from "prop-types";
 import { createContext, useEffect, useState } from "react";
-
 const TimeContext = createContext();
 dayjs.extend(duration);
+dayjs.extend(utc);
 
 function TimeProvider({ children }) {
     const [time, setTime] = useState(["12:00", "AM"]);

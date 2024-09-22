@@ -8,7 +8,15 @@ export default {
             serif: ['"Rubik"', "serif"],
             body: ['"Sora"', "sans-serif"],
         },
-        extend: {},
+        extend: {
+            typography: {
+                "2xl": {
+                    css: {
+                        fontSize: "2.5rem",
+                    },
+                },
+            },
+        },
     },
     plugins: [require("@tailwindcss/typography")],
 };

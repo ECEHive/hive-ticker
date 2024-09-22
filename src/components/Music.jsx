@@ -1,29 +1,44 @@
 import { Box, Button, Flex, Progress, Text } from "@radix-ui/themes";
 import dayjs from "dayjs";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import useSpotify from "../hooks/useSpotify";
 
 export default function Music() {
     const { playerState, currentToken, redirectToSpotifyAuthorize } =
         useSpotify();
 
-    const [progress, duration] = useMemo(() => {
-        if (!playerState) return [0, 0];
+    const [latestProgress, timestamp, durationMs, durationFormatted] =
+        useMemo(() => {
+            if (!playerState) return [0, 0, 0, "0:00"];
 
-        const start = dayjs.duration({
-            milliseconds: playerState?.progress_ms,
-        });
-        const end = dayjs.duration({
-            milliseconds: playerState?.item.duration_ms,
-        });
+            return [
+                playerState?.progress_ms,
+                dayjs.utc(),
+                dayjs.duration(playerState?.item.duration_ms),
+                dayjs.duration(playerState?.item.duration_ms).format("m:ss"),
+            ];
+        }, [playerState]);
 
-        return [start.format("m:ss"), end.format("m:ss")];
-    }, [playerState]);
+    const [progressMs, setProgressMs] = useState(0);
+    const [progressFormatted, setProgressFormatted] = useState("0:00");
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (!playerState?.is_playing) return;
+            const progress = dayjs
+                .duration(dayjs.utc().diff(dayjs(timestamp), "ms"))
+                .add(latestProgress, "ms");
+            setProgressMs(progress);
+            setProgressFormatted(progress.format("m:ss"));
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, [latestProgress, timestamp, playerState]);
 
     const progressPercent = useMemo(() => {
         if (!playerState) return 0;
-        return (playerState?.progress_ms / playerState?.item.duration_ms) * 100;
-    }, [playerState]);
+        return Math.min((progressMs / durationMs) * 100, 100);
+    }, [progressMs, durationMs, playerState]);
 
     return (
         <>
@@ -45,6 +60,8 @@ export default function Music() {
                         height="100%"
                         minWidth="100%"
                         maxHeight="100%"
+                        maxWidth="100%"
+                        overflow="hidden"
                         direction="row"
                         align="center"
                         justify="start"
@@ -68,7 +85,9 @@ export default function Music() {
                             justify="between"
                             gap="4"
                             width="100%"
+                            maxWidth="100%"
                             height="100%"
+                            overflow="hidden"
                             p="4"
                         >
                             <Flex
@@ -76,8 +95,11 @@ export default function Music() {
                                 align="start"
                                 justify="start"
                                 gap="4"
+                                width="100%"
+                                maxWidth="100%"
+                                overflow="hidden"
                             >
-                                <p className="text-7xl font-bold">
+                                <p className="max-w-full overflow-ellipsis whitespace-nowrap text-7xl font-bold">
                                     {playerState?.item.name}
                                 </p>
                                 <p className="text-4xl text-gray-300">
@@ -92,7 +114,9 @@ export default function Music() {
                                 width="100%"
                                 gap="6"
                             >
-                                <Text className="text-2xl">{progress}</Text>
+                                <Text className="w-16 max-w-16 text-left text-2xl">
+                                    {progressFormatted}
+                                </Text>
                                 <Progress
                                     className="w-full"
                                     size="3"
@@ -100,9 +124,10 @@ export default function Music() {
                                     variant="surface"
                                     color="gray"
                                     highContrast
-                                    // duration={`${parseInt(playerState?.item.duration_ms / 1000)}s`}
                                 />
-                                <Text className="text-2xl">{duration}</Text>
+                                <Text className="w-16 max-w-16 text-right text-2xl">
+                                    {durationFormatted}
+                                </Text>
                             </Flex>
                         </Flex>
                     </Flex>
@@ -120,9 +145,9 @@ export default function Music() {
                         size="4"
                         variant="surface"
                         onClick={redirectToSpotifyAuthorize}
-                        color="yellow"
+                        color="amber"
                     >
-                        Connect your Spotify
+                        Connect Spotify
                     </Button>
                 </Flex>
             )}

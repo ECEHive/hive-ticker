@@ -1,9 +1,12 @@
-import { Box, Flex, Grid } from "@radix-ui/themes";
-import Clock from "./components/Clock";
+import { Box, Grid } from "@radix-ui/themes";
 import Music from "./components/Music";
 import Notices from "./components/Notices";
+import SpaceInfo from "./components/SpaceInfo";
+import useSpotify from "./hooks/useSpotify";
 
 export default function Dashboard({}) {
+    const { playerState, currentToken } = useSpotify();
+
     return (
         <Box
             maxWidth="100vw"
@@ -12,50 +15,43 @@ export default function Dashboard({}) {
             minWidth="100vw"
             width="100vw"
             height="100vh"
+            overflow="hidden"
         >
-            <Flex
+            {/* <Flex
                 width="100%"
                 height="100%"
                 minWidth="100%"
                 minHeight="100%"
+                maxHeight="100%"
+                maxWidth="100%"
                 direction="column"
                 justify="center"
                 align="center"
+            > */}
+            <Grid
+                columns="4"
+                rows="calc(100% - 320px) 320px"
+                width="100%"
+                height="100%"
+                maxHeight="100%"
             >
-                <Grid
-                    columns="4"
-                    gap="4"
-                    rows="auto 320px"
-                    width="100%"
+                <Box gridColumn="1 / 4" gridRow="1" width="100%" height="100%">
+                    {/* <Clock /> */}
+                    <Notices />
+                </Box>
+                <Box gridColumn="4/5" gridRow="1" width="100%" height="100%">
+                    <SpaceInfo />
+                </Box>
+                <Box
+                    gridColumn="1/5"
+                    gridRow="2"
                     height="100%"
+                    width="100%"
+                    maxHeight="100%"
                 >
-                    <Box
-                        gridColumn="1 / 4"
-                        gridRow="1"
-                        width="100%"
-                        height="100%"
-                    >
-                        {/* <Clock /> */}
-                        <Notices />
-                    </Box>
-                    <Box
-                        gridColumn="4/5"
-                        gridRow="1"
-                        width="100%"
-                        height="100%"
-                    >
-                        <Clock />
-                    </Box>
-                    <Box
-                        gridColumn="1/5"
-                        gridRow="2"
-                        height="100%"
-                        width="100%"
-                        maxHeight="100%"
-                    >
-                        <Music />
-                    </Box>
-                    {/* <Box
+                    <Music />
+                </Box>
+                {/* <Box
                         gridColumn="4/5"
                         gridRow="2"
                         width="100%"
@@ -63,8 +59,8 @@ export default function Dashboard({}) {
                     >
                         <Footer />
                     </Box> */}
-                </Grid>
-            </Flex>
+            </Grid>
+            {/* </Flex> */}
         </Box>
     );
 }

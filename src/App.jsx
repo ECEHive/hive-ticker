@@ -8,7 +8,7 @@ import { TimeProvider } from "./contexts/TimeContext";
 
 export default function App() {
     return (
-        <Theme accentColor="Amber" grayColor="gray" appearance="dark">
+        <Theme accentColor="amber" grayColor="gray" appearance="dark">
             <TimeProvider>
                 <SpotifyProvider>
                     <Dashboard />

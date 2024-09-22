@@ -1,4 +1,5 @@
 import { useLocalStorage } from "@uidotdev/usehooks";
+import dayjs from "dayjs";
 import { createContext, useCallback, useEffect, useState } from "react";
 
 export const SpotifyContext = createContext();
@@ -156,7 +157,7 @@ function useProvideSpotify() {
     }
 
     async function request(endpoint) {
-        if (new Date() > Date.parse(expires)) {
+        if (dayjs().isAfter(expires)) {
             console.log("refreshing token");
             const token = await refreshToken();
             updateToken(token);
