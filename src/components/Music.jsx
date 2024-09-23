@@ -1,6 +1,7 @@
 import { Box, Button, Flex, Progress, Text } from "@radix-ui/themes";
 import dayjs from "dayjs";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import Marquee from "react-fast-marquee";
 import useSpotify from "../hooks/useSpotify";
 
 export default function Music() {
@@ -28,17 +29,68 @@ export default function Music() {
             const progress = dayjs
                 .duration(dayjs.utc().diff(dayjs(timestamp), "ms"))
                 .add(latestProgress, "ms");
-            setProgressMs(progress);
+            const min = dayjs.duration(
+                Math.min(
+                    progress.asMilliseconds(),
+                    durationMs.asMilliseconds(),
+                ),
+            );
+            setProgressMs(min.asMilliseconds());
             setProgressFormatted(progress.format("m:ss"));
         }, 1000);
 
         return () => clearInterval(interval);
-    }, [latestProgress, timestamp, playerState]);
+    }, [latestProgress, timestamp, playerState, durationMs]);
 
     const progressPercent = useMemo(() => {
         if (!playerState) return 0;
         return Math.min((progressMs / durationMs) * 100, 100);
     }, [progressMs, durationMs, playerState]);
+
+    const [playMarquee, setPlayMarquee] = useState(true);
+    const [currentTrackId, setcurrentTrackId] = useState(null);
+    const [enableMarquee, setEnableMarquee] = useState(false);
+    const [disableWait, setDisableWait] = useState(false);
+    const titleRef = useRef(null);
+    const infoRef = useRef(null);
+
+    const pauseMarquee = useCallback(() => {
+        // if titleRef is smaller than its container, don't pause
+        if (enableMarquee) {
+            // check if titleRef is not in the home position
+            console.log("pausing marquee");
+            setPlayMarquee(false);
+            setTimeout(
+                () => {
+                    setPlayMarquee(true);
+                },
+                disableWait ? 0 : 5000,
+            );
+        } else {
+            console.log("stopping marquee");
+            setPlayMarquee(false);
+        }
+    }, [enableMarquee, disableWait]);
+
+    useEffect(() => {
+        if (!titleRef.current || !infoRef.current || !playerState) return;
+        if (currentTrackId !== playerState?.item.id) {
+            console.log("song change");
+            setcurrentTrackId(playerState.item.id);
+            setEnableMarquee(true);
+            setDisableWait(true);
+            setPlayMarquee(true);
+            console.log("enable lockout");
+
+            setTimeout(() => {
+                console.log("disable lockout");
+                setEnableMarquee(
+                    titleRef.current.offsetWidth > infoRef.current.offsetWidth,
+                );
+                setDisableWait(false);
+            }, 500);
+        }
+    }, [playerState, titleRef, infoRef, currentTrackId]);
 
     return (
         <>
@@ -62,13 +114,13 @@ export default function Music() {
                         maxHeight="100%"
                         maxWidth="100%"
                         overflow="hidden"
-                        direction="row"
+                        direction="column"
                         align="center"
                         justify="start"
-                        gap="4"
+                        gap="6"
                         p="8"
                         style={{
-                            backdropFilter: "blur(50px) brightness(0.4)",
+                            backdropFilter: "blur(50px) brightness(0.25)",
                         }}
                     >
                         <img
@@ -88,7 +140,7 @@ export default function Music() {
                             maxWidth="100%"
                             height="100%"
                             overflow="hidden"
-                            p="4"
+                            // p="4"
                         >
                             <Flex
                                 direction="column"
@@ -98,10 +150,27 @@ export default function Music() {
                                 width="100%"
                                 maxWidth="100%"
                                 overflow="hidden"
+                                ref={infoRef}
                             >
-                                <p className="max-w-full overflow-ellipsis whitespace-nowrap text-7xl font-bold">
-                                    {playerState?.item.name}
-                                </p>
+                                <Marquee
+                                    onCycleComplete={pauseMarquee}
+                                    play={playMarquee}
+                                    loop={0}
+                                >
+                                    <p
+                                        className="max-w-full text-7xl font-bold"
+                                        ref={titleRef}
+                                    >
+                                        {playerState?.item.name}
+                                    </p>
+                                    <div
+                                        style={{
+                                            width: enableMarquee
+                                                ? `calc(${infoRef?.current?.offsetWidth - titleRef?.current?.offsetWidth})`
+                                                : "120px",
+                                        }}
+                                    />
+                                </Marquee>
                                 <p className="text-4xl text-gray-300">
                                     {playerState?.item.artists[0].name}
                                 </p>
@@ -112,9 +181,9 @@ export default function Music() {
                                 justify="center"
                                 align="center"
                                 width="100%"
-                                gap="6"
+                                gap="4"
                             >
-                                <Text className="w-16 max-w-16 text-left text-2xl">
+                                <Text className="w-16 min-w-16 text-left text-2xl">
                                     {progressFormatted}
                                 </Text>
                                 <Progress
@@ -125,7 +194,7 @@ export default function Music() {
                                     color="gray"
                                     highContrast
                                 />
-                                <Text className="w-16 max-w-16 text-right text-2xl">
+                                <Text className="w-16 min-w-16 text-right text-2xl">
                                     {durationFormatted}
                                 </Text>
                             </Flex>

@@ -1,5 +1,4 @@
-import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
-import { Box, Callout, Flex, Text } from "@radix-ui/themes";
+import { Box, Flex, Text } from "@radix-ui/themes";
 import TextTransition from "react-text-transition";
 import logo from "../assets/hive_logo_white.svg";
 import useTime from "../hooks/useTime";
@@ -17,92 +16,70 @@ export default function SpaceInfo({}) {
 
     return (
         <Box
+            width="100%"
             height="100%"
             minHeight="100%"
             minWidth="100%"
+            maxHeight="100%"
+            maxWidth="100%"
+            py="6"
             p="8"
-            className="border-l-2 border-neutral-800"
+            className="overflow-hidden"
         >
-            <Box width="100%" height="50px" mb="9">
-                <img src={logo} style={{ width: "100%", height: "100%" }} />
-            </Box>
             <Flex
-                direction="column"
-                justify="start"
+                direction="row"
+                justify="between"
                 align="center"
-                gap="9"
+                gap="8"
                 height="100%"
                 width="100%"
             >
-                {/*  */}
-                <Flex direction="column" align="center" gap="4" width="100%">
-                    <Flex
-                        height="auto"
-                        direction="row"
-                        align="end"
-                        justify="center"
-                        width="100%"
-                    >
-                        {digitMap.map((digit, index) => {
-                            return (
-                                <TextTransition
-                                    inline
-                                    // delay={(digitMap.length - index) * 100}
-                                    key={index}
-                                    style={{
-                                        fontFamily: "Rubik Doodle Shadow",
-                                        fontWeight: 400,
-                                        lineHeight: 0.8,
-                                        fontSize: "100px",
-                                    }}
-                                >
-                                    {digit(time[0])}
-                                </TextTransition>
-                            );
-                        })}
-                        <Text
-                            style={{
-                                fontFamily: "Rubik Doodle Shadow",
-                                fontSize: "30px",
-                                lineHeight: 1,
-                            }}
-                        >
-                            {time[1]}
-                        </Text>
-                    </Flex>
-                </Flex>
+                <img src={logo} className="h-[96px] w-auto" />
 
                 <Flex
                     direction="column"
+                    align="start"
                     justify="center"
-                    align="center"
-                    className="self-end"
-                    width="100%"
+                    gap="2"
+                    height="auto"
                 >
-                    <Text>Today&apos;s hours</Text>
+                    {/* <Callout.Root size="3">
+                    <Callout.Text className="text-6xl">
+                        Closing in 20 minutes
+                    </Callout.Text>
+                </Callout.Root> */}
+                    <Text className="text-4xl">Today&apos;s hours</Text>
+                    <Text className="text-7xl font-semibold">10am-6pm</Text>
+                </Flex>
 
-                    <Callout.Root
-                        size="3"
-                        variant="soft"
-                        color="red"
-                        highContrast
+                {/* clock */}
+                <Flex height="auto" direction="row" align="end" justify="end">
+                    {digitMap.map((digit, index) => {
+                        return (
+                            <TextTransition
+                                inline
+                                // delay={(digitMap.length - index) * 100}
+                                key={index}
+                                style={{
+                                    fontFamily: "Rubik",
+                                    fontWeight: 600,
+                                    lineHeight: 0.8,
+                                    fontSize: "120px",
+                                }}
+                            >
+                                {digit(time[0])}
+                            </TextTransition>
+                        );
+                    })}
+                    <Text
                         style={{
-                            width: "100%",
-                            height: "auto",
+                            fontSize: "30px",
+                            lineHeight: 1,
                         }}
+                        className="font-sans font-medium"
                     >
-                        <Callout.Icon>
-                            <ExclamationTriangleIcon fontSize="30px" />
-                        </Callout.Icon>
-                        <Callout.Text
-                            style={{
-                                fontSize: "30px",
-                                lineHeight: 1,
-                            }}
-                        >
-                            The HIVE closes in 30 minutes
-                        </Callout.Text>
-                    </Callout.Root>
+                        {time[1]}
+                    </Text>
                 </Flex>
             </Flex>
         </Box>

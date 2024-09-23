@@ -1,4 +1,5 @@
 import { Box } from "@radix-ui/themes";
+import { useEffect, useRef } from "react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
@@ -16,12 +17,36 @@ and tables
 `;
 
 export default function Notices({}) {
-    // const mdRef = useRef(null);
+    const mdRef = useRef(null);
+    const boxRef = useRef(null);
 
-    // useEffect(() => {
-    //     // find Markdown's height and slowly scroll to the bottom
-    //     const mdRef = mdRef.current;
-    // }, []);
+    const scrollLevel = useRef(0);
+    const scrollSpeed = 100; // pixels per second
+
+    useEffect(() => {
+        // find height of boxRef
+        const boxHeight = boxRef.current.clientHeight;
+
+        console.log(boxHeight / scrollSpeed);
+
+        const interval = setInterval(
+            () => {
+                if (scrollLevel.current < boxHeight) {
+                    boxRef.current.scrollTo({
+                        top: scrollLevel.current,
+                        behavior: "smooth",
+                    });
+                    scrollLevel.current += 1;
+                }
+                // } else {
+                //     scrollLevel.current = 0;
+                // }
+            },
+            (boxHeight / scrollSpeed) * 1000,
+        );
+
+        return () => clearInterval(interval);
+    }, []);
 
     return (
         <Box
@@ -31,6 +56,7 @@ export default function Notices({}) {
             maxHeight="100%"
             p="8"
             overflow="auto"
+            ref={boxRef}
         >
             <Markdown
                 className="prose prose-invert prose-neutral prose-2xl prose-headings:font-bold"
@@ -38,7 +64,7 @@ export default function Notices({}) {
             >
                 {markdown}
             </Markdown>
-            {/* <div className="h-0" ref={mdRef} /> */}
+            <div className="h-0" ref={mdRef} />
         </Box>
     );
 }

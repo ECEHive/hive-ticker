@@ -29,19 +29,23 @@ export default function Dashboard({}) {
                 align="center"
             > */}
             <Grid
-                columns="4"
-                rows="calc(100% - 320px) 320px"
+                columns={
+                    playerState?.is_playing ? "calc(100% - 550px) 550px" : "1fr"
+                }
+                rows="calc(100% - 225px) 225px"
                 width="100%"
                 height="100%"
                 maxHeight="100%"
             >
-                <Box gridColumn="1 / 4" gridRow="1" width="100%" height="100%">
+                <Box gridColumn="1" gridRow="1" width="100%" height="100%">
                     {/* <Clock /> */}
                     <Notices />
                 </Box>
-                <Box gridColumn="4/5" gridRow="1" width="100%" height="100%">
-                    <SpaceInfo />
-                </Box>
+                {playerState?.is_playing && (
+                    <Box gridColumn="2" gridRow="1" width="100%" height="100%">
+                        <Music />
+                    </Box>
+                )}
                 <Box
                     gridColumn="1/5"
                     gridRow="2"
@@ -49,7 +53,7 @@ export default function Dashboard({}) {
                     width="100%"
                     maxHeight="100%"
                 >
-                    <Music />
+                    <SpaceInfo />
                 </Box>
                 {/* <Box
                         gridColumn="4/5"
