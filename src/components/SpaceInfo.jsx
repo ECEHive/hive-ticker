@@ -34,8 +34,6 @@ export default function SpaceInfo({}) {
                 height="100%"
                 width="100%"
             >
-                <img src={logo} className="h-[96px] w-auto" />
-
                 <Flex
                     direction="column"
                     align="start"
@@ -43,43 +41,58 @@ export default function SpaceInfo({}) {
                     gap="2"
                     height="auto"
                 >
-                    {/* <Callout.Root size="3">
-                    <Callout.Text className="text-6xl">
-                        Closing in 20 minutes
-                    </Callout.Text>
-                </Callout.Root> */}
+                    <img src={logo} className="h-[96px] w-auto" />
+                </Flex>
+
+                <Flex
+                    direction="column"
+                    align="center"
+                    justify="center"
+                    gap="1"
+                    height="auto"
+                >
                     <Text className="text-4xl">Today&apos;s hours</Text>
-                    <Text className="text-7xl font-semibold">10am-6pm</Text>
+                    <Text className="font-serif text-8xl font-semibold">
+                        10am-6pm
+                    </Text>
                 </Flex>
 
                 {/* clock */}
-                <Flex height="auto" direction="row" align="end" justify="end">
-                    {digitMap.map((digit, index) => {
-                        return (
-                            <TextTransition
-                                inline
-                                // delay={(digitMap.length - index) * 100}
-                                key={index}
-                                style={{
-                                    fontFamily: "Rubik",
-                                    fontWeight: 600,
-                                    lineHeight: 0.8,
-                                    fontSize: "120px",
-                                }}
-                            >
-                                {digit(time[0])}
-                            </TextTransition>
-                        );
-                    })}
-                    <Text
-                        style={{
-                            fontSize: "30px",
-                            lineHeight: 1,
-                        }}
-                        className="font-sans font-medium"
+                <Flex
+                    direction="column"
+                    align="center"
+                    justify="center"
+                    gap="1"
+                    height="auto"
+                >
+                    {/* <Text className="text-4xl">Time</Text> */}
+                    <Flex
+                        height="auto"
+                        direction="row"
+                        align="end"
+                        justify="end"
                     >
-                        {time[1]}
-                    </Text>
+                        {digitMap.map((digit, index) => {
+                            return (
+                                <TextTransition
+                                    inline
+                                    // delay={(digitMap.length - index) * 100}
+                                    key={index}
+                                    style={{
+                                        fontFamily: "Rubik",
+                                        fontWeight: 600,
+                                        lineHeight: 1,
+                                    }}
+                                    className="text-9xl"
+                                >
+                                    {digit(time[0])}
+                                </TextTransition>
+                            );
+                        })}
+                        <Text className="mb-3 font-sans text-3xl font-medium">
+                            {time[1]}
+                        </Text>
+                    </Flex>
                 </Flex>
             </Flex>
         </Box>

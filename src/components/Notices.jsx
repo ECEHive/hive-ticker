@@ -1,6 +1,7 @@
 import { Box } from "@radix-ui/themes";
 import { useEffect, useRef } from "react";
 import Markdown from "react-markdown";
+import { animateScroll, Element } from "react-scroll";
 import remarkGfm from "remark-gfm";
 
 const markdown = `# Welcome to The HIVE!
@@ -20,32 +21,30 @@ export default function Notices({}) {
     const mdRef = useRef(null);
     const boxRef = useRef(null);
 
-    const scrollLevel = useRef(0);
-    const scrollSpeed = 100; // pixels per second
+    const scrollSpeed = 10;
 
     useEffect(() => {
-        // find height of boxRef
-        const boxHeight = boxRef.current.clientHeight;
+        console.log("go");
+        const duration = (boxRef.current.clientHeight / scrollSpeed) * 1000;
 
-        console.log(boxHeight / scrollSpeed);
+        animateScroll.scrollToBottom({
+            // convert scrollSpeed from pixels to second to milliseconds
+            duration: duration,
+            delay: 0,
+            smooth: "linear",
+            spy: true,
+            containerId: "container",
+        });
 
-        const interval = setInterval(
-            () => {
-                if (scrollLevel.current < boxHeight) {
-                    boxRef.current.scrollTo({
-                        top: scrollLevel.current,
-                        behavior: "smooth",
-                    });
-                    scrollLevel.current += 1;
-                }
-                // } else {
-                //     scrollLevel.current = 0;
-                // }
-            },
-            (boxHeight / scrollSpeed) * 1000,
-        );
-
-        return () => clearInterval(interval);
+        setTimeout(() => {
+            animateScroll.scrollToTop({
+                duration: 0,
+                delay: 0,
+                smooth: "linear",
+                spy: true,
+                containerId: "container",
+            });
+        }, duration + 5000);
     }, []);
 
     return (
@@ -54,17 +53,28 @@ export default function Notices({}) {
             height="100%"
             maxWidth="100%"
             maxHeight="100%"
-            p="8"
-            overflow="auto"
             ref={boxRef}
+            overflow="hidden"
         >
-            <Markdown
-                className="prose prose-invert prose-neutral prose-2xl prose-headings:font-bold"
-                remarkPlugins={[remarkGfm]}
+            <Element
+                name="container"
+                id="container"
+                style={{
+                    height: "100%",
+                    width: "100%",
+                    overflow: "auto",
+                    padding: "48px",
+                }}
             >
-                {markdown}
-            </Markdown>
-            <div className="h-0" ref={mdRef} />
+                <Markdown
+                    className="prose prose-invert prose-neutral prose-2xl prose-headings:font-bold"
+                    remarkPlugins={[remarkGfm]}
+                >
+                    {markdown}
+                </Markdown>
+                <Element name="bottom" />
+            </Element>
+            {/* <div name="bottom" className="h-0" ref={mdRef} /> */}
         </Box>
     );
 }

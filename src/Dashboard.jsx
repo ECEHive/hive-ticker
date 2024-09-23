@@ -30,7 +30,8 @@ export default function Dashboard({}) {
             > */}
             <Grid
                 columns={
-                    playerState?.is_playing ? "calc(100% - 550px) 550px" : "1fr"
+                    // playerState?.is_playing ? "calc(100% - 550px) 550px" : "1fr"
+                    "calc(100% - 550px) 550px"
                 }
                 rows="calc(100% - 225px) 225px"
                 width="100%"
@@ -41,11 +42,11 @@ export default function Dashboard({}) {
                     {/* <Clock /> */}
                     <Notices />
                 </Box>
-                {playerState?.is_playing && (
-                    <Box gridColumn="2" gridRow="1" width="100%" height="100%">
-                        <Music />
-                    </Box>
-                )}
+                {/* {playerState?.is_playing && ( */}
+                <Box gridColumn="2" gridRow="1" width="100%" height="100%">
+                    <Music />
+                </Box>
+                {/* )} */}
                 <Box
                     gridColumn="1/5"
                     gridRow="2"

@@ -156,6 +156,7 @@ export default function Music() {
                                     onCycleComplete={pauseMarquee}
                                     play={playMarquee}
                                     loop={0}
+                                    style={{ overflow: "hidden" }}
                                 >
                                     <p
                                         className="max-w-full text-7xl font-bold"
