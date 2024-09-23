@@ -9,7 +9,12 @@ const tokenEndpoint = "https://accounts.spotify.com/api/token";
 const scope = "user-read-playback-state";
 
 const clientId = "7fdaa0130bac49f39a77a5607d7a15fe"; // your clientId
-const redirectUrl = "http://localhost:5173";
+
+// detect if running locally or on the regular url
+const redirectUrl =
+    window.location.hostname === "localhost"
+        ? "http://localhost:5173"
+        : "https://hivemakerspace.github.io/hive-ticker";
 
 // eslint-disable-next-line react/prop-types
 export const SpotifyProvider = ({ children }) => {
