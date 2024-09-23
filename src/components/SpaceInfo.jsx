@@ -52,7 +52,7 @@ export default function SpaceInfo({}) {
                     height="auto"
                 >
                     <Text className="text-4xl">Today&apos;s hours</Text>
-                    <Text className="font-serif text-8xl font-semibold">
+                    <Text className="font-serif text-6xl font-semibold">
                         10am-6pm
                     </Text>
                 </Flex>

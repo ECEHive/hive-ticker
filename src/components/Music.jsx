@@ -95,113 +95,129 @@ export default function Music() {
     return (
         <>
             {currentToken.access_token ? (
-                <Box
-                    height="100%"
-                    width="100%"
-                    maxWidth="100%"
-                    maxHeight="100%"
-                    style={{
-                        backgroundImage: `url('${playerState?.item.album.images[0].url}')`,
-                        backgroundSize: "100vw 100vh",
-                        backgroundPosition: "center",
-                        backgroundClip: "content-box",
-                    }}
-                >
-                    <Flex
-                        width="100%"
-                        height="100%"
-                        minWidth="100%"
-                        maxHeight="100%"
-                        maxWidth="100%"
-                        overflow="hidden"
-                        direction="column"
-                        align="center"
-                        justify="start"
-                        gap="6"
-                        p="8"
-                        style={{
-                            backdropFilter: "blur(50px) brightness(0.25)",
-                        }}
-                    >
-                        <img
-                            src={playerState?.item.album.images[0].url}
-                            alt="album cover"
-                            style={{
-                                height: "100%",
-                            }}
-                        />
-
-                        <Flex
-                            direction="column"
-                            align="start"
-                            justify="between"
-                            gap="4"
+                <>
+                    {playerState ? (
+                        <Box
+                            height="100%"
                             width="100%"
                             maxWidth="100%"
-                            height="100%"
-                            overflow="hidden"
-                            // p="4"
+                            maxHeight="100%"
+                            style={{
+                                backgroundImage: `url('${playerState?.item.album.images[0].url}')`,
+                                backgroundSize: "100vw 100vh",
+                                backgroundPosition: "center",
+                                backgroundClip: "content-box",
+                            }}
                         >
                             <Flex
-                                direction="column"
-                                align="start"
-                                justify="start"
-                                gap="4"
                                 width="100%"
+                                height="100%"
+                                minWidth="100%"
+                                maxHeight="100%"
                                 maxWidth="100%"
                                 overflow="hidden"
-                                ref={infoRef}
-                            >
-                                <Marquee
-                                    onCycleComplete={pauseMarquee}
-                                    play={playMarquee}
-                                    loop={0}
-                                    style={{ overflow: "hidden" }}
-                                >
-                                    <p
-                                        className="max-w-full text-7xl font-bold"
-                                        ref={titleRef}
-                                    >
-                                        {playerState?.item.name}
-                                    </p>
-                                    <div
-                                        style={{
-                                            width: enableMarquee
-                                                ? `calc(${infoRef?.current?.offsetWidth - titleRef?.current?.offsetWidth})`
-                                                : "120px",
-                                        }}
-                                    />
-                                </Marquee>
-                                <p className="text-4xl text-gray-300">
-                                    {playerState?.item.artists[0].name}
-                                </p>
-                            </Flex>
-
-                            <Flex
-                                direction="row"
-                                justify="center"
+                                direction="column"
                                 align="center"
-                                width="100%"
-                                gap="4"
+                                justify="start"
+                                gap="6"
+                                p="8"
+                                style={{
+                                    backdropFilter:
+                                        "blur(50px) brightness(0.25)",
+                                }}
                             >
-                                <Text className="w-16 min-w-16 text-left text-2xl">
-                                    {progressFormatted}
-                                </Text>
-                                <Progress
-                                    className="w-full"
-                                    size="3"
-                                    value={progressPercent}
-                                    variant="surface"
-                                    color="gray"
-                                    highContrast
+                                <img
+                                    src={playerState?.item.album.images[0].url}
+                                    alt="album cover"
+                                    style={{
+                                        height: "100%",
+                                    }}
                                 />
-                                <Text className="w-16 min-w-16 text-right text-2xl">
-                                    {durationFormatted}
-                                </Text>
+
+                                <Flex
+                                    direction="column"
+                                    align="start"
+                                    justify="between"
+                                    gap="4"
+                                    width="100%"
+                                    maxWidth="100%"
+                                    height="100%"
+                                    overflow="hidden"
+                                    // p="4"
+                                >
+                                    <Flex
+                                        direction="column"
+                                        align="start"
+                                        justify="start"
+                                        gap="4"
+                                        width="100%"
+                                        maxWidth="100%"
+                                        overflow="hidden"
+                                        ref={infoRef}
+                                    >
+                                        <Marquee
+                                            onCycleComplete={pauseMarquee}
+                                            play={playMarquee}
+                                            loop={0}
+                                            style={{ overflow: "hidden" }}
+                                        >
+                                            <p
+                                                className="max-w-full text-7xl font-bold"
+                                                ref={titleRef}
+                                            >
+                                                {playerState?.item.name}
+                                            </p>
+                                            <div
+                                                style={{
+                                                    width: enableMarquee
+                                                        ? `calc(${infoRef?.current?.offsetWidth - titleRef?.current?.offsetWidth})`
+                                                        : "120px",
+                                                }}
+                                            />
+                                        </Marquee>
+                                        <p className="text-4xl text-gray-300">
+                                            {playerState?.item.artists[0].name}
+                                        </p>
+                                    </Flex>
+
+                                    <Flex
+                                        direction="row"
+                                        justify="center"
+                                        align="center"
+                                        width="100%"
+                                        gap="4"
+                                    >
+                                        <Text className="w-16 min-w-16 text-left text-2xl">
+                                            {progressFormatted}
+                                        </Text>
+                                        <Progress
+                                            className="w-full"
+                                            size="3"
+                                            value={progressPercent}
+                                            variant="surface"
+                                            color="gray"
+                                            highContrast
+                                        />
+                                        <Text className="w-16 min-w-16 text-right text-2xl">
+                                            {durationFormatted}
+                                        </Text>
+                                    </Flex>
+                                </Flex>
                             </Flex>
+                        </Box>
+                    ) : (
+                        <Flex
+                            direction="column"
+                            align="center"
+                            justify="center"
+                            width="100%"
+                            height="100%"
+                            gap="4"
+                        >
+                            <Text className="text-4xl">No music playing</Text>
                         </Flex>
-                    </Flex>
-                </Box>
+                    )}
+                </>
             ) : (
                 <Flex
                     direction="column"
