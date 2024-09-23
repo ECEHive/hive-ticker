@@ -21,14 +21,13 @@ export default function Notices({}) {
     const mdRef = useRef(null);
     const boxRef = useRef(null);
 
-    const scrollSpeed = 10;
+    const scrollSpeed = 50; //pixels per second
 
     useEffect(() => {
         console.log("go");
         const duration = (boxRef.current.clientHeight / scrollSpeed) * 1000;
 
         animateScroll.scrollToBottom({
-            // convert scrollSpeed from pixels to second to milliseconds
             duration: duration,
             delay: 0,
             smooth: "linear",
