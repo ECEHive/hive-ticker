@@ -1,5 +1,7 @@
-import { DotsVerticalIcon } from "@radix-ui/react-icons";
+import { DividerVerticalIcon } from "@radix-ui/react-icons";
 import { Box, Flex, Text } from "@radix-ui/themes";
+import dayjs from "dayjs";
+import { useEffect, useMemo } from "react";
 import TextTransition from "react-text-transition";
 import logo from "../assets/hive_logo_white.svg";
 import useTime from "../hooks/useTime";
@@ -13,7 +15,40 @@ const digitMap = [
 ];
 
 export default function SpaceInfo({}) {
-    const { time, date } = useTime();
+    const { time, date, openState } = useTime();
+
+    const timeHelper = useMemo(() => {
+        if (!openState) return ["Closed", "Today"];
+        const openTime = dayjs()
+            .set("hour", openState.hours[0].split(":")[0])
+            .set("minute", openState.hours[0].split(":")[1]);
+        const closeTime = dayjs()
+            .set("hour", openState.hours[1].split(":")[0])
+            .set("minute", openState.hours[1].split(":")[1]);
+
+        if (openState.open) {
+            const closingTime = dayjs()
+                .set("hour", openState.hours[1].split(":")[0])
+                .set("minute", openState.hours[1].split(":")[1]);
+
+            const timeLeft = dayjs.duration(
+                closingTime.diff(dayjs(), "milliseconds"),
+            );
+
+            if (timeLeft.asMinutes() < 60) {
+                return ["Closing in", timeLeft.humanize()];
+            } else {
+                return [
+                    "Today's hours",
+                    `${openTime.format("hA")} - ${closeTime.format("hA")}`,
+                ];
+            }
+        } else {
+            return ["Closed", "Today"];
+        }
+    }, [openState]);
+
+    useEffect(() => {}, []);
 
     return (
         <Box
@@ -50,44 +85,39 @@ export default function SpaceInfo({}) {
                     direction="row"
                     align="center"
                     justify="center"
-                    gap="4"
+                    gap="2"
                     height="100%"
                     width="auto"
                 >
-                    {/* <Separator
-                        orientation="vertical"
-                        className="h-full"
-                        color="gray"
-                        size="4"
-                        mr="4"
-                    /> */}
-                    {/* <Flex
-                        direction="column"
-                        align="end"
-                        justify="center"
-                        gap="1"
-                        height="auto"
-                    >
-                        <Text className="text-4xl">Closing in</Text>
-                        <Text className="font-serif text-6xl font-semibold">
-                            35 minutes
-                        </Text>
-                    </Flex> */}
+                    {timeHelper && (
+                        <>
+                            <Flex
+                                direction="column"
+                                align="end"
+                                justify="center"
+                                gap="0"
+                                height="auto"
+                            >
+                                <TextTransition
+                                    key="timehelp"
+                                    className="text-5xl"
+                                >
+                                    {timeHelper[0]}
+                                </TextTransition>
+                                <TextTransition
+                                    key="timehelp1"
+                                    className="font-serif text-7xl font-semibold"
+                                >
+                                    {timeHelper[1]}
+                                </TextTransition>
+                            </Flex>
 
-                    <Flex
-                        direction="column"
-                        align="end"
-                        justify="center"
-                        gap="0"
-                        height="auto"
-                    >
-                        <Text className="text-5xl">Today&apos;s hours</Text>
-                        <Text className="font-serif text-7xl font-semibold">
-                            10am-6pm
-                        </Text>
-                    </Flex>
-
-                    <DotsVerticalIcon className="h-10 w-10" color="gray" />
+                            <DividerVerticalIcon
+                                className="h-auto w-12"
+                                color="gray"
+                            />
+                        </>
+                    )}
 
                     <Flex
                         direction="column"

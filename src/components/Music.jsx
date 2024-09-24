@@ -58,7 +58,6 @@ export default function Music() {
         // if titleRef is smaller than its container, don't pause
         if (enableMarquee) {
             // check if titleRef is not in the home position
-            console.log("pausing marquee");
             setPlayMarquee(false);
             setTimeout(
                 () => {
@@ -67,7 +66,6 @@ export default function Music() {
                 disableWait ? 0 : 5000,
             );
         } else {
-            console.log("stopping marquee");
             setPlayMarquee(false);
         }
     }, [enableMarquee, disableWait]);
@@ -75,15 +73,12 @@ export default function Music() {
     useEffect(() => {
         if (!titleRef.current || !infoRef.current || !playerState) return;
         if (currentTrackId !== playerState?.item.id) {
-            console.log("song change");
             setcurrentTrackId(playerState.item.id);
             setEnableMarquee(true);
             setDisableWait(true);
             setPlayMarquee(true);
-            console.log("enable lockout");
 
             setTimeout(() => {
-                console.log("disable lockout");
                 setEnableMarquee(
                     titleRef.current.offsetWidth > infoRef.current.offsetWidth,
                 );
@@ -123,7 +118,7 @@ export default function Music() {
                                 p="8"
                                 style={{
                                     backdropFilter:
-                                        "blur(50px) brightness(0.25)",
+                                        "blur(50px) brightness(0.35)",
                                 }}
                             >
                                 <img
