@@ -76,23 +76,26 @@ This web site is using \`markedjs/marked\`.
 
 `;
 const markdown = `# Welcome to The HIVE!
- 
-i was thinking we can have general announcements and info up here and have it cycle through
 
-it supports **markdown**, and you can even include images
-![image](https://empathybytes.library.gatech.edu/sites/default/files/2023-04/hive-exterior%20%281%29.jpg)
+### Fall 2024 hours
 
-and tables
-| like | this |
-|------|------|
-| 1    | 2    |
+| |  |
+| --- | --- |
+| Monday - Friday | 10am-6pm |
+| Sat - Sun | Closed |
+
+### Reminders
+- Wear safety googles when soldering
+- Clean up your workspace before you leave
+- yadda yadda yadda
+
 `;
 
 export default function Notices({}) {
     const mdRef = useRef(null);
     const boxRef = useRef(null);
 
-    const scrollSpeed = 400; //pixels per second
+    const scrollSpeed = 50; //pixels per second
 
     const runScroll = useCallback((duration) => {
         console.log("scrolling");
