@@ -120,7 +120,7 @@ export default function SpaceInfo({}) {
                                     </TextTransition>
                                 );
                             })}
-                            <Text className="mb-3 font-sans text-3xl font-medium">
+                            <Text className="mb-3 font-sans text-5xl font-medium">
                                 {time[1]}
                             </Text>
                         </Flex>
