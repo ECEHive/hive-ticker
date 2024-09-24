@@ -4,7 +4,7 @@ import Markdown from "react-markdown";
 import { animateScroll, Element } from "react-scroll";
 import remarkGfm from "remark-gfm";
 
-const markdown = `
+const fancyMd = `
     # Markdown syntax guide
 
 ## Headers
@@ -75,12 +75,24 @@ This web site is using \`markedjs/marked\`.
 
 
 `;
+const markdown = `# Welcome to The HIVE!
+ 
+i was thinking we can have general announcements and info up here and have it cycle through
+
+it supports **markdown**, and you can even include images
+![image](https://empathybytes.library.gatech.edu/sites/default/files/2023-04/hive-exterior%20%281%29.jpg)
+
+and tables
+| like | this |
+|------|------|
+| 1    | 2    |
+`;
 
 export default function Notices({}) {
     const mdRef = useRef(null);
     const boxRef = useRef(null);
 
-    const scrollSpeed = 50; //pixels per second
+    const scrollSpeed = 400; //pixels per second
 
     const runScroll = useCallback((duration) => {
         console.log("scrolling");
