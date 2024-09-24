@@ -95,7 +95,7 @@ export default function Notices({}) {
     const mdRef = useRef(null);
     const boxRef = useRef(null);
 
-    const scrollSpeed = 150; //pixels per second
+    const scrollSpeed = 100; //pixels per second
 
     const runScroll = useCallback((duration, fastDuration) => {
         animateScroll.scrollToBottom({
@@ -118,7 +118,7 @@ export default function Notices({}) {
     }, []);
 
     useEffect(() => {
-        const duration = (boxRef.current.clientHeight / scrollSpeed) * 1000;
+        const duration = boxRef.current.clientHeight / (scrollSpeed / 1000);
         const fastDuration = duration / 6;
 
         runScroll(duration, fastDuration);
