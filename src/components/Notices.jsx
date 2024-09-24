@@ -1,20 +1,79 @@
 import { Box } from "@radix-ui/themes";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import Markdown from "react-markdown";
 import { animateScroll, Element } from "react-scroll";
 import remarkGfm from "remark-gfm";
 
-const markdown = `# Welcome to The HIVE!
- 
-i was thinking we can have general announcements and info up here and have it cycle through
+const markdown = `
+    # Markdown syntax guide
 
-it supports **markdown**, and you can even include images
-![image](https://empathybytes.library.gatech.edu/sites/default/files/2023-04/hive-exterior%20%281%29.jpg)
+## Headers
 
-and tables
-| like | this |
-|------|------|
-| 1    | 2    |
+# This is a Heading h1
+## This is a Heading h2
+###### This is a Heading h6
+
+## Emphasis
+
+*This text will be italic*  
+_This will also be italic_
+
+**This text will be bold**  
+__This will also be bold__
+
+_You **can** combine them_
+
+## Lists
+
+### Unordered
+
+* Item 1
+* Item 2
+* Item 2a
+* Item 2b
+
+### Ordered
+
+1. Item 1
+2. Item 2
+3. Item 3
+    1. Item 3a
+    2. Item 3b
+
+## Images
+
+![This is an alt text.](/image/sample.webp "This is a sample image.")
+
+## Links
+
+You may be using [Markdown Live Preview](https://markdownlivepreview.com/).
+
+## Blockquotes
+
+> Markdown is a lightweight markup language with plain-text-formatting syntax, created in 2004 by John Gruber with Aaron Swartz.
+>
+>> Markdown is often used to format readme files, for writing messages in online discussion forums, and to create rich text using a plain text editor.
+
+## Tables
+
+| Left columns  | Right columns |
+| ------------- |:-------------:|
+| left foo      | right foo     |
+| left bar      | right bar     |
+| left baz      | right baz     |
+
+## Blocks of code
+
+\`\`\`
+let message = 'Hello world';
+alert(message);
+\`\`\`
+
+## Inline code
+
+This web site is using \`markedjs/marked\`.
+
+
 `;
 
 export default function Notices({}) {
@@ -23,9 +82,8 @@ export default function Notices({}) {
 
     const scrollSpeed = 50; //pixels per second
 
-    useEffect(() => {
-        console.log("go");
-        const duration = (boxRef.current.clientHeight / scrollSpeed) * 1000;
+    const runScroll = useCallback((duration) => {
+        console.log("scrolling");
 
         animateScroll.scrollToBottom({
             duration: duration,
@@ -45,6 +103,21 @@ export default function Notices({}) {
             });
         }, duration + 5000);
     }, []);
+
+    useEffect(() => {
+        const duration = (boxRef.current.clientHeight / scrollSpeed) * 1000;
+
+        runScroll(duration);
+
+        const interval = setInterval(
+            () => {
+                runScroll(duration);
+            },
+            duration + 5000 + 5000,
+        );
+
+        return () => clearInterval(interval);
+    }, [runScroll]);
 
     return (
         <Box
@@ -66,7 +139,7 @@ export default function Notices({}) {
                 }}
             >
                 <Markdown
-                    className="prose prose-invert prose-neutral prose-2xl prose-headings:font-bold"
+                    className="prose prose-2xl prose-neutral prose-invert prose-headings:font-bold"
                     remarkPlugins={[remarkGfm]}
                 >
                     {markdown}

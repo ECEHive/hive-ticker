@@ -1,3 +1,4 @@
+import { DotsVerticalIcon } from "@radix-ui/react-icons";
 import { Box, Flex, Text } from "@radix-ui/themes";
 import TextTransition from "react-text-transition";
 import logo from "../assets/hive_logo_white.svg";
@@ -44,54 +45,85 @@ export default function SpaceInfo({}) {
                     <img src={logo} className="h-[96px] w-auto" />
                 </Flex>
 
+                {/* clock/hours */}
                 <Flex
-                    direction="column"
+                    direction="row"
                     align="center"
                     justify="center"
-                    gap="1"
-                    height="auto"
+                    gap="4"
+                    height="100%"
+                    width="auto"
                 >
-                    <Text className="text-4xl">Today&apos;s hours</Text>
-                    <Text className="font-serif text-6xl font-semibold">
-                        10am-6pm
-                    </Text>
-                </Flex>
-
-                {/* clock */}
-                <Flex
-                    direction="column"
-                    align="center"
-                    justify="center"
-                    gap="1"
-                    height="auto"
-                >
-                    {/* <Text className="text-4xl">Time</Text> */}
-                    <Flex
-                        height="auto"
-                        direction="row"
+                    {/* <Separator
+                        orientation="vertical"
+                        className="h-full"
+                        color="gray"
+                        size="4"
+                        mr="4"
+                    /> */}
+                    {/* <Flex
+                        direction="column"
                         align="end"
-                        justify="end"
+                        justify="center"
+                        gap="1"
+                        height="auto"
                     >
-                        {digitMap.map((digit, index) => {
-                            return (
-                                <TextTransition
-                                    inline
-                                    // delay={(digitMap.length - index) * 100}
-                                    key={index}
-                                    style={{
-                                        fontFamily: "Rubik",
-                                        fontWeight: 600,
-                                        lineHeight: 1,
-                                    }}
-                                    className="text-9xl"
-                                >
-                                    {digit(time[0])}
-                                </TextTransition>
-                            );
-                        })}
-                        <Text className="mb-3 font-sans text-3xl font-medium">
-                            {time[1]}
+                        <Text className="text-4xl">Closing in</Text>
+                        <Text className="font-serif text-6xl font-semibold">
+                            35 minutes
                         </Text>
+                    </Flex> */}
+
+                    <Flex
+                        direction="column"
+                        align="end"
+                        justify="center"
+                        gap="1"
+                        height="auto"
+                    >
+                        <Text className="text-4xl">Today&apos;s hours</Text>
+                        <Text className="font-serif text-6xl font-semibold">
+                            10am-6pm
+                        </Text>
+                    </Flex>
+
+                    <DotsVerticalIcon className="h-10 w-10" color="gray" />
+
+                    <Flex
+                        direction="column"
+                        align="center"
+                        justify="center"
+                        gap="2"
+                        height="auto"
+                    >
+                        {/* <Text className="text-4xl">Time</Text> */}
+                        <Flex
+                            height="auto"
+                            direction="row"
+                            align="end"
+                            justify="end"
+                        >
+                            {digitMap.map((digit, index) => {
+                                return (
+                                    <TextTransition
+                                        inline
+                                        // delay={(digitMap.length - index) * 100}
+                                        key={index}
+                                        style={{
+                                            fontFamily: "Rubik",
+                                            fontWeight: 600,
+                                            lineHeight: 1,
+                                        }}
+                                        className="text-9xl"
+                                    >
+                                        {digit(time[0])}
+                                    </TextTransition>
+                                );
+                            })}
+                            <Text className="mb-3 font-sans text-3xl font-medium">
+                                {time[1]}
+                            </Text>
+                        </Flex>
                     </Flex>
                 </Flex>
             </Flex>
