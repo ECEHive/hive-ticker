@@ -175,7 +175,7 @@ export default function Music() {
                                                 }}
                                             />
                                         </Marquee>
-                                        <p className="text-4xl text-gray-300">
+                                        <p className="text-5xl text-gray-300">
                                             {playerState?.item.artists[0].name}
                                         </p>
                                     </Flex>

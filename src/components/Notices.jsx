@@ -96,7 +96,7 @@ export default function Notices({}) {
     const mdRef = useRef(null);
     const boxRef = useRef(null);
 
-    const scrollSpeed = 25; //pixels per second
+    const scrollSpeed = 20; //pixels per second
 
     const runScroll = useCallback((duration, fastDuration) => {
         animateScroll.scrollToBottom({
