@@ -75,7 +75,7 @@ This web site is using \`markedjs/marked\`.
 
 
 `;
-const markdown = `# Welcome to The HIVE!
+const markdown = `## Welcome to The HIVE!
 
 ### Fall 2024 hours
 

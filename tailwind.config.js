@@ -12,7 +12,7 @@ export default {
             typography: {
                 "2xl": {
                     css: {
-                        fontSize: "2.5rem",
+                        fontSize: "3rem",
                     },
                 },
             },

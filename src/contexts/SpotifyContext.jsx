@@ -156,7 +156,7 @@ function useProvideSpotify() {
             body: new URLSearchParams({
                 client_id: clientId,
                 grant_type: "refresh_token",
-                refresh_token: refreshToken,
+                refresh_token: refresh_token,
             }),
         }).then((resp) => resp.json());
     }
@@ -164,8 +164,9 @@ function useProvideSpotify() {
     async function request(endpoint) {
         if (dayjs().isAfter(expires)) {
             console.log("refreshing token");
-            const token = await refreshToken();
-            updateToken(token);
+            refreshToken().then((token) => {
+                updateToken(token);
+            });
         }
         return fetch(`https://api.spotify.com/v1/${endpoint}`, {
             method: "GET",
