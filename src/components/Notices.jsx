@@ -95,11 +95,9 @@ export default function Notices({}) {
     const mdRef = useRef(null);
     const boxRef = useRef(null);
 
-    const scrollSpeed = 50; //pixels per second
+    const scrollSpeed = 150; //pixels per second
 
-    const runScroll = useCallback((duration) => {
-        console.log("scrolling");
-
+    const runScroll = useCallback((duration, fastDuration) => {
         animateScroll.scrollToBottom({
             duration: duration,
             delay: 0,
@@ -110,7 +108,7 @@ export default function Notices({}) {
 
         setTimeout(() => {
             animateScroll.scrollToTop({
-                duration: 0,
+                duration: fastDuration,
                 delay: 0,
                 smooth: "linear",
                 spy: true,
@@ -121,14 +119,15 @@ export default function Notices({}) {
 
     useEffect(() => {
         const duration = (boxRef.current.clientHeight / scrollSpeed) * 1000;
+        const fastDuration = duration / 6;
 
-        runScroll(duration);
+        runScroll(duration, fastDuration);
 
         const interval = setInterval(
             () => {
-                runScroll(duration);
+                runScroll(duration, fastDuration);
             },
-            duration + 5000 + 5000,
+            duration + 5000 + fastDuration + 5000,
         );
 
         return () => clearInterval(interval);
