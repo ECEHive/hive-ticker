@@ -42,7 +42,7 @@ export default function SpaceInfo({}) {
                     gap="2"
                     height="auto"
                 >
-                    <img src={logo} className="h-[96px] w-auto" />
+                    <img src={logo} className="h-[100px] w-auto" />
                 </Flex>
 
                 {/* clock/hours */}
@@ -78,7 +78,7 @@ export default function SpaceInfo({}) {
                         direction="column"
                         align="end"
                         justify="center"
-                        gap="1"
+                        gap="0"
                         height="auto"
                     >
                         <Text className="text-5xl">Today&apos;s hours</Text>
@@ -113,8 +113,9 @@ export default function SpaceInfo({}) {
                                             fontFamily: "Rubik",
                                             fontWeight: 600,
                                             lineHeight: 1,
+                                            fontSize: "9rem",
                                         }}
-                                        className="text-9xl"
+                                        className=""
                                     >
                                         {digit(time[0])}
                                     </TextTransition>
