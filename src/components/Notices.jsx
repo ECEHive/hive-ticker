@@ -89,13 +89,14 @@ const markdown = `## Welcome to The HIVE!
 - Clean up your workspace before you leave
 - yadda yadda yadda
 
+*Need help? Find a PI!*
 `;
 
 export default function Notices({}) {
     const mdRef = useRef(null);
     const boxRef = useRef(null);
 
-    const scrollSpeed = 100; //pixels per second
+    const scrollSpeed = 50; //pixels per second
 
     const runScroll = useCallback((duration, fastDuration) => {
         animateScroll.scrollToBottom({
@@ -118,7 +119,9 @@ export default function Notices({}) {
     }, []);
 
     useEffect(() => {
-        const duration = boxRef.current.clientHeight / (scrollSpeed / 1000);
+        const rect = mdRef?.current?.getBoundingClientRect();
+        const duration =
+            (rect.y - boxRef.current.clientHeight) / (scrollSpeed / 1000);
         const fastDuration = duration / 6;
 
         runScroll(duration, fastDuration);
@@ -139,8 +142,8 @@ export default function Notices({}) {
             height="100%"
             maxWidth="100%"
             maxHeight="100%"
-            ref={boxRef}
             overflow="hidden"
+            ref={boxRef}
         >
             <Element
                 name="container"
@@ -158,7 +161,7 @@ export default function Notices({}) {
                 >
                     {markdown}
                 </Markdown>
-                <Element name="bottom" />
+                <div name="bottom" ref={mdRef} />
             </Element>
             {/* <div name="bottom" className="h-0" ref={mdRef} /> */}
         </Box>
