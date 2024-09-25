@@ -27,12 +27,8 @@ export default function SpaceInfo({}) {
             .set("hour", openState.hours[1].split(":")[0])
             .set("minute", openState.hours[1].split(":")[1]);
 
-        const closingTime = dayjs()
-            .set("hour", openState.hours[1].split(":")[0])
-            .set("minute", openState.hours[1].split(":")[1]);
-
         const timeUntilClose = dayjs.duration(
-            closingTime.diff(dayjs(), "milliseconds"),
+            closeTime.diff(dayjs(), "milliseconds"),
         );
         const timeUntilOpen = dayjs.duration(
             openTime.diff(dayjs(), "milliseconds"),
@@ -49,7 +45,14 @@ export default function SpaceInfo({}) {
             return ["Closing in", timeUntilClose.humanize()];
         } else if (!openState.openNow) {
             if (openState.openToday) {
-                return ["Closed", "After hours"];
+                if (
+                    dayjs().hour() >= closeTime.hour() &&
+                    dayjs().minute() >= closeTime.minute()
+                ) {
+                    return ["Closed", "After hours"];
+                } else {
+                    return ["Closed", "Before hours"];
+                }
             } else {
                 return ["Closed", "Today"];
             }

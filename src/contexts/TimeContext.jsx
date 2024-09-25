@@ -1,6 +1,7 @@
 import { useLocalStorage } from "@uidotdev/usehooks";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
+import isBetween from "dayjs/plugin/isBetween";
 import relativeTime from "dayjs/plugin/relativeTime";
 import utc from "dayjs/plugin/utc";
 import PropTypes from "prop-types";
@@ -9,6 +10,7 @@ const TimeContext = createContext();
 dayjs.extend(duration);
 dayjs.extend(utc);
 dayjs.extend(relativeTime);
+dayjs.extend(isBetween);
 
 function TimeProvider({ children }) {
     const [timeRaw, setTimeRaw] = useState(dayjs().subtract(1, "minute"));
@@ -49,38 +51,23 @@ function TimeProvider({ children }) {
     const openState = useMemo(() => {
         const time = dayjs();
         const day = time.format("dddd").toLowerCase();
-        const timeHours = time.hour();
-        const timeMinutes = time.minute();
 
         const todayHours = hours[day];
-        const todayOpenHours = todayHours.hours[0].split(":")[0];
-        const todayOpenMinutes = todayHours.hours[0].split(":")[1];
-        const todayCloseHours = todayHours.hours[1].split(":")[0];
-        const todayCloseMinutes = todayHours.hours[1].split(":")[1];
+        const openTime = dayjs()
+            .set("hour", todayHours.hours[0].split(":")[0])
+            .set("minute", todayHours.hours[0].split(":")[1]);
+        const closeTime = dayjs()
+            .set("hour", todayHours.hours[1].split(":")[0])
+            .set("minute", todayHours.hours[1].split(":")[1]);
 
         if (todayHours.open) {
-            if (
-                timeHours >= todayOpenHours &&
-                timeHours <= todayCloseHours &&
-                timeMinutes >= todayOpenMinutes &&
-                timeMinutes <= todayCloseMinutes
-            ) {
-                if (
-                    timeHours === todayCloseHours &&
-                    timeMinutes >= todayCloseMinutes
-                ) {
-                    return {
-                        openNow: true,
-                        openToday: true,
-                        hours: todayHours.hours,
-                    };
-                } else {
-                    return {
-                        openNow: true,
-                        openToday: true,
-                        hours: todayHours.hours,
-                    };
-                }
+            // Check if the current time is between the opening and closing hours (including minutes)
+            if (dayjs().isBetween(openTime, closeTime)) {
+                return {
+                    openNow: false,
+                    openToday: true,
+                    hours: todayHours.hours,
+                };
             } else {
                 return {
                     openNow: false,
