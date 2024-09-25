@@ -76,7 +76,6 @@ This web site is using \`markedjs/marked\`.
 
 `;
 const markdown = `## Welcome to The HIVE!
-
 ### Fall 2024 hours
 
 | |  |
@@ -122,7 +121,7 @@ export default function Notices({}) {
         const rect = mdRef?.current?.getBoundingClientRect();
         const duration =
             (rect.y - boxRef.current.clientHeight) / (scrollSpeed / 1000);
-        const fastDuration = duration / 6;
+        const fastDuration = duration / 8;
 
         runScroll(duration, fastDuration);
 

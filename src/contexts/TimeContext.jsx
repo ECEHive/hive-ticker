@@ -99,7 +99,6 @@ function TimeProvider({ children }) {
     useEffect(() => {
         const secondInterval = setInterval(() => {
             if (timeRaw.format("m") === dayjs().format("m")) return;
-            console.log("tick");
             setTime([dayjs().format("hh:mm"), dayjs().format("A")]);
             setDate(dayjs().format("MMMM D, YYYY"));
             setTimeRaw(dayjs());

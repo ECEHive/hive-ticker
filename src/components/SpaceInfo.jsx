@@ -15,7 +15,7 @@ const digitMap = [
 ];
 
 export default function SpaceInfo({}) {
-    const { time, date, openState } = useTime();
+    const { time, openState } = useTime();
 
     const timeHelper = useMemo(() => {
         if (!openState?.openToday) return ["Closed", "Today"];

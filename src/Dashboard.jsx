@@ -42,10 +42,11 @@ export default function Dashboard({}) {
                     {/* <Clock /> */}
                     <Notices />
                 </Box>
-                {/* {playerState?.is_playing && ( */}
+                {/* {playerState && ( */}
                 <Box gridColumn="2" gridRow="1" width="100%" height="100%">
                     <Music />
                 </Box>
+
                 {/* )} */}
                 <Box
                     gridColumn="1/5"
