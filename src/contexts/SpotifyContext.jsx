@@ -48,7 +48,6 @@ function usePlayerState(request) {
     useEffect(() => {
         const interval = setInterval(() => {
             request("me/player").then((resp) => {
-                console.log(resp);
                 setPlayerState(resp);
             });
         }, 5000);
@@ -163,7 +162,7 @@ function useProvideSpotify() {
 
     async function request(endpoint) {
         if (dayjs().isAfter(expires)) {
-            console.log("refreshing token");
+            console.log("refreshing spotify token");
             refreshToken().then((token) => {
                 updateToken(token);
             });
