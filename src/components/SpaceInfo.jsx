@@ -18,7 +18,8 @@ export default function SpaceInfo({}) {
     const { time, date, openState } = useTime();
 
     const timeHelper = useMemo(() => {
-        if (!openState) return ["Closed", "Today"];
+        if (!openState?.openToday) return ["Closed", "Today"];
+
         const openTime = dayjs()
             .set("hour", openState.hours[0].split(":")[0])
             .set("minute", openState.hours[0].split(":")[1]);
@@ -26,25 +27,37 @@ export default function SpaceInfo({}) {
             .set("hour", openState.hours[1].split(":")[0])
             .set("minute", openState.hours[1].split(":")[1]);
 
-        if (openState.open) {
-            const closingTime = dayjs()
-                .set("hour", openState.hours[1].split(":")[0])
-                .set("minute", openState.hours[1].split(":")[1]);
+        const closingTime = dayjs()
+            .set("hour", openState.hours[1].split(":")[0])
+            .set("minute", openState.hours[1].split(":")[1]);
 
-            const timeLeft = dayjs.duration(
-                closingTime.diff(dayjs(), "milliseconds"),
-            );
+        const timeUntilClose = dayjs.duration(
+            closingTime.diff(dayjs(), "milliseconds"),
+        );
+        const timeUntilOpen = dayjs.duration(
+            openTime.diff(dayjs(), "milliseconds"),
+        );
 
-            if (timeLeft.asMinutes() < 60) {
-                return ["Closing in", timeLeft.humanize()];
+        console.log(openState);
+
+        if (timeUntilOpen.asMinutes() < 60 && timeUntilOpen.asMinutes() > 0) {
+            return ["Opening in", timeUntilOpen.humanize()];
+        } else if (
+            timeUntilClose.asMinutes() < 60 &&
+            timeUntilClose.asMinutes() > 0
+        ) {
+            return ["Closing in", timeUntilClose.humanize()];
+        } else if (!openState.openNow) {
+            if (openState.openToday) {
+                return ["Closed - after hours", "PIs only"];
             } else {
-                return [
-                    "Today's hours",
-                    `${openTime.format("hA")} - ${closeTime.format("hA")}`,
-                ];
+                return ["Closed", "Today"];
             }
         } else {
-            return ["Closed", "Today"];
+            return [
+                "Today's hours",
+                `${openTime.format("hA")} - ${closeTime.format("hA")}`,
+            ];
         }
     }, [openState]);
 

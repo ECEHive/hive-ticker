@@ -36,7 +36,7 @@ export default function Music() {
                 ),
             );
             setProgressMs(min.asMilliseconds());
-            setProgressFormatted(progress.format("m:ss"));
+            setProgressFormatted(min.format("m:ss"));
         }, 1000);
 
         return () => clearInterval(interval);
