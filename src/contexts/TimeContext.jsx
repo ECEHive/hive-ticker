@@ -96,11 +96,7 @@ function TimeProvider({ children }) {
         };
     }, [timeRaw]);
 
-    return (
-        <TimeContext.Provider value={{ time, date, openState }}>
-            {children}
-        </TimeContext.Provider>
-    );
+    return <TimeContext.Provider value={{ time, date, openState }}>{children}</TimeContext.Provider>;
 }
 
 TimeProvider.propTypes = {

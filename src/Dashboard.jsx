@@ -37,13 +37,7 @@ export default function Dashboard({}) {
                 </Box>
 
                 {/* )} */}
-                <Box
-                    gridColumn="1/5"
-                    gridRow="2"
-                    height="100%"
-                    width="100%"
-                    maxHeight="100%"
-                >
+                <Box gridColumn="1/5" gridRow="2" height="100%" width="100%" maxHeight="100%">
                     <SpaceInfo />
                 </Box>
                 {/* <Box

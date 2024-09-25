@@ -5,20 +5,18 @@ import Marquee from "react-fast-marquee";
 import useSpotify from "../hooks/useSpotify";
 
 export default function Music() {
-    const { playerState, currentToken, redirectToSpotifyAuthorize } =
-        useSpotify();
+    const { playerState, currentToken, redirectToSpotifyAuthorize } = useSpotify();
 
-    const [latestProgress, timestamp, durationMs, durationFormatted] =
-        useMemo(() => {
-            if (!playerState) return [0, 0, 0, "0:00"];
+    const [latestProgress, timestamp, durationMs, durationFormatted] = useMemo(() => {
+        if (!playerState) return [0, 0, 0, "0:00"];
 
-            return [
-                playerState?.progress_ms,
-                dayjs.utc(),
-                dayjs.duration(playerState?.item.duration_ms),
-                dayjs.duration(playerState?.item.duration_ms).format("m:ss"),
-            ];
-        }, [playerState]);
+        return [
+            playerState?.progress_ms,
+            dayjs.utc(),
+            dayjs.duration(playerState?.item.duration_ms),
+            dayjs.duration(playerState?.item.duration_ms).format("m:ss"),
+        ];
+    }, [playerState]);
 
     const [progressMs, setProgressMs] = useState(0);
     const [progressFormatted, setProgressFormatted] = useState("0:00");
@@ -26,15 +24,8 @@ export default function Music() {
     useEffect(() => {
         const interval = setInterval(() => {
             if (!playerState?.is_playing) return;
-            const progress = dayjs
-                .duration(dayjs.utc().diff(dayjs(timestamp), "ms"))
-                .add(latestProgress, "ms");
-            const min = dayjs.duration(
-                Math.min(
-                    progress.asMilliseconds(),
-                    durationMs.asMilliseconds(),
-                ),
-            );
+            const progress = dayjs.duration(dayjs.utc().diff(dayjs(timestamp), "ms")).add(latestProgress, "ms");
+            const min = dayjs.duration(Math.min(progress.asMilliseconds(), durationMs.asMilliseconds()));
             setProgressMs(min.asMilliseconds());
             setProgressFormatted(min.format("m:ss"));
         }, 1000);
@@ -79,9 +70,7 @@ export default function Music() {
             setPlayMarquee(true);
 
             setTimeout(() => {
-                setEnableMarquee(
-                    titleRef.current.offsetWidth > infoRef.current.offsetWidth,
-                );
+                setEnableMarquee(titleRef.current.offsetWidth > infoRef.current.offsetWidth);
                 setDisableWait(false);
             }, 500);
         }
@@ -117,8 +106,7 @@ export default function Music() {
                                 gap="6"
                                 p="8"
                                 style={{
-                                    backdropFilter:
-                                        "blur(50px) brightness(0.35)",
+                                    backdropFilter: "blur(50px) brightness(0.35)",
                                 }}
                             >
                                 <img
@@ -156,10 +144,7 @@ export default function Music() {
                                             loop={0}
                                             style={{ overflow: "hidden" }}
                                         >
-                                            <p
-                                                className="max-w-full text-7xl font-bold"
-                                                ref={titleRef}
-                                            >
+                                            <p className="max-w-full text-7xl font-bold" ref={titleRef}>
                                                 {playerState?.item.name}
                                             </p>
                                             <div
@@ -170,21 +155,11 @@ export default function Music() {
                                                 }}
                                             />
                                         </Marquee>
-                                        <p className="text-5xl text-gray-300">
-                                            {playerState?.item.artists[0].name}
-                                        </p>
+                                        <p className="text-5xl text-gray-300">{playerState?.item.artists[0].name}</p>
                                     </Flex>
 
-                                    <Flex
-                                        direction="row"
-                                        justify="center"
-                                        align="center"
-                                        width="100%"
-                                        gap="4"
-                                    >
-                                        <Text className="w-16 min-w-16 text-left text-2xl">
-                                            {progressFormatted}
-                                        </Text>
+                                    <Flex direction="row" justify="center" align="center" width="100%" gap="4">
+                                        <Text className="w-16 min-w-16 text-left text-2xl">{progressFormatted}</Text>
                                         <Progress
                                             className="w-full"
                                             size="3"
@@ -193,41 +168,20 @@ export default function Music() {
                                             color="gray"
                                             highContrast
                                         />
-                                        <Text className="w-16 min-w-16 text-right text-2xl">
-                                            {durationFormatted}
-                                        </Text>
+                                        <Text className="w-16 min-w-16 text-right text-2xl">{durationFormatted}</Text>
                                     </Flex>
                                 </Flex>
                             </Flex>
                         </Box>
                     ) : (
-                        <Flex
-                            direction="column"
-                            align="center"
-                            justify="center"
-                            width="100%"
-                            height="100%"
-                            gap="4"
-                        >
+                        <Flex direction="column" align="center" justify="center" width="100%" height="100%" gap="4">
                             <Text className="text-4xl">No music playing</Text>
                         </Flex>
                     )}
                 </>
             ) : (
-                <Flex
-                    direction="column"
-                    align="center"
-                    justify="center"
-                    width="100%"
-                    height="100%"
-                    gap="4"
-                >
-                    <Button
-                        size="4"
-                        variant="surface"
-                        onClick={redirectToSpotifyAuthorize}
-                        color="amber"
-                    >
+                <Flex direction="column" align="center" justify="center" width="100%" height="100%" gap="4">
+                    <Button size="4" variant="surface" onClick={redirectToSpotifyAuthorize} color="amber">
                         Connect Spotify
                     </Button>
                 </Flex>

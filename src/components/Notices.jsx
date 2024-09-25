@@ -40,8 +40,7 @@ export default function Notices({}) {
                 const rect = mdRef?.current?.getBoundingClientRect();
                 const duration =
                     rect.y > boxRef.current.clientHeight
-                        ? (rect.y - boxRef.current.clientHeight) /
-                          (scrollSpeed / 1000)
+                        ? (rect.y - boxRef.current.clientHeight) / (scrollSpeed / 1000)
                         : 5000;
                 runScroll(duration);
                 setTimeout(() => {
@@ -78,8 +77,7 @@ export default function Notices({}) {
             ready = false;
             runSlide().then(() => {
                 console.log("resolved");
-                currentSlideIndex.current =
-                    (currentSlideIndex.current + 1) % slidesFiltered.length;
+                currentSlideIndex.current = (currentSlideIndex.current + 1) % slidesFiltered.length;
                 ready = true;
             });
         }, 1000);
@@ -91,14 +89,7 @@ export default function Notices({}) {
     }, [runSlide, slidesFiltered, loadSlide]);
 
     return (
-        <Box
-            width="100%"
-            height="100%"
-            maxWidth="100%"
-            maxHeight="100%"
-            overflow="hidden"
-            ref={boxRef}
-        >
+        <Box width="100%" height="100%" maxWidth="100%" maxHeight="100%" overflow="hidden" ref={boxRef}>
             <motion.div
                 // fade the div when currentSlide changes
                 exit={{ opacity: 0 }}

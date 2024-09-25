@@ -1,10 +1,4 @@
-import {
-    Cross1Icon,
-    EyeNoneIcon,
-    EyeOpenIcon,
-    PlusIcon,
-    TrashIcon,
-} from "@radix-ui/react-icons";
+import { Cross1Icon, EyeNoneIcon, EyeOpenIcon, PlusIcon, TrashIcon } from "@radix-ui/react-icons";
 import {
     AlertDialog,
     Button,
@@ -73,13 +67,7 @@ export default function Config({}) {
 
     return (
         <Dialog.Root open={configOpen}>
-            <Dialog.Content
-                minWidth="800px"
-                width="100%"
-                height="600px"
-                minHeight="600px"
-                maxHeight="600px"
-            >
+            <Dialog.Content minWidth="800px" width="100%" height="600px" minHeight="600px" maxHeight="600px">
                 <Dialog.Description className="invisible"></Dialog.Description>
                 <Flex
                     direction="column"
@@ -91,53 +79,24 @@ export default function Config({}) {
                     align="center"
                     overflow="visible"
                 >
-                    <Flex
-                        direction="row"
-                        justify="between"
-                        align="start"
-                        width="100%"
-                    >
+                    <Flex direction="row" justify="between" align="start" width="100%">
                         <Dialog.Title>Ticker Configuration</Dialog.Title>
                         <Dialog.Close>
-                            <IconButton
-                                variant="soft"
-                                size="1"
-                                onClick={closeConfig}
-                            >
+                            <IconButton variant="soft" size="1" onClick={closeConfig}>
                                 <Cross1Icon />
                             </IconButton>
                         </Dialog.Close>
                     </Flex>
 
-                    <SegmentedControl.Root
-                        defaultValue="announcements"
-                        className="min-h-8 w-full"
-                    >
-                        <SegmentedControl.Item value="announcements">
-                            Announcements
-                        </SegmentedControl.Item>
-                        <SegmentedControl.Item value="spotify">
-                            Spotify
-                        </SegmentedControl.Item>
-                        <SegmentedControl.Item value="hours">
-                            Hours
-                        </SegmentedControl.Item>
+                    <SegmentedControl.Root defaultValue="announcements" className="min-h-8 w-full">
+                        <SegmentedControl.Item value="announcements">Announcements</SegmentedControl.Item>
+                        <SegmentedControl.Item value="spotify">Spotify</SegmentedControl.Item>
+                        <SegmentedControl.Item value="hours">Hours</SegmentedControl.Item>
                     </SegmentedControl.Root>
 
-                    <Flex
-                        direction="column"
-                        height="auto"
-                        width="100%"
-                        flexGrow="1"
-                        overflow="hidden"
-                    >
+                    <Flex direction="column" height="auto" width="100%" flexGrow="1" overflow="hidden">
                         {/* info slide configuration */}
-                        <Flex
-                            direction="column"
-                            gap="2"
-                            width="100%"
-                            height="100%"
-                        >
+                        <Flex direction="column" gap="2" width="100%" height="100%">
                             <Flex
                                 direction="row"
                                 gap="2"
@@ -147,13 +106,7 @@ export default function Config({}) {
                                 justify="center"
                                 align="stretch"
                             >
-                                <Flex
-                                    direction="column"
-                                    className="w-1/3"
-                                    justify="start"
-                                    align="center"
-                                    gap="4"
-                                >
+                                <Flex direction="column" className="w-1/3" justify="start" align="center" gap="4">
                                     <ScrollArea
                                         scrollbars="vertical"
                                         type="always"
@@ -164,65 +117,35 @@ export default function Config({}) {
                                             columns="1"
                                             onValueChange={(value) => {
                                                 setSelectedSlideIndex(value);
-                                                setSelectedSlide(
-                                                    infoSlides[value],
-                                                );
+                                                setSelectedSlide(infoSlides[value]);
                                             }}
                                             gap="2"
                                         >
                                             {infoSlides &&
-                                                infoSlides.map(
-                                                    (slide, index) => (
-                                                        <RadioCards.Item
-                                                            value={index}
-                                                            key={index}
-                                                        >
+                                                infoSlides.map((slide, index) => (
+                                                    <RadioCards.Item value={index} key={index}>
+                                                        <Flex direction="column" width="100%">
                                                             <Flex
-                                                                direction="column"
-                                                                width="100%"
+                                                                direction="row"
+                                                                justify="start"
+                                                                align="center"
+                                                                gap="1"
                                                             >
-                                                                <Flex
-                                                                    direction="row"
-                                                                    justify="start"
-                                                                    align="center"
-                                                                    gap="1"
-                                                                >
-                                                                    {slide.enabled ? (
-                                                                        <EyeOpenIcon />
-                                                                    ) : (
-                                                                        <EyeNoneIcon />
-                                                                    )}
-                                                                    <Text weight="bold">
-                                                                        {
-                                                                            slide.title
-                                                                        }
-                                                                    </Text>
-                                                                </Flex>
-                                                                <Text>
-                                                                    {dayjs
-                                                                        .duration(
-                                                                            dayjs(
-                                                                                slide.timestamp,
-                                                                            ).diff(
-                                                                                dayjs(),
-                                                                            ),
-                                                                        )
-                                                                        .humanize(
-                                                                            true,
-                                                                        )}
-                                                                </Text>
+                                                                {slide.enabled ? <EyeOpenIcon /> : <EyeNoneIcon />}
+                                                                <Text weight="bold">{slide.title}</Text>
                                                             </Flex>
-                                                        </RadioCards.Item>
-                                                    ),
-                                                )}
+                                                            <Text>
+                                                                edited{" "}
+                                                                {dayjs
+                                                                    .duration(dayjs(slide.timestamp).diff(dayjs()))
+                                                                    .humanize(true)}
+                                                            </Text>
+                                                        </Flex>
+                                                    </RadioCards.Item>
+                                                ))}
                                         </RadioCards.Root>
                                     </ScrollArea>
-                                    <Flex
-                                        direction="row"
-                                        gap="2"
-                                        width="100%"
-                                        justify="center"
-                                    >
+                                    <Flex direction="row" gap="2" width="100%" justify="center">
                                         <Button size="2" onClick={createSlide}>
                                             <PlusIcon />
                                             Create announcement
@@ -230,22 +153,9 @@ export default function Config({}) {
                                     </Flex>
                                 </Flex>
 
-                                <Flex
-                                    direction="column"
-                                    className="min-h-full w-2/3"
-                                    gap="4"
-                                >
-                                    <Flex
-                                        direction="row"
-                                        justify="between"
-                                        align="center"
-                                        gap="4"
-                                    >
-                                        <Flex
-                                            direction="row"
-                                            align="center"
-                                            gap="2"
-                                        >
+                                <Flex direction="column" className="min-h-full w-2/3" gap="4">
+                                    <Flex direction="row" justify="between" align="center" gap="4">
+                                        <Flex direction="row" align="center" gap="2">
                                             <Switch
                                                 radius="small"
                                                 checked={selectedSlide?.enabled}
@@ -266,34 +176,19 @@ export default function Config({}) {
                                                 </Button>
                                             </AlertDialog.Trigger>
                                             <AlertDialog.Content maxWidth="450px">
-                                                <AlertDialog.Title>
-                                                    Delete announcement
-                                                </AlertDialog.Title>
+                                                <AlertDialog.Title>Delete announcement</AlertDialog.Title>
                                                 <AlertDialog.Description size="2">
                                                     Are you sure?
                                                 </AlertDialog.Description>
 
-                                                <Flex
-                                                    gap="3"
-                                                    mt="4"
-                                                    justify="end"
-                                                >
+                                                <Flex gap="3" mt="4" justify="end">
                                                     <AlertDialog.Cancel>
-                                                        <Button
-                                                            variant="soft"
-                                                            color="gray"
-                                                        >
+                                                        <Button variant="soft" color="gray">
                                                             Cancel
                                                         </Button>
                                                     </AlertDialog.Cancel>
                                                     <AlertDialog.Action>
-                                                        <Button
-                                                            variant="solid"
-                                                            color="red"
-                                                            onClick={
-                                                                removeSlide
-                                                            }
-                                                        >
+                                                        <Button variant="solid" color="red" onClick={removeSlide}>
                                                             Delete
                                                         </Button>
                                                     </AlertDialog.Action>
@@ -333,18 +228,11 @@ export default function Config({}) {
                                         />
                                     )}
                                     <Flex gap="3" justify="between">
-                                        <Flex
-                                            direction="row"
-                                            gap="2"
-                                            justify="center"
-                                            align="center"
-                                        >
+                                        <Flex direction="row" gap="2" justify="center" align="center">
                                             <Switch
                                                 radius="small"
                                                 checked={showSlidePreview}
-                                                onCheckedChange={(checked) =>
-                                                    setShowSlidePreview(checked)
-                                                }
+                                                onCheckedChange={(checked) => setShowSlidePreview(checked)}
                                             ></Switch>
                                             <Text size="2">Preview</Text>
                                         </Flex>
@@ -352,18 +240,9 @@ export default function Config({}) {
                                             onClick={saveSlide}
                                             disabled={
                                                 // disable if everything between the edited and saved slide is the same except timestamp
-                                                selectedSlide.title ===
-                                                    infoSlides[
-                                                        selectedSlideIndex
-                                                    ]?.title &&
-                                                selectedSlide.content ===
-                                                    infoSlides[
-                                                        selectedSlideIndex
-                                                    ]?.content &&
-                                                selectedSlide.enabled ===
-                                                    infoSlides[
-                                                        selectedSlideIndex
-                                                    ]?.enabled
+                                                selectedSlide.title === infoSlides[selectedSlideIndex]?.title &&
+                                                selectedSlide.content === infoSlides[selectedSlideIndex]?.content &&
+                                                selectedSlide.enabled === infoSlides[selectedSlideIndex]?.enabled
                                             }
                                         >
                                             Save announcement
