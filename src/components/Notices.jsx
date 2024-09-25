@@ -1,4 +1,5 @@
 import { Box } from "@radix-ui/themes";
+import { motion, useAnimationControls } from "framer-motion";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Markdown from "react-markdown";
 import { animateScroll, Element } from "react-scroll";
@@ -12,6 +13,7 @@ export default function Notices({}) {
     const boxRef = useRef(null);
 
     const [currentSlide, setCurrentSlide] = useState(``);
+    const animationControls = useAnimationControls();
     const currentSlideIndex = useRef(0);
 
     const slidesFiltered = useMemo(() => {
@@ -19,8 +21,8 @@ export default function Notices({}) {
         return infoSlides.filter((slide) => slide.enabled);
     }, [infoSlides]);
 
-    const scrollSpeed = 500; //pixels per second
-    const timePadding = 5000;
+    const scrollSpeed = 20; //pixels per second
+    const timePadding = 2500;
 
     const runScroll = useCallback((duration) => {
         animateScroll.scrollToBottom({
@@ -49,10 +51,14 @@ export default function Notices({}) {
         });
     }, [runScroll]);
 
+    const loadSlide = useCallback((content) => {
+        setCurrentSlide(content);
+    }, []);
+
     useEffect(() => {
         console.log("effect");
         currentSlideIndex.current = 0;
-        setCurrentSlide("");
+        loadSlide("");
 
         let ready = true;
         const interval = setInterval(() => {
@@ -68,7 +74,7 @@ export default function Notices({}) {
                 containerId: "container",
             });
 
-            setCurrentSlide(slidesFiltered[currentSlideIndex.current].content);
+            loadSlide(slidesFiltered[currentSlideIndex.current].content);
             ready = false;
             runSlide().then(() => {
                 console.log("resolved");
@@ -76,13 +82,13 @@ export default function Notices({}) {
                     (currentSlideIndex.current + 1) % slidesFiltered.length;
                 ready = true;
             });
-        }, 5000);
+        }, 1000);
 
         return () => {
             clearInterval(interval);
             console.log("clear");
         };
-    }, [runSlide, slidesFiltered]);
+    }, [runSlide, slidesFiltered, loadSlide]);
 
     return (
         <Box
@@ -93,25 +99,33 @@ export default function Notices({}) {
             overflow="hidden"
             ref={boxRef}
         >
-            <Element
-                name="container"
-                id="container"
-                style={{
-                    height: "100%",
-                    width: "100%",
-                    overflow: "auto",
-                    padding: "48px",
-                }}
+            <motion.div
+                // fade the div when currentSlide changes
+                exit={{ opacity: 0 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                key={currentSlide}
+                className="h-full max-h-full w-full max-w-full"
             >
-                <Markdown
-                    className="prose prose-2xl prose-neutral prose-invert prose-headings:font-bold"
-                    remarkPlugins={[remarkGfm]}
+                <Element
+                    name="container"
+                    id="container"
+                    style={{
+                        height: "100%",
+                        width: "100%",
+                        overflow: "auto",
+                        padding: "48px",
+                    }}
                 >
-                    {currentSlide}
-                </Markdown>
-                <div name="bottom" ref={mdRef} />
-            </Element>
-            {/* <div name="bottom" className="h-0" ref={mdRef} /> */}
+                    <Markdown
+                        className="prose prose-2xl prose-neutral prose-invert prose-headings:font-bold"
+                        remarkPlugins={[remarkGfm]}
+                    >
+                        {currentSlide}
+                    </Markdown>
+                    <div name="bottom" ref={mdRef} />
+                </Element>
+            </motion.div>
         </Box>
     );
 }
