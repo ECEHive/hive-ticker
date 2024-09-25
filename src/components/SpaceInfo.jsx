@@ -49,7 +49,7 @@ export default function SpaceInfo({}) {
             return ["Closing in", timeUntilClose.humanize()];
         } else if (!openState.openNow) {
             if (openState.openToday) {
-                return ["Closed - after hours", "PIs only"];
+                return ["Closed", "After hours"];
             } else {
                 return ["Closed", "Today"];
             }
