@@ -38,10 +38,12 @@ export default function Notices({}) {
         return new Promise((resolve) => {
             setTimeout(() => {
                 const rect = mdRef?.current?.getBoundingClientRect();
-                const duration =
+                const duration = Math.max(
                     rect.y > boxRef.current.clientHeight
                         ? (rect.y - boxRef.current.clientHeight) / (scrollSpeed / 1000)
-                        : 5000;
+                        : 5000,
+                    5000,
+                );
                 runScroll(duration);
                 setTimeout(() => {
                     resolve();

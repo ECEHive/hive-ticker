@@ -120,6 +120,7 @@ export default function Config({}) {
                                                 setSelectedSlide(infoSlides[value]);
                                             }}
                                             gap="2"
+                                            className="pr-3"
                                         >
                                             {infoSlides &&
                                                 infoSlides.map((slide, index) => (
@@ -209,7 +210,7 @@ export default function Config({}) {
                                     />
                                     {showSlidePreview ? (
                                         <Markdown
-                                            className="prose-md prose prose-neutral prose-invert h-full w-full overflow-auto prose-headings:font-bold"
+                                            className="prose prose-lg prose-neutral prose-invert h-auto w-full flex-grow overflow-auto px-2 prose-headings:font-bold"
                                             remarkPlugins={[remarkGfm]}
                                         >
                                             {selectedSlide?.content}
