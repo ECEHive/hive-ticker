@@ -28,7 +28,7 @@ export default function AnnouncementEditor({}) {
             enabled: false,
             timestamp: "",
         });
-        setSelectedSlideIndex(-1);
+        setSelectedSlideIndex(0);
         deleteSlide(selectedSlideIndex);
         console.log(infoSlides);
     }, [deleteSlide, selectedSlideIndex, infoSlides]);
