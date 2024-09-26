@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Progress, Text } from "@radix-ui/themes";
+import { Box, Flex, Progress, Text } from "@radix-ui/themes";
 import dayjs from "dayjs";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Marquee from "react-fast-marquee";
@@ -181,9 +181,7 @@ export default function Music() {
                 </>
             ) : (
                 <Flex direction="column" align="center" justify="center" width="100%" height="100%" gap="4">
-                    <Button size="4" variant="surface" onClick={redirectToSpotifyAuthorize} color="amber">
-                        Connect Spotify
-                    </Button>
+                    <Text className="text-center text-4xl">No Spotify account connected</Text>
                 </Flex>
             )}
         </>

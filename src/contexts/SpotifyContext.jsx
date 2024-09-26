@@ -24,6 +24,7 @@ export const SpotifyProvider = ({ children }) => {
         logOut,
     } = useProvideSpotify();
     const playerState = usePlayerState(request);
+    const [spotifyEnabled, setSpotifyEnabled] = useLocalStorage("spotify-enabled", true);
 
     return (
         <SpotifyContext.Provider
@@ -33,6 +34,8 @@ export const SpotifyProvider = ({ children }) => {
                 request,
                 logOut,
                 playerState,
+                spotifyEnabled,
+                setSpotifyEnabled,
             }}
         >
             {children}
@@ -155,6 +158,7 @@ function useProvideSpotify() {
     }
 
     async function request(endpoint) {
+        if (!access_token) return null;
         if (dayjs().isAfter(expires)) {
             console.log("refreshing spotify token");
             refreshToken().then((token) => {
