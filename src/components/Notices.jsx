@@ -1,103 +1,30 @@
 import { Box } from "@radix-ui/themes";
-import { useCallback, useEffect, useRef } from "react";
+import { motion, useAnimationControls } from "framer-motion";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Markdown from "react-markdown";
 import { animateScroll, Element } from "react-scroll";
 import remarkGfm from "remark-gfm";
-
-const fancyMd = `
-    # Markdown syntax guide
-
-## Headers
-
-# This is a Heading h1
-## This is a Heading h2
-###### This is a Heading h6
-
-## Emphasis
-
-*This text will be italic*  
-_This will also be italic_
-
-**This text will be bold**  
-__This will also be bold__
-
-_You **can** combine them_
-
-## Lists
-
-### Unordered
-
-* Item 1
-* Item 2
-* Item 2a
-* Item 2b
-
-### Ordered
-
-1. Item 1
-2. Item 2
-3. Item 3
-    1. Item 3a
-    2. Item 3b
-
-## Images
-
-![This is an alt text.](/image/sample.webp "This is a sample image.")
-
-## Links
-
-You may be using [Markdown Live Preview](https://markdownlivepreview.com/).
-
-## Blockquotes
-
-> Markdown is a lightweight markup language with plain-text-formatting syntax, created in 2004 by John Gruber with Aaron Swartz.
->
->> Markdown is often used to format readme files, for writing messages in online discussion forums, and to create rich text using a plain text editor.
-
-## Tables
-
-| Left columns  | Right columns |
-| ------------- |:-------------:|
-| left foo      | right foo     |
-| left bar      | right bar     |
-| left baz      | right baz     |
-
-## Blocks of code
-
-\`\`\`
-let message = 'Hello world';
-alert(message);
-\`\`\`
-
-## Inline code
-
-This web site is using \`markedjs/marked\`.
-
-
-`;
-const markdown = `## Welcome to The HIVE!
-### Fall 2024 hours
-
-| |  |
-| --- | --- |
-| Monday - Friday | 10am-6pm |
-| Sat - Sun | Closed |
-
-### Reminders
-- Wear safety googles when soldering
-- Clean up your workspace before you leave
-- yadda yadda yadda
-
-*Need help? Find a PI!*
-`;
+import useInfo from "../hooks/useInfo";
 
 export default function Notices({}) {
+    const { infoSlides } = useInfo();
+
     const mdRef = useRef(null);
     const boxRef = useRef(null);
 
-    const scrollSpeed = 20; //pixels per second
+    const [currentSlide, setCurrentSlide] = useState(``);
+    const animationControls = useAnimationControls();
+    const currentSlideIndex = useRef(0);
 
-    const runScroll = useCallback((duration, fastDuration) => {
+    const slidesFiltered = useMemo(() => {
+        console.log("slides changed");
+        return infoSlides.filter((slide) => slide.enabled);
+    }, [infoSlides]);
+
+    const scrollSpeed = 20; //pixels per second
+    const timePadding = 2500;
+
+    const runScroll = useCallback((duration) => {
         animateScroll.scrollToBottom({
             duration: duration,
             delay: 0,
@@ -105,64 +32,93 @@ export default function Notices({}) {
             spy: true,
             containerId: "container",
         });
+    }, []);
 
-        setTimeout(() => {
+    const runSlide = useCallback(() => {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                const rect = mdRef?.current?.getBoundingClientRect();
+                const duration = Math.max(
+                    rect.y > boxRef.current.clientHeight
+                        ? (rect.y - boxRef.current.clientHeight) / (scrollSpeed / 1000)
+                        : 5000,
+                    5000,
+                );
+                runScroll(duration);
+                setTimeout(() => {
+                    resolve();
+                }, duration + timePadding);
+            }, timePadding);
+        });
+    }, [runScroll]);
+
+    const loadSlide = useCallback((content) => {
+        setCurrentSlide(content);
+    }, []);
+
+    useEffect(() => {
+        console.log("effect");
+        currentSlideIndex.current = 0;
+        loadSlide("");
+
+        let ready = true;
+        const interval = setInterval(() => {
+            if (!ready) return;
+            if (currentSlideIndex.current >= slidesFiltered.length) {
+                currentSlideIndex.current = 0;
+            }
             animateScroll.scrollToTop({
-                duration: fastDuration,
+                duration: 0,
                 delay: 0,
                 smooth: "linear",
                 spy: true,
                 containerId: "container",
             });
-        }, duration + 5000);
-    }, []);
 
-    useEffect(() => {
-        const rect = mdRef?.current?.getBoundingClientRect();
-        const duration =
-            (rect.y - boxRef.current.clientHeight) / (scrollSpeed / 1000);
-        const fastDuration = duration / 8;
+            loadSlide(slidesFiltered[currentSlideIndex.current].content);
+            ready = false;
+            runSlide().then(() => {
+                console.log("resolved");
+                currentSlideIndex.current = (currentSlideIndex.current + 1) % slidesFiltered.length;
+                ready = true;
+            });
+        }, 1000);
 
-        runScroll(duration, fastDuration);
-
-        const interval = setInterval(
-            () => {
-                runScroll(duration, fastDuration);
-            },
-            duration + 5000 + fastDuration + 5000,
-        );
-
-        return () => clearInterval(interval);
-    }, [runScroll]);
+        return () => {
+            clearInterval(interval);
+            console.log("clear");
+        };
+    }, [runSlide, slidesFiltered, loadSlide]);
 
     return (
-        <Box
-            width="100%"
-            height="100%"
-            maxWidth="100%"
-            maxHeight="100%"
-            overflow="hidden"
-            ref={boxRef}
-        >
-            <Element
-                name="container"
-                id="container"
-                style={{
-                    height: "100%",
-                    width: "100%",
-                    overflow: "auto",
-                    padding: "48px",
-                }}
+        <Box width="100%" height="100%" maxWidth="100%" maxHeight="100%" overflow="hidden" ref={boxRef}>
+            <motion.div
+                // fade the div when currentSlide changes
+                exit={{ opacity: 0 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                key={currentSlide}
+                className="h-full max-h-full w-full max-w-full"
             >
-                <Markdown
-                    className="prose prose-2xl prose-neutral prose-invert prose-headings:font-bold"
-                    remarkPlugins={[remarkGfm]}
+                <Element
+                    name="container"
+                    id="container"
+                    style={{
+                        height: "100%",
+                        width: "100%",
+                        overflow: "auto",
+                        padding: "48px",
+                    }}
                 >
-                    {markdown}
-                </Markdown>
-                <div name="bottom" ref={mdRef} />
-            </Element>
-            {/* <div name="bottom" className="h-0" ref={mdRef} /> */}
+                    <Markdown
+                        className="prose prose-2xl prose-neutral prose-invert prose-headings:font-bold"
+                        remarkPlugins={[remarkGfm]}
+                    >
+                        {currentSlide}
+                    </Markdown>
+                    <div name="bottom" ref={mdRef} />
+                </Element>
+            </motion.div>
         </Box>
     );
 }

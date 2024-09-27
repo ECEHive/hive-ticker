@@ -12,9 +12,7 @@ const clientId = "7fdaa0130bac49f39a77a5607d7a15fe"; // your clientId
 
 // detect if running locally or on the regular url
 const redirectUrl =
-    window.location.hostname === "localhost"
-        ? "http://localhost:5173"
-        : "https://hivemakerspace.github.io/hive-ticker";
+    window.location.hostname === "localhost" ? "http://localhost:5173" : "https://hivemakerspace.github.io/hive-ticker";
 
 // eslint-disable-next-line react/prop-types
 export const SpotifyProvider = ({ children }) => {
@@ -26,6 +24,7 @@ export const SpotifyProvider = ({ children }) => {
         logOut,
     } = useProvideSpotify();
     const playerState = usePlayerState(request);
+    const [spotifyEnabled, setSpotifyEnabled] = useLocalStorage("spotify-enabled", true);
 
     return (
         <SpotifyContext.Provider
@@ -35,6 +34,8 @@ export const SpotifyProvider = ({ children }) => {
                 request,
                 logOut,
                 playerState,
+                spotifyEnabled,
+                setSpotifyEnabled,
             }}
         >
             {children}
@@ -82,13 +83,9 @@ function useProvideSpotify() {
 
     function redirectToSpotifyAuthorize() {
         const generateRandomString = (length) => {
-            const possible =
-                "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             const values = crypto.getRandomValues(new Uint8Array(length));
-            return values.reduce(
-                (acc, x) => acc + possible[x % possible.length],
-                "",
-            );
+            return values.reduce((acc, x) => acc + possible[x % possible.length], "");
         };
 
         const codeVerifier = generateRandomString(64);
@@ -161,6 +158,7 @@ function useProvideSpotify() {
     }
 
     async function request(endpoint) {
+        if (!access_token) return null;
         if (dayjs().isAfter(expires)) {
             console.log("refreshing spotify token");
             refreshToken().then((token) => {
@@ -204,9 +202,7 @@ function useProvideSpotify() {
                 const url = new URL(window.location.href);
                 url.searchParams.delete("code");
 
-                const updatedUrl = url.search
-                    ? url.href
-                    : url.href.replace("?", "");
+                const updatedUrl = url.search ? url.href : url.href.replace("?", "");
                 window.history.replaceState({}, document.title, updatedUrl);
             });
         }

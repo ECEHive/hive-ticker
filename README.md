@@ -1,8 +1,2 @@
-# React + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Simple webapp to display information and announcements on TVs throughout [The Hive Makerspace](https://hive.ece.gatech.edu). Includes a Spotify integration to display currently playing music in the space.
+![localhost_5173_hive-ticker_ (2)](https://github.com/user-attachments/assets/bc41a494-429e-4998-8a68-c2671c8d4dd6)
