@@ -91,7 +91,7 @@ export default function Notices({}) {
     }, [runSlide, slidesFiltered, loadSlide]);
 
     return (
-        <Box width="100%" height="100%" maxWidth="100%" maxHeight="100%" overflow="hidden" ref={boxRef}>
+        <Box minWidth="100%" height="100%" maxWidth="100%" maxHeight="100%" overflow="hidden" ref={boxRef}>
             <motion.div
                 // fade the div when currentSlide changes
                 exit={{ opacity: 0 }}
@@ -106,7 +106,7 @@ export default function Notices({}) {
                     style={{
                         height: "100%",
                         width: "100%",
-                        overflow: "auto",
+                        overflow: "hidden",
                         padding: "48px",
                     }}
                 >

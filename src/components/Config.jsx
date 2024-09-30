@@ -2,6 +2,7 @@ import { Cross1Icon } from "@radix-ui/react-icons";
 import { Dialog, Flex, IconButton, SegmentedControl } from "@radix-ui/themes";
 import { useCallback, useEffect, useState } from "react";
 import AnnouncementEditor from "./config/AnnouncementEditor";
+import HoursEditor from "./config/HoursEditor";
 import SpotifyEditor from "./config/SpotifyEditor";
 
 export default function Config({}) {
@@ -63,6 +64,7 @@ export default function Config({}) {
                     <Flex direction="column" height="auto" width="100%" flexGrow="1" overflow="hidden">
                         {selectedTab === "announcements" && <AnnouncementEditor />}
                         {selectedTab === "spotify" && <SpotifyEditor />}
+                        {selectedTab === "hours" && <HoursEditor />}
                     </Flex>
                 </Flex>
             </Dialog.Content>

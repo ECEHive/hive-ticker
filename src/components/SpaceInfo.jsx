@@ -1,13 +1,11 @@
-import { DividerVerticalIcon } from "@radix-ui/react-icons";
-import { Box, Flex, Text } from "@radix-ui/themes";
+import { Box, Flex, Separator, Text } from "@radix-ui/themes";
 import dayjs from "dayjs";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import TextTransition from "react-text-transition";
-import logo from "../assets/hive_logo_white.svg";
 import useTime from "../hooks/useTime";
 
 const digitMap = [
-    (time) => (time[0] === "0" ? "" : time[0]),
+    (time) => (time[0] !== "0" ? time[0] : ""),
     (time) => time[1],
     () => ":",
     (time) => time[3],
@@ -15,10 +13,10 @@ const digitMap = [
 ];
 
 export default function SpaceInfo({}) {
-    const { time, openState } = useTime();
+    const { time, openState, date } = useTime();
 
     const timeHelper = useMemo(() => {
-        if (!openState?.openToday) return ["Closed", "Today"];
+        if (!openState?.openToday) return ["Today", "Closed"];
 
         const openTime = dayjs()
             .set("hour", openState.hours[0].split(":")[0])
@@ -37,80 +35,73 @@ export default function SpaceInfo({}) {
         } else if (timeUntilClose.asMinutes() < 60 && timeUntilClose.asMinutes() > 0) {
             return ["Closing in", timeUntilClose.humanize()];
         } else if (!openState.openNow) {
-            if (openState.openToday) {
-                if (dayjs().hour() >= closeTime.hour() && dayjs().minute() >= closeTime.minute()) {
-                    return ["Closed", "After hours"];
-                } else {
-                    return ["Closed", "Before hours"];
-                }
+            if (dayjs().hour() >= closeTime.hour() && dayjs().minute() >= closeTime.minute()) {
+                return ["Closed", "After hours"];
             } else {
-                return ["Closed", "Today"];
+                return ["Closed", "Before hours"];
             }
         } else {
             return ["Today's hours", `${openTime.format("hA")} - ${closeTime.format("hA")}`];
         }
     }, [openState]);
 
-    useEffect(() => {}, []);
-
     return (
         <Box
             width="100%"
             height="100%"
             minHeight="100%"
-            minWidth="100%"
+            minWidth="525px"
             maxHeight="100%"
             maxWidth="100%"
-            py="6"
             p="8"
-            className="overflow-hidden"
+            // className="overflow-hidden border-r-2 border-[--gray-6]"
         >
-            <Flex direction="row" justify="between" align="center" gap="8" height="100%" width="100%">
-                <Flex direction="column" align="start" justify="center" gap="2" height="auto">
-                    <img src={logo} className="h-[100px] w-auto" />
-                </Flex>
-
-                {/* clock/hours */}
-                <Flex direction="row" align="center" justify="center" gap="2" height="100%" width="auto">
-                    {timeHelper && (
-                        <>
-                            <Flex direction="column" align="end" justify="center" gap="0" height="auto">
-                                <TextTransition key="timehelp" className="text-5xl">
-                                    {timeHelper[0]}
-                                </TextTransition>
-                                <TextTransition key="timehelp1" className="font-serif text-7xl font-semibold">
-                                    {timeHelper[1]}
-                                </TextTransition>
-                            </Flex>
-
-                            <DividerVerticalIcon className="h-auto w-12" color="gray" />
-                        </>
-                    )}
-
-                    <Flex direction="column" align="center" justify="center" gap="2" height="auto">
-                        {/* <Text className="text-4xl">Time</Text> */}
-                        <Flex height="auto" direction="row" align="end" justify="end">
-                            {digitMap.map((digit, index) => {
-                                return (
+            <Flex direction="column" justify="center" align="center" gap="8" height="100%" width="100%">
+                {/* clock */}
+                <Flex direction="column" justify="start" align="start" gap="0" height="auto" width="100%">
+                    <Flex direction="row" align="start" justify="center" gap="0" height="auto" width="auto">
+                        {digitMap.map((digit, index) => {
+                            return (
+                                <Flex key={index} width="100%" height="auto" align="center" justify="center">
                                     <TextTransition
                                         inline
-                                        // delay={(digitMap.length - index) * 100}
+                                        delay={(digitMap.length - index) * 100}
                                         key={index}
                                         style={{
                                             fontFamily: "Rubik",
-                                            fontWeight: 600,
                                             lineHeight: 1,
                                             fontSize: "9rem",
                                         }}
-                                        className=""
+                                        className="font-semibold"
                                     >
                                         {digit(time[0])}
                                     </TextTransition>
-                                );
-                            })}
-                            <Text className="mb-3 font-sans text-5xl font-medium">{time[1]}</Text>
+                                </Flex>
+                            );
+                        })}
+                        <Flex width="auto" height="100%" align="end" justify="center">
+                            <Text className="mb-4 font-sans text-5xl font-medium">{time[1]}</Text>
                         </Flex>
                     </Flex>
+                    <Text className="text-5xl font-medium text-[--gray-11]">{date}</Text>
+                </Flex>
+
+                <Separator orientation="horizontal" size="3" className="bg-[--gray-10]" />
+
+                <Flex direction="column" align="start" justify="start" gap="0" height="auto" width="100%" flexGrow="1">
+                    {/* <Text className="text-4xl font-medium text-[--gray-11]">9/29/2024</Text> */}
+
+                    {/* hours */}
+                    {timeHelper && (
+                        <Flex direction="column" align="start" justify="center" gap="0" height="auto">
+                            <TextTransition key="timehelp" className="text-5xl">
+                                {timeHelper[0]}
+                            </TextTransition>
+                            <TextTransition key="timehelp1" className="font-serif text-7xl font-semibold">
+                                {timeHelper[1]}
+                            </TextTransition>
+                        </Flex>
+                    )}
                 </Flex>
             </Flex>
         </Box>

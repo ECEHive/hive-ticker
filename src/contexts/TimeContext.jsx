@@ -15,9 +15,9 @@ dayjs.extend(isBetween);
 function TimeProvider({ children }) {
     const [timeRaw, setTimeRaw] = useState(dayjs().subtract(1, "minute"));
     const [time, setTime] = useState(["12:00", "AM"]);
-    const [date, setDate] = useState("January 1, 1970");
+    const [date, setDate] = useState("Sun Sep 29");
 
-    const [hours, setHours] = useLocalStorage("opening-hours", {
+    const [hours, setHours] = useLocalStorage("open-hours", {
         monday: {
             open: true,
             hours: ["10:00", "18:00"],
@@ -40,11 +40,11 @@ function TimeProvider({ children }) {
         },
         saturday: {
             open: false,
-            hours: [],
+            hours: ["", ""],
         },
         sunday: {
             open: false,
-            hours: [],
+            hours: ["", ""],
         },
     });
 
@@ -53,14 +53,15 @@ function TimeProvider({ children }) {
         const day = time.format("dddd").toLowerCase();
 
         const todayHours = hours[day];
-        const openTime = dayjs()
-            .set("hour", todayHours.hours[0].split(":")[0])
-            .set("minute", todayHours.hours[0].split(":")[1]);
-        const closeTime = dayjs()
-            .set("hour", todayHours.hours[1].split(":")[0])
-            .set("minute", todayHours.hours[1].split(":")[1]);
 
         if (todayHours.open) {
+            const openTime = dayjs()
+                .set("hour", todayHours.hours[0].split(":")[0])
+                .set("minute", todayHours.hours[0].split(":")[1]);
+            const closeTime = dayjs()
+                .set("hour", todayHours.hours[1].split(":")[0])
+                .set("minute", todayHours.hours[1].split(":")[1]);
+
             // Check if the current time is between the opening and closing hours (including minutes)
             if (dayjs().isBetween(openTime, closeTime)) {
                 return {
@@ -87,7 +88,7 @@ function TimeProvider({ children }) {
         const secondInterval = setInterval(() => {
             if (timeRaw.format("m") === dayjs().format("m")) return;
             setTime([dayjs().format("hh:mm"), dayjs().format("A")]);
-            setDate(dayjs().format("MMMM D, YYYY"));
+            setDate(dayjs().format("ddd MMM D"));
             setTimeRaw(dayjs());
         }, 1000);
 
@@ -96,7 +97,7 @@ function TimeProvider({ children }) {
         };
     }, [timeRaw]);
 
-    return <TimeContext.Provider value={{ time, date, openState }}>{children}</TimeContext.Provider>;
+    return <TimeContext.Provider value={{ time, date, openState, hours, setHours }}>{children}</TimeContext.Provider>;
 }
 
 TimeProvider.propTypes = {
