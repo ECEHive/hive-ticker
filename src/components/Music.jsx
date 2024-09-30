@@ -100,7 +100,7 @@ export default function Music() {
                     width="100%"
                     height="100%"
                     style={{
-                        backdropFilter: "blur(100px) brightness(0.25)",
+                        backdropFilter: "blur(100px) brightness(0.275)",
                     }}
                 >
                     {currentToken.access_token ? (
@@ -207,7 +207,7 @@ export default function Music() {
                             height="100%"
                             style={{
                                 width: "auto",
-                                height: "148px",
+                                height: "136px",
                                 // filter: "drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.2))",
                             }}
                         />

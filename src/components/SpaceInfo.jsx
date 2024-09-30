@@ -70,7 +70,7 @@ export default function SpaceInfo({}) {
                                         style={{
                                             fontFamily: "Rubik",
                                             lineHeight: 1,
-                                            fontSize: "9rem",
+                                            fontSize: "9.25em",
                                         }}
                                         className="font-semibold"
                                     >
@@ -86,14 +86,14 @@ export default function SpaceInfo({}) {
                     <Text className="text-5xl font-medium text-[--gray-11]">{date}</Text>
                 </Flex>
 
-                <Separator orientation="horizontal" size="3" className="bg-[--gray-10]" />
+                <Separator orientation="horizontal" size="3" className="self-start bg-[--gray-10]" />
 
                 <Flex direction="column" align="start" justify="start" gap="0" height="auto" width="100%" flexGrow="1">
                     {/* <Text className="text-4xl font-medium text-[--gray-11]">9/29/2024</Text> */}
 
                     {/* hours */}
                     {timeHelper && (
-                        <Flex direction="column" align="start" justify="center" gap="0" height="auto">
+                        <Flex direction="column" align="start" justify="center" gap="2" height="auto">
                             <TextTransition key="timehelp" className="text-5xl">
                                 {timeHelper[0]}
                             </TextTransition>
