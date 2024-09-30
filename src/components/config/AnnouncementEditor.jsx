@@ -34,7 +34,7 @@ export default function AnnouncementEditor({}) {
     }, [deleteSlide, selectedSlideIndex, infoSlides]);
 
     return (
-        <Flex direction="column" gap="2" width="100%" height="100%">
+        <Flex direction="column" gap="2" width="100%" height="100%" p="1">
             <Flex direction="row" gap="2" width="100%" height="100%" flexGrow="1" justify="center" align="stretch">
                 <Flex direction="column" className="w-1/3" justify="start" align="center" gap="4">
                     <ScrollArea scrollbars="vertical" type="always" className="h-full max-h-full w-full">

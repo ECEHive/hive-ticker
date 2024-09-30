@@ -5,11 +5,15 @@ export default function SpotifyEditor({}) {
     const { currentToken, redirectToSpotifyAuthorize, logOut, spotifyEnabled, setSpotifyEnabled } = useSpotify();
 
     return (
-        <Flex direction="column" gap="2" width="100%" maxWidth="250px">
-            <Button onClick={redirectToSpotifyAuthorize} disabled={currentToken.access_token !== undefined}>
+        <Flex direction="column" justify="center" align="center" gap="2" width="100%" p="1">
+            <Button
+                className="w-56"
+                onClick={redirectToSpotifyAuthorize}
+                disabled={currentToken.access_token !== undefined}
+            >
                 Connect Spotify account
             </Button>
-            <Button disabled={!currentToken.access_token} onClick={logOut}>
+            <Button className="w-56" disabled={!currentToken.access_token} onClick={logOut}>
                 Disconnect Spotify account
             </Button>
             <Flex direction="row" gap="2">

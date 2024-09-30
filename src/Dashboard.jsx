@@ -21,37 +21,23 @@ export default function Dashboard({}) {
             <Config />
 
             <Grid
-                columns={spotifyEnabled ? "550px calc(100% - 550px)" : "100%"}
+                columns="auto 1fr"
                 rows="calc(100% - 250px) 250px"
+                minWidth="100%"
                 width="100%"
                 height="100%"
                 maxHeight="100%"
             >
                 <Box gridColumn="2" gridRow="1" width="100%" height="100%">
-                    {/* <Clock /> */}
                     <Notices />
                 </Box>
-                {spotifyEnabled && (
-                    <Box gridColumn="1" gridRow="1" width="100%" height="100%">
-                        {/* <Music /> */}
-                        <SpaceInfo />
-                    </Box>
-                )}
-                <Box gridColumn="1/3" gridRow="2" height="100%" width="100%" maxHeight="100%">
-                    {/* <SpaceInfo /> */}
+                <Box gridColumn="1" gridRow="1" width="100%" minWidth="100%" height="100%">
+                    <SpaceInfo />
+                </Box>
+                <Box gridColumn="1/3" gridRow="2" height="100%" width="100%">
                     <Music />
                 </Box>
-
-                {/* <Box
-                        gridColumn="4/5"
-                        gridRow="2"
-                        width="100%"
-                        maxHeight="192px"
-                    >
-                        <Footer />
-                    </Box> */}
             </Grid>
-            {/* </Flex> */}
         </Box>
     );
 }

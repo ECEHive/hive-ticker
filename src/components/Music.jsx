@@ -73,7 +73,7 @@ export default function Music() {
             setTimeout(() => {
                 setEnableMarquee(titleRef.current.offsetWidth > infoRef.current.offsetWidth);
                 setDisableWait(false);
-            }, 500);
+            }, 100);
         }
     }, [playerState, titleRef, infoRef, currentTrackId]);
 
@@ -84,6 +84,7 @@ export default function Music() {
                 width="100%"
                 maxWidth="100%"
                 maxHeight="100%"
+                minWidth="100%"
                 // className="border-t-2 border-[--gray-6]"
                 style={{
                     backgroundImage: `url('${playerState?.item.album.images[0].url}')`,

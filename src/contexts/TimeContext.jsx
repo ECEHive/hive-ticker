@@ -40,11 +40,11 @@ function TimeProvider({ children }) {
         },
         saturday: {
             open: false,
-            hours: [],
+            hours: ["", ""],
         },
         sunday: {
             open: false,
-            hours: [],
+            hours: ["", ""],
         },
     });
 
@@ -97,7 +97,7 @@ function TimeProvider({ children }) {
         };
     }, [timeRaw]);
 
-    return <TimeContext.Provider value={{ time, date, openState }}>{children}</TimeContext.Provider>;
+    return <TimeContext.Provider value={{ time, date, openState, hours, setHours }}>{children}</TimeContext.Provider>;
 }
 
 TimeProvider.propTypes = {

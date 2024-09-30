@@ -50,7 +50,7 @@ export default function SpaceInfo({}) {
             width="100%"
             height="100%"
             minHeight="100%"
-            minWidth="100%"
+            minWidth="525px"
             maxHeight="100%"
             maxWidth="100%"
             p="8"
