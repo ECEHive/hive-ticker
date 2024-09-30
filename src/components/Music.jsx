@@ -117,6 +117,7 @@ export default function Music() {
                                     justify="start"
                                     gap="8"
                                     p="6"
+                                    // px="8"
                                 >
                                     <img
                                         src={playerState?.item.album.images[0].url}
