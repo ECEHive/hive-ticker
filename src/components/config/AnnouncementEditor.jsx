@@ -80,12 +80,17 @@ export default function AnnouncementEditor({}) {
                             <Switch
                                 radius="small"
                                 checked={selectedSlide?.enabled}
-                                onCheckedChange={(checked) =>
+                                onCheckedChange={(checked) => {
                                     setSelectedSlide({
                                         ...selectedSlide,
                                         enabled: checked,
-                                    })
-                                }
+                                    });
+                                    updateSlide(selectedSlideIndex, {
+                                        ...infoSlides[selectedSlideIndex],
+                                        enabled: checked,
+                                        timestamp: dayjs(),
+                                    });
+                                }}
                             />
                             <Text size="2">Enable slide</Text>
                         </Flex>
