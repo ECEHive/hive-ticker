@@ -3,6 +3,7 @@ import { AlertDialog, Button, Flex, RadioCards, ScrollArea, Switch, Text, TextAr
 import dayjs from "dayjs";
 import { useCallback, useState } from "react";
 import Markdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 import useInfo from "../../hooks/useInfo";
 
@@ -129,6 +130,7 @@ export default function AnnouncementEditor({}) {
                         <Markdown
                             className="prose prose-lg prose-neutral prose-invert h-auto w-full flex-grow overflow-auto px-2 prose-headings:font-bold"
                             remarkPlugins={[remarkGfm]}
+                            rehypePlugins={[rehypeRaw]}
                         >
                             {selectedSlide?.content}
                         </Markdown>

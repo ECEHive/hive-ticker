@@ -3,6 +3,7 @@ import { motion, useAnimationControls } from "framer-motion";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Markdown from "react-markdown";
 import { animateScroll, Element } from "react-scroll";
+import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 import useInfo from "../hooks/useInfo";
 
@@ -113,6 +114,7 @@ export default function Notices({}) {
                     <Markdown
                         className="prose prose-2xl prose-neutral prose-invert prose-headings:font-bold"
                         remarkPlugins={[remarkGfm]}
+                        rehypePlugins={[rehypeRaw]}
                     >
                         {currentSlide}
                     </Markdown>
