@@ -15,7 +15,7 @@ dayjs.extend(isBetween);
 function TimeProvider({ children }) {
     const [timeRaw, setTimeRaw] = useState(dayjs().subtract(1, "minute"));
     const [time, setTime] = useState(["12:00", "AM"]);
-    const [date, setDate] = useState("January 1, 1970");
+    const [date, setDate] = useState("Sun Sep 29");
 
     const [hours, setHours] = useLocalStorage("open-hours", {
         monday: {
@@ -88,7 +88,7 @@ function TimeProvider({ children }) {
         const secondInterval = setInterval(() => {
             if (timeRaw.format("m") === dayjs().format("m")) return;
             setTime([dayjs().format("hh:mm"), dayjs().format("A")]);
-            setDate(dayjs().format("MMMM D, YYYY"));
+            setDate(dayjs().format("ddd MMM D"));
             setTimeRaw(dayjs());
         }, 1000);
 

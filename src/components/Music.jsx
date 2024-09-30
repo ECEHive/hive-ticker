@@ -6,7 +6,7 @@ import logo from "../assets/hive_logo_white.svg";
 import useSpotify from "../hooks/useSpotify";
 
 export default function Music() {
-    const { playerState, currentToken, redirectToSpotifyAuthorize } = useSpotify();
+    const { playerState, currentToken } = useSpotify();
 
     const [latestProgress, timestamp, durationMs, durationFormatted] = useMemo(() => {
         if (!playerState) return [0, 0, 0, "0:00"];
@@ -84,6 +84,7 @@ export default function Music() {
                 width="100%"
                 maxWidth="100%"
                 maxHeight="100%"
+                // className="border-t-2 border-[--gray-6]"
                 style={{
                     backgroundImage: `url('${playerState?.item.album.images[0].url}')`,
                     backgroundSize: "100vw 100vh",
@@ -98,7 +99,7 @@ export default function Music() {
                     width="100%"
                     height="100%"
                     style={{
-                        backdropFilter: "blur(50px) brightness(0.4)",
+                        backdropFilter: "blur(100px) brightness(0.25)",
                     }}
                 >
                     {currentToken.access_token ? (
@@ -139,7 +140,7 @@ export default function Music() {
                                             direction="column"
                                             align="start"
                                             justify="start"
-                                            gap="3"
+                                            gap="4"
                                             width="100%"
                                             maxWidth="100%"
                                             overflow="hidden"
@@ -166,7 +167,7 @@ export default function Music() {
                                                     {playerState?.item.name}
                                                 </p>
                                             )}
-                                            <p className="text-5xl text-gray-300">
+                                            <p className="text-5xl text-[--gray-11]">
                                                 {playerState?.item.artists[0].name}
                                             </p>
                                         </Flex>
@@ -197,17 +198,16 @@ export default function Music() {
                         width="auto"
                         height="100%"
                         p="8"
-                        // className="to-[ bg-gradient-to-r from-transparent from-0% to-[--gray-1] to-50%"
+                        // className="to-[ bg-gradient-to-r from-transparent from-0% to-[--gray-1] to-100%"
                     >
                         <img
                             src={logo}
                             width="100%"
                             height="100%"
-                            // className="shadow-xl"
                             style={{
                                 width: "auto",
                                 height: "148px",
-                                filter: "drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.2))",
+                                // filter: "drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.2))",
                             }}
                         />
                     </Flex>

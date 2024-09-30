@@ -21,18 +21,18 @@ export default function Dashboard({}) {
             <Config />
 
             <Grid
-                columns={spotifyEnabled ? "calc(100% - 550px) 550px" : "100%"}
+                columns={spotifyEnabled ? "550px calc(100% - 550px)" : "100%"}
                 rows="calc(100% - 250px) 250px"
                 width="100%"
                 height="100%"
                 maxHeight="100%"
             >
-                <Box gridColumn="1" gridRow="1" width="100%" height="100%">
+                <Box gridColumn="2" gridRow="1" width="100%" height="100%">
                     {/* <Clock /> */}
                     <Notices />
                 </Box>
                 {spotifyEnabled && (
-                    <Box gridColumn="2" gridRow="1" width="100%" height="100%">
+                    <Box gridColumn="1" gridRow="1" width="100%" height="100%">
                         {/* <Music /> */}
                         <SpaceInfo />
                     </Box>
