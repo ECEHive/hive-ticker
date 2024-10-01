@@ -63,7 +63,7 @@ function TimeProvider({ children }) {
                 .set("minute", todayHours.hours[1].split(":")[1]);
 
             // Check if the current time is between the opening and closing hours (including minutes)
-            if (dayjs().isBetween(openTime, closeTime)) {
+            if (dayjs().isBetween(openTime, closeTime, null, "[)")) {
                 return {
                     openNow: true,
                     openToday: true,
