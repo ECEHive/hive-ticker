@@ -1,5 +1,6 @@
+import { Editor } from "@monaco-editor/react";
 import { EyeNoneIcon, EyeOpenIcon, PlusIcon, TrashIcon } from "@radix-ui/react-icons";
-import { AlertDialog, Button, Flex, RadioCards, ScrollArea, Switch, Text, TextArea, TextField } from "@radix-ui/themes";
+import { AlertDialog, Button, Flex, RadioCards, ScrollArea, Switch, Text, TextField } from "@radix-ui/themes";
 import dayjs from "dayjs";
 import { useCallback, useState } from "react";
 import Markdown from "react-markdown";
@@ -74,7 +75,7 @@ export default function AnnouncementEditor({}) {
                     </Flex>
                 </Flex>
 
-                <Flex direction="column" className="min-h-full w-2/3" gap="4">
+                <Flex direction="column" className="min-h-full w-2/3" gap="3">
                     <Flex direction="row" justify="between" align="center" gap="4">
                         <Flex direction="row" align="center" gap="2">
                             <Switch
@@ -122,6 +123,7 @@ export default function AnnouncementEditor({}) {
                     </Flex>
                     <TextField.Root
                         size="2"
+                        className="min-h-[30px]"
                         placeholder="Announcement name"
                         value={selectedSlide?.title}
                         onChange={(e) =>
@@ -140,16 +142,17 @@ export default function AnnouncementEditor({}) {
                             {selectedSlide?.content}
                         </Markdown>
                     ) : (
-                        <TextArea
-                            placeholder="Write some markdown..."
-                            className="h-auto flex-grow"
+                        <Editor
+                            className="w-full flex-grow"
                             value={selectedSlide?.content}
-                            onChange={(e) =>
+                            onChange={(v, e) =>
                                 setSelectedSlide({
                                     ...selectedSlide,
-                                    content: e.target.value,
+                                    content: v,
                                 })
                             }
+                            defaultLanguage="html"
+                            theme="vs-dark"
                         />
                     )}
                     <Flex gap="3" justify="between">
