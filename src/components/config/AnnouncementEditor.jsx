@@ -146,6 +146,12 @@ export default function AnnouncementEditor({}) {
                             <Editor
                                 className="w-full flex-grow"
                                 value={selectedSlide?.content}
+                                options={{
+                                    wordWrap: true,
+                                    minimap: {
+                                        enabled: false,
+                                    },
+                                }}
                                 onChange={(v, e) =>
                                     setSelectedSlide({
                                         ...selectedSlide,
