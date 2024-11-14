@@ -20,6 +20,7 @@ export default {
                         fontSize: "4em",
                         h1: {
                             ...defaultTypograhyStyle,
+                            marginBottom: ".3em",
                         },
                         h2: {
                             ...defaultTypograhyStyle,
