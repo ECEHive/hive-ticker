@@ -32,7 +32,7 @@ export default {
                         },
                         p: {
                             ...defaultTypograhyStyle,
-                            fontSize: "1.2em",
+                            fontSize: "1.275em",
                         },
                         // increase all font sizes in table
                         table: {
