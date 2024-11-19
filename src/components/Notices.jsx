@@ -1,5 +1,5 @@
 import { Box } from "@radix-ui/themes";
-import { motion, useAnimationControls } from "framer-motion";
+import { motion, useAnimationControls } from "motion/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Markdown from "react-markdown";
 import { animateScroll, Element } from "react-scroll";
@@ -76,7 +76,7 @@ export default function Notices({}) {
                 containerId: "container",
             });
 
-            loadSlide(slidesFiltered[currentSlideIndex.current].content);
+            loadSlide(slidesFiltered[currentSlideIndex.current]?.content);
             ready = false;
             runSlide().then(() => {
                 console.log("resolved");

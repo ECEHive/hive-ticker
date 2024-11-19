@@ -26,6 +26,8 @@ export default function SpotifyEditor({}) {
                 />
                 <Text size="2">Show music player</Text>
             </Flex>
+
+            <Text mt="5">If the connect thing isn&apos;t working, tell Colin to whitelist you in the spotify app</Text>
         </Flex>
     );
 }

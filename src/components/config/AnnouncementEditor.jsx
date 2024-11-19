@@ -12,7 +12,7 @@ export default function AnnouncementEditor({}) {
     const { infoSlides, createSlide, updateSlide, deleteSlide } = useInfo();
 
     const [showSlidePreview, setShowSlidePreview] = useState(false);
-    const [selectedSlideIndex, setSelectedSlideIndex] = useState(0);
+    const [selectedSlideIndex, setSelectedSlideIndex] = useState(-1);
     const [selectedSlide, setSelectedSlide] = useState({});
 
     const saveSlide = useCallback(() => {
@@ -43,9 +43,10 @@ export default function AnnouncementEditor({}) {
                         <RadioCards.Root
                             defaultValue="0"
                             columns="1"
-                            onValueChange={(value) => {
-                                setSelectedSlideIndex(value);
-                                setSelectedSlide(infoSlides[value]);
+                            onValueChange={(index) => {
+                                // if (selectedSlideIndex !== index && index !== -1) saveSlide();
+                                setSelectedSlideIndex(index);
+                                setSelectedSlide(infoSlides[index]);
                             }}
                             gap="2"
                             className="pr-3"
@@ -127,12 +128,17 @@ export default function AnnouncementEditor({}) {
                             className="min-h-[30px]"
                             placeholder="Announcement name"
                             value={selectedSlide?.title}
-                            onChange={(e) =>
+                            onChange={(e) => {
                                 setSelectedSlide({
                                     ...selectedSlide,
                                     title: e.target.value,
-                                })
-                            }
+                                });
+                                updateSlide(selectedSlideIndex, {
+                                    ...infoSlides[selectedSlideIndex],
+                                    title: e.target.value,
+                                    timestamp: dayjs(),
+                                });
+                            }}
                         />
                         {showSlidePreview ? (
                             <Markdown
@@ -152,12 +158,17 @@ export default function AnnouncementEditor({}) {
                                         enabled: false,
                                     },
                                 }}
-                                onChange={(v, e) =>
+                                onChange={(v, e) => {
                                     setSelectedSlide({
                                         ...selectedSlide,
                                         content: v,
-                                    })
-                                }
+                                    });
+                                    updateSlide(selectedSlideIndex, {
+                                        ...infoSlides[selectedSlideIndex],
+                                        content: v,
+                                        timestamp: dayjs(),
+                                    });
+                                }}
                                 defaultLanguage="html"
                                 theme="vs-dark"
                             />
@@ -171,7 +182,7 @@ export default function AnnouncementEditor({}) {
                                 ></Switch>
                                 <Text size="2">Preview</Text>
                             </Flex>
-                            <Button
+                            {/* <Button
                                 onClick={saveSlide}
                                 disabled={
                                     // disable if everything between the edited and saved slide is the same except timestamp
@@ -181,7 +192,7 @@ export default function AnnouncementEditor({}) {
                                 }
                             >
                                 Save announcement
-                            </Button>
+                            </Button> */}
                         </Flex>
                     </Flex>
                 )}

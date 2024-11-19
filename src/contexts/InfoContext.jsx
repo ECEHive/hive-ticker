@@ -43,7 +43,7 @@ function InfoProvider({ children }) {
     );
 
     return (
-        <InfoContext.Provider value={{ infoSlides, createSlide, updateSlide, deleteSlide }}>
+        <InfoContext.Provider value={{ infoSlides, createSlide, updateSlide, deleteSlide, setInfoSlides }}>
             {children}
         </InfoContext.Provider>
     );

@@ -6,7 +6,7 @@ import logo from "../assets/hive_logo_white.svg";
 import useSpotify from "../hooks/useSpotify";
 
 export default function Music() {
-    const { playerState, currentToken } = useSpotify();
+    const { playerState, currentToken, spotifyEnabled } = useSpotify();
 
     const [latestProgress, timestamp, durationMs, durationFormatted] = useMemo(() => {
         if (!playerState) return [0, 0, 0, "0:00"];
@@ -87,7 +87,7 @@ export default function Music() {
                 minWidth="100%"
                 // className="border-t-2 border-[--gray-6]"
                 style={{
-                    backgroundImage: `url('${playerState?.item.album.images[0].url}')`,
+                    backgroundImage: spotifyEnabled && `url('${playerState?.item.album.images[0].url}')`,
                     backgroundSize: "100vw 100vh",
                     backgroundPosition: "center",
                     backgroundClip: "content-box",
@@ -100,10 +100,10 @@ export default function Music() {
                     width="100%"
                     height="100%"
                     style={{
-                        backdropFilter: "blur(100px) brightness(0.35)",
+                        backdropFilter: spotifyEnabled && "blur(100px) brightness(0.35)",
                     }}
                 >
-                    {currentToken.access_token ? (
+                    {currentToken.access_token && spotifyEnabled ? (
                         <>
                             {playerState ? (
                                 <Flex
@@ -184,13 +184,15 @@ export default function Music() {
                                     height="100%"
                                     gap="4"
                                 >
-                                    <Text className="text-4xl">No music playing</Text>
+                                    <Text className="text-5xl">No music playing</Text>
                                 </Flex>
                             )}
                         </>
                     ) : (
                         <Flex direction="column" align="center" justify="center" width="100%" height="100%" gap="4">
-                            <Text className="text-center text-4xl">No Spotify account connected</Text>
+                            <Text className="text-center text-5xl">
+                                {spotifyEnabled ? "No Spotify account connected" : "Thanks for coming to The HIVE!"}
+                            </Text>
                         </Flex>
                     )}
                     <Flex
