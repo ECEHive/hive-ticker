@@ -88,7 +88,7 @@ function TimeProvider({ children }) {
         const secondInterval = setInterval(() => {
             if (timeRaw.format("m") === dayjs().format("m")) return;
             setTime([dayjs().format("hh:mm"), dayjs().format("A")]);
-            setDate(dayjs().format("ddd MMM D"));
+            setDate(dayjs().format("dddd MMMM D"));
             setTimeRaw(dayjs());
         }, 1000);
 

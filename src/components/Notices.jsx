@@ -1,5 +1,5 @@
 import { Box } from "@radix-ui/themes";
-import { motion, useAnimationControls } from "motion/react";
+import { AnimatePresence, motion, useAnimationControls } from "motion/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Markdown from "react-markdown";
 import { animateScroll, Element } from "react-scroll";
@@ -40,7 +40,7 @@ export default function Notices({}) {
             setTimeout(() => {
                 const rect = mdRef?.current?.getBoundingClientRect();
                 const duration = Math.max(
-                    rect.y > boxRef.current.clientHeight
+                    rect?.y > boxRef.current.clientHeight
                         ? (rect.y - boxRef.current.clientHeight) / (scrollSpeed / 1000)
                         : 5000,
                     5000,
@@ -93,34 +93,37 @@ export default function Notices({}) {
 
     return (
         <Box minWidth="100%" height="100%" maxWidth="100%" maxHeight="100%" overflow="hidden" ref={boxRef}>
-            <motion.div
-                // fade the div when currentSlide changes
-                exit={{ opacity: 0 }}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                key={currentSlide}
-                className="h-full max-h-full w-full max-w-full"
-            >
-                <Element
-                    name="container"
-                    id="container"
-                    style={{
-                        height: "100%",
-                        width: "100%",
-                        overflow: "hidden",
-                        padding: "48px",
-                    }}
+            <AnimatePresence mode="wait">
+                <motion.div
+                    // fade the div when currentSlide changes
+                    key={currentSlide || "empty"}
+                    initial={{ x: 10, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    exit={{ x: -10, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="h-full max-h-full w-full max-w-full"
                 >
-                    <Markdown
-                        className="prose prose-2xl prose-neutral prose-invert prose-headings:font-bold"
-                        remarkPlugins={[remarkGfm]}
-                        rehypePlugins={[rehypeRaw]}
+                    <Element
+                        name="container"
+                        id="container"
+                        style={{
+                            height: "100%",
+                            width: "100%",
+                            overflow: "hidden",
+                            padding: "48px",
+                        }}
                     >
-                        {currentSlide}
-                    </Markdown>
-                    <div name="bottom" ref={mdRef} />
-                </Element>
-            </motion.div>
+                        <Markdown
+                            className="prose prose-2xl prose-neutral prose-invert prose-headings:font-bold"
+                            remarkPlugins={[remarkGfm]}
+                            rehypePlugins={[rehypeRaw]}
+                        >
+                            {currentSlide}
+                        </Markdown>
+                        <div name="bottom" ref={mdRef} />
+                    </Element>
+                </motion.div>
+            </AnimatePresence>
         </Box>
     );
 }

@@ -10,7 +10,7 @@ export default {
     theme: {
         fontFamily: {
             sans: ['"Sora"', "sans-serif"],
-            serif: ['"Rubik"', "serif"],
+            serif: ['"Sora"', "serif"],
             body: ['"Sora"', "sans-serif"],
         },
         extend: {

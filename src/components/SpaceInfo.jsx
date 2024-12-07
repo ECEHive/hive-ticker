@@ -1,7 +1,7 @@
 import { Box, Flex, Separator, Text } from "@radix-ui/themes";
 import dayjs from "dayjs";
+import { AnimatePresence, motion } from "framer-motion";
 import { useMemo } from "react";
-import TextTransition from "react-text-transition";
 import useTime from "../hooks/useTime";
 
 const digitMap = [
@@ -14,6 +14,10 @@ const digitMap = [
 
 export default function SpaceInfo({}) {
     const { time, openState, date } = useTime();
+
+    const dateLines = useMemo(() => {
+        return date.split(" ");
+    }, [date]);
 
     const timeHelper = useMemo(() => {
         if (!openState?.openToday) return ["Today", "Closed"];
@@ -31,9 +35,9 @@ export default function SpaceInfo({}) {
         console.log(openState);
 
         if (timeUntilOpen.asMinutes() < 60 && timeUntilOpen.asMinutes() > 0) {
-            return ["Opening in", timeUntilOpen.humanize()];
+            return ["Opening", timeUntilOpen.humanize(true)];
         } else if (timeUntilClose.asMinutes() < 60 && timeUntilClose.asMinutes() > 0) {
-            return ["Closing in", timeUntilClose.humanize()];
+            return ["Closing", timeUntilClose.humanize(true)];
         } else if (!openState.openNow) {
             if (dayjs().hour() >= closeTime.hour() && dayjs().minute() >= closeTime.minute()) {
                 return ["Closed", "After hours"];
@@ -59,23 +63,29 @@ export default function SpaceInfo({}) {
             <Flex direction="column" justify="center" align="center" gap="8" height="100%" width="100%">
                 {/* clock */}
                 <Flex direction="column" justify="start" align="start" gap="0" height="auto" width="100%">
-                    <Flex direction="row" align="start" justify="center" gap="0" height="auto" width="auto">
+                    <Flex
+                        direction="row"
+                        align="start"
+                        justify="center"
+                        gap="0"
+                        height="128px"
+                        width="auto"
+                        overflowY="hidden"
+                    >
                         {digitMap.map((digit, index) => {
                             return (
                                 <Flex key={index} width="100%" height="auto" align="center" justify="center">
-                                    <TextTransition
-                                        inline
-                                        delay={(digitMap.length - index) * 100}
-                                        key={index}
-                                        style={{
-                                            fontFamily: "Rubik",
-                                            lineHeight: 1,
-                                            fontSize: "9.25em",
-                                        }}
-                                        className="font-semibold"
-                                    >
-                                        {digit(time[0])}
-                                    </TextTransition>
+                                    <AnimatePresence mode="wait">
+                                        <motion.div
+                                            key={digit(time[0])}
+                                            initial={{ y: "-100%" }}
+                                            animate={{ y: 0 }}
+                                            transition={{ duration: 1, ease: "easeOut" }}
+                                            exit={{ y: "100%" }}
+                                        >
+                                            <p className="text-9xl font-bold">{digit(time[0])}</p>
+                                        </motion.div>
+                                    </AnimatePresence>
                                 </Flex>
                             );
                         })}
@@ -83,23 +93,47 @@ export default function SpaceInfo({}) {
                             <Text className="mb-4 font-sans text-5xl font-medium">{time[1]}</Text>
                         </Flex>
                     </Flex>
-                    <Text className="text-5xl font-medium text-[--gray-11]">{date}</Text>
+
+                    <Flex direction="column" align="start" justify="start" gap="0" height="auto" width="100%">
+                        {dateLines.map((line, index) => {
+                            return (
+                                <Text key={index} className="text-7xl font-medium text-[--gray-11]">
+                                    {line}
+                                </Text>
+                            );
+                        })}
+                    </Flex>
                 </Flex>
 
-                <Separator orientation="horizontal" size="3" className="self-start bg-[--gray-10]" />
+                <Separator orientation="horizontal" size="3" className="w-1/3 self-start bg-[--gray-10]" />
 
-                <Flex direction="column" align="start" justify="start" gap="0" height="auto" width="100%" flexGrow="1">
+                <Flex direction="column" align="start" justify="end" gap="0" height="auto" width="100%" flexGrow="1">
                     {/* <Text className="text-4xl font-medium text-[--gray-11]">9/29/2024</Text> */}
 
                     {/* hours */}
                     {timeHelper && (
                         <Flex direction="column" align="start" justify="center" gap="2" height="auto">
-                            <TextTransition key="timehelp" className="text-5xl">
-                                {timeHelper[0]}
-                            </TextTransition>
-                            <TextTransition key="timehelp1" className="font-serif text-7xl font-semibold">
-                                {timeHelper[1]}
-                            </TextTransition>
+                            <AnimatePresence mode="wait">
+                                <motion.div
+                                    initial={{ x: 20, opacity: 0 }}
+                                    animate={{ x: 0, opacity: 1 }}
+                                    exit={{ x: -20, opacity: 0 }}
+                                    key={timeHelper[0]}
+                                >
+                                    <p className="text-8xl font-medium">{timeHelper[0]}</p>
+                                </motion.div>
+                            </AnimatePresence>
+
+                            <AnimatePresence mode="wait">
+                                <motion.div
+                                    initial={{ x: 20, opacity: 0 }}
+                                    animate={{ x: 0, opacity: 1 }}
+                                    exit={{ x: -20, opacity: 0 }}
+                                    key={timeHelper[0]}
+                                >
+                                    <p className="text-5xl text-[--gray-11]">{timeHelper[1]}</p>
+                                </motion.div>
+                            </AnimatePresence>
                         </Flex>
                     )}
                 </Flex>

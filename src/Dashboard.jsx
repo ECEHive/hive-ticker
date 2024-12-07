@@ -21,7 +21,7 @@ export default function Dashboard({}) {
             <Config />
 
             <Grid
-                columns="auto 1fr"
+                columns="600px 1fr"
                 rows="calc(100% - 235px) 235px"
                 minWidth="100%"
                 width="100%"
