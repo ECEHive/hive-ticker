@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+const { themeVariants, prefersLight, prefersDark } = require("tailwindcss-theme-variants");
 
 const defaultTypograhyStyle = {
     marginTop: ".6em",
@@ -47,5 +48,17 @@ export default {
             },
         },
     },
-    plugins: [require("@tailwindcss/typography")],
+    plugins: [
+        require("@tailwindcss/typography"),
+        themeVariants({
+            themes: {
+                light: {
+                    mediaQuery: prefersLight /* "@media (prefers-color-scheme: light)" */,
+                },
+                dark: {
+                    mediaQuery: prefersDark /* "@media (prefers-color-scheme: dark)" */,
+                },
+            },
+        }),
+    ],
 };

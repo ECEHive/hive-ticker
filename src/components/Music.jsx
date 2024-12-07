@@ -159,7 +159,7 @@ export default function Music() {
                                                     style={{ overflow: "hidden" }}
                                                 >
                                                     <p
-                                                        className="max-w-full text-7xl font-bold text-[--gray-1]"
+                                                        className="max-w-full text-7xl font-bold text-gray-50"
                                                         ref={titleRef}
                                                     >
                                                         {playerState?.item.name}
@@ -172,13 +172,13 @@ export default function Music() {
                                                 </Marquee>
                                             ) : (
                                                 <p
-                                                    className="max-w-full text-7xl font-bold text-[--gray-1]"
+                                                    className="max-w-full text-7xl font-bold text-gray-50"
                                                     ref={titleRef}
                                                 >
                                                     {playerState?.item.name}
                                                 </p>
                                             )}
-                                            <p className="text-5xl text-[--gray-5] dark:text-[--gray-5]">
+                                            <p className="text-5xl text-gray-300">
                                                 {playerState?.item.artists[0].name}
                                             </p>
                                         </Flex>

@@ -1,9 +1,10 @@
-import { createContext, useState } from "react";
+import { useLocalStorage } from "@uidotdev/usehooks";
+import { createContext } from "react";
 
 const ThemeContext = createContext();
 
 function ThemeProvider({ defaultTheme, children }) {
-    const [colorTheme, setColorTheme] = useState(defaultTheme);
+    const [colorTheme, setColorTheme] = useLocalStorage("color-theme", "dark");
 
     return <ThemeContext.Provider value={{ colorTheme, setColorTheme }}>{children}</ThemeContext.Provider>;
 }
