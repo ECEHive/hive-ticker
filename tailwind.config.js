@@ -12,6 +12,7 @@ export default {
             sans: ['"Sora"', "sans-serif"],
             serif: ['"Sora"', "serif"],
             body: ['"Sora"', "sans-serif"],
+            mono: ['"Azeret Mono"', "monospace"],
         },
         extend: {
             typography: {

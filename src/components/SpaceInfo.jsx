@@ -20,7 +20,7 @@ export default function SpaceInfo({}) {
     }, [date]);
 
     const timeHelper = useMemo(() => {
-        if (!openState?.openToday) return ["Today", "Closed"];
+        if (!openState?.openToday) return ["Closed", "Today"];
 
         const openTime = dayjs()
             .set("hour", openState.hours[0].split(":")[0])
@@ -45,7 +45,7 @@ export default function SpaceInfo({}) {
                 return ["Closed", "Before hours"];
             }
         } else {
-            return ["Today's hours", `${openTime.format("hA")} - ${closeTime.format("hA")}`];
+            return [`${openTime.format("hA")} - ${closeTime.format("hA")}`, "Today's hours"];
         }
     }, [openState]);
 
@@ -63,34 +63,41 @@ export default function SpaceInfo({}) {
             <Flex direction="column" justify="center" align="center" gap="8" height="100%" width="100%">
                 {/* clock */}
                 <Flex direction="column" justify="start" align="start" gap="0" height="auto" width="100%">
-                    <Flex
-                        direction="row"
-                        align="start"
-                        justify="center"
-                        gap="0"
-                        height="128px"
-                        width="auto"
-                        overflowY="hidden"
-                    >
+                    <Flex direction="row" align="start" justify="center" gap="0" height="auto" width="auto">
                         {digitMap.map((digit, index) => {
                             return (
-                                <Flex key={index} width="100%" height="auto" align="center" justify="center">
-                                    <AnimatePresence mode="wait">
-                                        <motion.div
-                                            key={digit(time[0])}
-                                            initial={{ y: "-100%" }}
-                                            animate={{ y: 0 }}
-                                            transition={{ duration: 1, ease: "easeOut" }}
-                                            exit={{ y: "100%" }}
-                                        >
-                                            <p className="text-9xl font-bold">{digit(time[0])}</p>
-                                        </motion.div>
-                                    </AnimatePresence>
-                                </Flex>
+                                // <Flex
+                                //     key={index}
+                                //     width="100%"
+                                //     height="auto"
+                                //     direction="column"
+                                //     align="center"
+                                //     justify="start"
+                                // >
+                                <AnimatePresence mode="popLayout" key={index}>
+                                    <motion.div
+                                        key={digit(time[0])}
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        exit={{ opacity: 0 }}
+                                        transition={{ duration: 0.2, ease: "easeOut" }}
+                                    >
+                                        {digit(time[0]) !== ":" ? (
+                                            <p className="font-mono text-[9.25rem] font-semibold leading-none">
+                                                {digit(time[0])}
+                                            </p>
+                                        ) : (
+                                            <p className="font-sans text-[9.25rem] font-medium leading-none">
+                                                {digit(time[0])}
+                                            </p>
+                                        )}
+                                    </motion.div>
+                                </AnimatePresence>
+                                // </Flex>
                             );
                         })}
                         <Flex width="auto" height="100%" align="end" justify="center">
-                            <Text className="mb-4 font-sans text-5xl font-medium">{time[1]}</Text>
+                            <Text className="mb-3 font-sans text-5xl font-medium">{time[1]}</Text>
                         </Flex>
                     </Flex>
 
@@ -120,7 +127,11 @@ export default function SpaceInfo({}) {
                                     exit={{ x: -20, opacity: 0 }}
                                     key={timeHelper[0]}
                                 >
-                                    <p className="text-8xl font-medium">{timeHelper[0]}</p>
+                                    <p
+                                        className={`${openState?.openNow ? "font-mono" : "font-sans"} text-8xl font-medium`}
+                                    >
+                                        {timeHelper[0]}
+                                    </p>
                                 </motion.div>
                             </AnimatePresence>
 
@@ -131,7 +142,7 @@ export default function SpaceInfo({}) {
                                     exit={{ x: -20, opacity: 0 }}
                                     key={timeHelper[0]}
                                 >
-                                    <p className="text-5xl text-[--gray-11]">{timeHelper[1]}</p>
+                                    <p className="text-5xl font-medium text-[--gray-11]">{timeHelper[1]}</p>
                                 </motion.div>
                             </AnimatePresence>
                         </Flex>
