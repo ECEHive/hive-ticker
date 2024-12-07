@@ -7,9 +7,11 @@ import Markdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 import useInfo from "../../hooks/useInfo";
+import useTheme from "../../hooks/useTheme";
 
 export default function AnnouncementEditor({}) {
     const { infoSlides, createSlide, updateSlide, deleteSlide } = useInfo();
+    const { colorTheme } = useTheme();
 
     const [showSlidePreview, setShowSlidePreview] = useState(false);
     const [selectedSlideIndex, setSelectedSlideIndex] = useState(-1);
@@ -142,7 +144,7 @@ export default function AnnouncementEditor({}) {
                         />
                         {showSlidePreview ? (
                             <Markdown
-                                className="prose prose-lg prose-neutral prose-invert h-auto w-full flex-grow overflow-auto px-2 prose-headings:font-bold"
+                                className={`prose prose-lg prose-neutral ${colorTheme === "dark" && "prose-invert"} h-auto w-full flex-grow overflow-auto px-2 prose-headings:font-bold`}
                                 remarkPlugins={[remarkGfm]}
                                 rehypePlugins={[rehypeRaw]}
                             >

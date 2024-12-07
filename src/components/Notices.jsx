@@ -6,9 +6,11 @@ import { animateScroll, Element } from "react-scroll";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 import useInfo from "../hooks/useInfo";
+import useTheme from "../hooks/useTheme";
 
 export default function Notices({}) {
     const { infoSlides } = useInfo();
+    const { colorTheme } = useTheme();
 
     const mdRef = useRef(null);
     const boxRef = useRef(null);
@@ -114,7 +116,7 @@ export default function Notices({}) {
                         }}
                     >
                         <Markdown
-                            className="prose prose-2xl prose-neutral prose-invert prose-headings:font-bold"
+                            className={`prose prose-2xl prose-neutral ${colorTheme === "dark" && "prose-invert"}`}
                             remarkPlugins={[remarkGfm]}
                             rehypePlugins={[rehypeRaw]}
                         >

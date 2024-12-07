@@ -1,43 +1,44 @@
 import { Box, Flex, Text } from "@radix-ui/themes";
-import dayjs from "dayjs";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Marquee from "react-fast-marquee";
 import logo from "../assets/hive_logo_white.svg";
 import useSpotify from "../hooks/useSpotify";
+import useTheme from "../hooks/useTheme";
 
 export default function Music() {
     const { playerState, currentToken, spotifyEnabled } = useSpotify();
+    const { colorTheme } = useTheme();
 
-    const [latestProgress, timestamp, durationMs, durationFormatted] = useMemo(() => {
-        if (!playerState) return [0, 0, 0, "0:00"];
+    // const [latestProgress, timestamp, durationMs, durationFormatted] = useMemo(() => {
+    //     if (!playerState) return [0, 0, 0, "0:00"];
 
-        return [
-            playerState?.progress_ms,
-            dayjs.utc(),
-            dayjs.duration(playerState?.item.duration_ms),
-            dayjs.duration(playerState?.item.duration_ms).format("m:ss"),
-        ];
-    }, [playerState]);
+    //     return [
+    //         playerState?.progress_ms,
+    //         dayjs.utc(),
+    //         dayjs.duration(playerState?.item.duration_ms),
+    //         dayjs.duration(playerState?.item.duration_ms).format("m:ss"),
+    //     ];
+    // }, [playerState]);
 
-    const [progressMs, setProgressMs] = useState(0);
-    const [progressFormatted, setProgressFormatted] = useState("0:00");
+    // const [progressMs, setProgressMs] = useState(0);
+    // const [progressFormatted, setProgressFormatted] = useState("0:00");
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            if (!playerState?.is_playing) return;
-            const progress = dayjs.duration(dayjs.utc().diff(dayjs(timestamp), "ms")).add(latestProgress, "ms");
-            const min = dayjs.duration(Math.min(progress.asMilliseconds(), durationMs.asMilliseconds()));
-            setProgressMs(min.asMilliseconds());
-            setProgressFormatted(min.format("m:ss"));
-        }, 1000);
+    // useEffect(() => {
+    //     const interval = setInterval(() => {
+    //         if (!playerState?.is_playing) return;
+    //         // const progress = dayjs.duration(dayjs.utc().diff(dayjs(timestamp), "ms")).add(latestProgress, "ms");
+    //         // const min = dayjs.duration(Math.min(progress.asMilliseconds(), durationMs.asMilliseconds()));
+    //         // setProgressMs(min.asMilliseconds());
+    //         // setProgressFormatted(min.format("m:ss"));
+    //     }, 1000);
 
-        return () => clearInterval(interval);
-    }, [latestProgress, timestamp, playerState, durationMs]);
+    //     return () => clearInterval(interval);
+    // }, [latestProgress, timestamp, playerState, durationMs]);
 
-    const progressPercent = useMemo(() => {
-        if (!playerState) return 0;
-        return Math.min((progressMs / durationMs) * 100, 100);
-    }, [progressMs, durationMs, playerState]);
+    // const progressPercent = useMemo(() => {
+    //     if (!playerState) return 0;
+    //     return Math.min((progressMs / durationMs) * 100, 100);
+    // }, [progressMs, durationMs, playerState]);
 
     const [playMarquee, setPlayMarquee] = useState(true);
     const [currentTrackId, setcurrentTrackId] = useState(null);
@@ -100,7 +101,9 @@ export default function Music() {
                     width="100%"
                     height="100%"
                     style={{
-                        backdropFilter: spotifyEnabled && "blur(100px) brightness(0.35)",
+                        backdropFilter:
+                            spotifyEnabled &&
+                            `blur(100px) ${colorTheme === "dark" ? "brightness(0.35)" : "brightness(.7)"}`,
                     }}
                 >
                     {currentToken.access_token && spotifyEnabled ? (
@@ -155,7 +158,10 @@ export default function Music() {
                                                     loop={0}
                                                     style={{ overflow: "hidden" }}
                                                 >
-                                                    <p className="max-w-full text-7xl font-bold" ref={titleRef}>
+                                                    <p
+                                                        className="max-w-full text-7xl font-bold text-[--gray-1]"
+                                                        ref={titleRef}
+                                                    >
                                                         {playerState?.item.name}
                                                     </p>
                                                     <div
@@ -165,11 +171,14 @@ export default function Music() {
                                                     />
                                                 </Marquee>
                                             ) : (
-                                                <p className="max-w-full text-7xl font-bold" ref={titleRef}>
+                                                <p
+                                                    className="max-w-full text-7xl font-bold text-[--gray-1]"
+                                                    ref={titleRef}
+                                                >
                                                     {playerState?.item.name}
                                                 </p>
                                             )}
-                                            <p className="text-5xl text-[--gray-11]">
+                                            <p className="text-5xl text-[--gray-5] dark:text-[--gray-5]">
                                                 {playerState?.item.artists[0].name}
                                             </p>
                                         </Flex>
@@ -191,7 +200,7 @@ export default function Music() {
                     ) : (
                         <Flex direction="column" align="center" justify="center" width="100%" height="100%" gap="4">
                             <Text className="text-center text-5xl">
-                                {spotifyEnabled ? "No Spotify account connected" : "Thanks for coming to The HIVE!"}
+                                {spotifyEnabled ? "No Spotify account connected" : "Thanks for visiting The HIVE!"}
                             </Text>
                         </Flex>
                     )}
@@ -211,6 +220,7 @@ export default function Music() {
                             style={{
                                 width: "auto",
                                 height: "136px",
+                                // filter: colorTheme === "light" && "invert(1)",
                                 // filter: "drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.2))",
                             }}
                         />

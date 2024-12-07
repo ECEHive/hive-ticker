@@ -62,7 +62,7 @@ export default function SpaceInfo({}) {
         >
             <Flex direction="column" justify="center" align="center" gap="8" height="100%" width="100%">
                 {/* clock */}
-                <Flex direction="column" justify="start" align="start" gap="0" height="auto" width="100%">
+                <Flex direction="column" justify="start" align="start" gap="2" height="auto" width="100%">
                     <Flex direction="row" align="start" justify="center" gap="0" height="auto" width="auto">
                         {digitMap.map((digit, index) => {
                             return (
@@ -128,7 +128,7 @@ export default function SpaceInfo({}) {
                                     key={timeHelper[0]}
                                 >
                                     <p
-                                        className={`${openState?.openNow ? "font-mono" : "font-sans"} text-8xl font-medium`}
+                                        className={`${timeHelper[0] !== "Closing" && openState.openNow ? "font-mono" : "font-sans"} text-8xl font-medium`}
                                     >
                                         {timeHelper[0]}
                                     </p>
@@ -140,7 +140,7 @@ export default function SpaceInfo({}) {
                                     initial={{ x: 20, opacity: 0 }}
                                     animate={{ x: 0, opacity: 1 }}
                                     exit={{ x: -20, opacity: 0 }}
-                                    key={timeHelper[0]}
+                                    key={timeHelper[1]}
                                 >
                                     <p className="text-5xl font-medium text-[--gray-11]">{timeHelper[1]}</p>
                                 </motion.div>
