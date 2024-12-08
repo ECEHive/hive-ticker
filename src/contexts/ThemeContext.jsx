@@ -6,7 +6,11 @@ const ThemeContext = createContext();
 function ThemeProvider({ defaultTheme, children }) {
     const [colorTheme, setColorTheme] = useLocalStorage("color-theme", "dark");
 
-    return <ThemeContext.Provider value={{ colorTheme, setColorTheme }}>{children}</ThemeContext.Provider>;
+    const toggleColorTheme = () => {
+        setColorTheme((prev) => (prev === "light" ? "dark" : "light"));
+    };
+
+    return <ThemeContext.Provider value={{ colorTheme, toggleColorTheme }}>{children}</ThemeContext.Provider>;
 }
 
 export { ThemeContext, ThemeProvider };

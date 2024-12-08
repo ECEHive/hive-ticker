@@ -58,11 +58,12 @@ export default function SpaceInfo({}) {
             maxHeight="100%"
             maxWidth="100%"
             p="8"
+            pr="0"
             // className="overflow-hidden border-r-2 border-[--gray-6]"
         >
             <Flex direction="column" justify="center" align="center" gap="8" height="100%" width="100%">
                 {/* clock */}
-                <Flex direction="column" justify="start" align="start" gap="2" height="auto" width="100%">
+                <Flex direction="column" justify="start" align="start" gap="1" height="auto" width="100%">
                     <Flex direction="row" align="start" justify="center" gap="0" height="auto" width="auto">
                         {digitMap.map((digit, index) => {
                             return (
@@ -83,11 +84,11 @@ export default function SpaceInfo({}) {
                                         transition={{ duration: 0.2, ease: "easeOut" }}
                                     >
                                         {digit(time[0]) !== ":" ? (
-                                            <p className="font-mono text-[9.25rem] font-semibold leading-none">
+                                            <p className="font-mono text-[9.8rem] font-semibold leading-none">
                                                 {digit(time[0])}
                                             </p>
                                         ) : (
-                                            <p className="font-sans text-[9.25rem] font-medium leading-none">
+                                            <p className="font-sans text-[9.8rem] font-medium leading-none">
                                                 {digit(time[0])}
                                             </p>
                                         )}
@@ -96,8 +97,9 @@ export default function SpaceInfo({}) {
                                 // </Flex>
                             );
                         })}
-                        <Flex width="auto" height="100%" align="end" justify="center">
-                            <Text className="mb-3 font-sans text-5xl font-medium">{time[1]}</Text>
+                        <Flex width="auto" height="100%" direction="column" align="start" justify="end">
+                            <Text className="font-mono text-5xl font-medium">{time[1].slice(0, 1)}</Text>
+                            <Text className="font-mono mb-3 text-5xl font-medium">{time[1].slice(1, 2)}</Text>
                         </Flex>
                     </Flex>
 

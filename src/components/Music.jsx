@@ -87,6 +87,7 @@ export default function Music() {
                 maxHeight="100%"
                 minWidth="100%"
                 // className="border-t-2 border-[--gray-6]"
+
                 style={{
                     backgroundImage: spotifyEnabled && `url('${playerState?.item.album.images[0].url}')`,
                     backgroundSize: "100vw 100vh",
