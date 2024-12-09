@@ -1,7 +1,8 @@
-import { Box, Flex, Separator, Text } from "@radix-ui/themes";
+import { Box, Flex, Text } from "@radix-ui/themes";
 import dayjs from "dayjs";
 import { AnimatePresence, motion } from "framer-motion";
 import { useMemo } from "react";
+import useTheme from "../hooks/useTheme";
 import useTime from "../hooks/useTime";
 
 const digitMap = [
@@ -14,6 +15,7 @@ const digitMap = [
 
 export default function SpaceInfo({}) {
     const { time, openState, date } = useTime();
+    const { colorTheme } = useTheme();
 
     const dateLines = useMemo(() => {
         return date.split(" ");
@@ -57,8 +59,6 @@ export default function SpaceInfo({}) {
             minWidth="525px"
             maxHeight="100%"
             maxWidth="100%"
-            p="8"
-            pr="0"
             // className="overflow-hidden border-r-2 border-[--gray-6]"
         >
             <Flex direction="column" justify="center" align="center" gap="8" height="100%" width="100%">
@@ -67,14 +67,6 @@ export default function SpaceInfo({}) {
                     <Flex direction="row" align="start" justify="center" gap="0" height="auto" width="auto">
                         {digitMap.map((digit, index) => {
                             return (
-                                // <Flex
-                                //     key={index}
-                                //     width="100%"
-                                //     height="auto"
-                                //     direction="column"
-                                //     align="center"
-                                //     justify="start"
-                                // >
                                 <AnimatePresence mode="popLayout" key={index}>
                                     <motion.div
                                         key={digit(time[0])}
@@ -94,12 +86,11 @@ export default function SpaceInfo({}) {
                                         )}
                                     </motion.div>
                                 </AnimatePresence>
-                                // </Flex>
                             );
                         })}
-                        <Flex width="auto" height="100%" direction="column" align="start" justify="end">
+                        <Flex width="auto" height="100%" direction="column" align="start" justify="end" gap="0">
                             <Text className="font-mono text-5xl font-medium">{time[1].slice(0, 1)}</Text>
-                            <Text className="font-mono mb-3 text-5xl font-medium">{time[1].slice(1, 2)}</Text>
+                            <Text className="font-mono mb-4 text-5xl font-medium">{time[1].slice(1, 2)}</Text>
                         </Flex>
                     </Flex>
 
@@ -114,7 +105,20 @@ export default function SpaceInfo({}) {
                     </Flex>
                 </Flex>
 
-                <Separator orientation="horizontal" size="3" className="w-1/3 self-start bg-[--gray-10]" />
+                {/* <Flex dir="row" align="center" justify="start" gap="4" height="auto" width="100%">
+                    <Separator orientation="horizontal" size="3" className="w-1/2 bg-[--gray-10]" />
+                    <img
+                        src={logo}
+                        // width="100%"
+                        // height="100%"
+                        style={{
+                            width: "auto",
+                            height: "50px",
+                            filter: colorTheme === "light" && "invert(1)",
+                            // filter: "drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.2))",
+                        }}
+                    /> 
+                </Flex> */}
 
                 <Flex direction="column" align="start" justify="end" gap="0" height="auto" width="100%" flexGrow="1">
                     {/* <Text className="text-4xl font-medium text-[--gray-11]">9/29/2024</Text> */}

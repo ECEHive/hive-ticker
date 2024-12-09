@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from "@radix-ui/themes";
+import { Box, Flex } from "@radix-ui/themes";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Marquee from "react-fast-marquee";
 import logo from "../assets/hive_logo_white.svg";
@@ -74,159 +74,156 @@ export default function Music() {
             setTimeout(() => {
                 setEnableMarquee(titleRef.current.offsetWidth > infoRef.current.offsetWidth);
                 setDisableWait(false);
-            }, 100);
+            }, 1);
         }
     }, [playerState, titleRef, infoRef, currentTrackId]);
 
     return (
         <>
-            <Box
-                height="100%"
-                width="100%"
-                maxWidth="100%"
-                maxHeight="100%"
-                minWidth="100%"
-                // className="border-t-2 border-[--gray-6]"
+            <Box height="auto" width="100%" maxWidth="100%" minWidth="100%">
+                {spotifyEnabled && playerState ? (
+                    <Box
+                        // className="border-t-2 border-[--gray-6]"
+                        className="mx-8 mb-8 h-[200px] w-auto rounded-2xl shadow-md"
+                        // className="h-[250px] w-full"
+                        style={{
+                            backgroundImage: spotifyEnabled && `url('${playerState?.item.album.images[0].url}')`,
+                            backgroundSize: "100vw 100vh",
+                            backgroundPosition: "center",
+                            backgroundClip: "border-box",
+                        }}
+                    >
+                        <Flex
+                            direction="row"
+                            align="center"
+                            justify="between"
+                            width="100%"
+                            height="100%"
+                            style={{
+                                backdropFilter:
+                                    spotifyEnabled &&
+                                    playerState &&
+                                    `blur(100px) ${colorTheme === "dark" ? "brightness(0.35)" : "brightness(.7)"}`,
+                            }}
+                            className="rounded-2xl"
+                        >
+                            <Flex
+                                width="100%"
+                                height="100%"
+                                maxHeight="100%"
+                                maxWidth="100%"
+                                overflow="hidden"
+                                direction="row"
+                                align="center"
+                                justify="start"
+                                gap="8"
+                                p="6"
+                                // px="8"
+                            >
+                                <img
+                                    src={playerState?.item.album.images[0].url}
+                                    alt="album cover"
+                                    className="h-full rounded-lg"
+                                />
 
-                style={{
-                    backgroundImage: spotifyEnabled && `url('${playerState?.item.album.images[0].url}')`,
-                    backgroundSize: "100vw 100vh",
-                    backgroundPosition: "center",
-                    backgroundClip: "content-box",
-                }}
-            >
-                <Flex
-                    direction="row"
-                    align="center"
-                    justify="between"
-                    width="100%"
-                    height="100%"
-                    style={{
-                        backdropFilter:
-                            spotifyEnabled &&
-                            `blur(100px) ${colorTheme === "dark" ? "brightness(0.35)" : "brightness(.7)"}`,
-                    }}
-                >
-                    {currentToken.access_token && spotifyEnabled ? (
-                        <>
-                            {playerState ? (
                                 <Flex
+                                    direction="column"
+                                    align="start"
+                                    justify="center"
+                                    gap="4"
                                     width="100%"
-                                    height="100%"
-                                    maxHeight="100%"
                                     maxWidth="100%"
+                                    height="100%"
                                     overflow="hidden"
-                                    direction="row"
-                                    align="center"
-                                    justify="start"
-                                    gap="8"
-                                    p="6"
-                                    // px="8"
+                                    // p="4"
                                 >
-                                    <img
-                                        src={playerState?.item.album.images[0].url}
-                                        alt="album cover"
-                                        style={{
-                                            height: "100%",
-                                        }}
-                                    />
-
                                     <Flex
                                         direction="column"
                                         align="start"
-                                        justify="center"
+                                        justify="start"
                                         gap="4"
                                         width="100%"
                                         maxWidth="100%"
-                                        height="100%"
                                         overflow="hidden"
-                                        // p="4"
+                                        ref={infoRef}
                                     >
-                                        <Flex
-                                            direction="column"
-                                            align="start"
-                                            justify="start"
-                                            gap="4"
-                                            width="100%"
-                                            maxWidth="100%"
-                                            overflow="hidden"
-                                            ref={infoRef}
-                                        >
-                                            {enableMarquee ? (
-                                                <Marquee
-                                                    onCycleComplete={pauseMarquee}
-                                                    play={playMarquee}
-                                                    loop={0}
-                                                    style={{ overflow: "hidden" }}
-                                                >
-                                                    <p
-                                                        className="max-w-full text-7xl font-bold text-gray-50"
-                                                        ref={titleRef}
-                                                    >
-                                                        {playerState?.item.name}
-                                                    </p>
-                                                    <div
-                                                        style={{
-                                                            width: "120px",
-                                                        }}
-                                                    />
-                                                </Marquee>
-                                            ) : (
+                                        {enableMarquee ? (
+                                            <Marquee
+                                                onCycleComplete={pauseMarquee}
+                                                play={playMarquee}
+                                                loop={0}
+                                                style={{ overflow: "hidden" }}
+                                            >
                                                 <p
-                                                    className="max-w-full text-7xl font-bold text-gray-50"
+                                                    className="max-w-full text-6xl font-bold text-gray-50"
                                                     ref={titleRef}
                                                 >
                                                     {playerState?.item.name}
                                                 </p>
-                                            )}
-                                            <p className="text-5xl text-gray-300">
-                                                {playerState?.item.artists[0].name}
+                                                <div
+                                                    style={{
+                                                        width: "120px",
+                                                    }}
+                                                />
+                                            </Marquee>
+                                        ) : (
+                                            <p className="max-w-full text-6xl font-bold text-gray-50" ref={titleRef}>
+                                                {playerState?.item.name}
                                             </p>
-                                        </Flex>
+                                        )}
+                                        <p className="text-4xl text-gray-300">{playerState?.item.artists[0].name}</p>
                                     </Flex>
                                 </Flex>
-                            ) : (
-                                <Flex
-                                    direction="column"
-                                    align="center"
-                                    justify="center"
-                                    width="100%"
-                                    height="100%"
-                                    gap="4"
-                                >
-                                    <Text className="text-5xl">No music playing</Text>
-                                </Flex>
-                            )}
-                        </>
-                    ) : (
-                        <Flex direction="column" align="center" justify="center" width="100%" height="100%" gap="4">
-                            <Text className="text-center text-5xl">
-                                {spotifyEnabled ? "No Spotify account connected" : "Thanks for visiting The HIVE!"}
-                            </Text>
+                            </Flex>
+                            <Flex
+                                direction="column"
+                                justify="center"
+                                align="center"
+                                width="auto"
+                                height="100%"
+                                p="8"
+                                // className="to-[ bg-gradient-to-r from-transparent from-0% to-[--gray-1] to-100%"
+                            >
+                                <img
+                                    src={logo}
+                                    // width="100%"
+                                    // height="100%"
+                                    style={{
+                                        width: "auto",
+                                        height: "90%",
+                                        // filter: colorTheme === "light" && "invert(1)",
+                                        // filter: "drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.2))",
+                                    }}
+                                />
+                            </Flex>
                         </Flex>
-                    )}
-                    <Flex
-                        direction="column"
-                        justify="center"
-                        align="center"
-                        width="auto"
-                        height="100%"
-                        p="8"
-                        // className="to-[ bg-gradient-to-r from-transparent from-0% to-[--gray-1] to-100%"
-                    >
-                        <img
-                            src={logo}
-                            width="100%"
-                            height="100%"
-                            style={{
-                                width: "auto",
-                                height: "136px",
-                                // filter: colorTheme === "light" && "invert(1)",
-                                // filter: "drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.2))",
-                            }}
-                        />
-                    </Flex>
-                </Flex>
+                    </Box>
+                ) : (
+                    <>
+                        <Box className="mb-8 h-[50px] w-full">
+                            <Flex
+                                direction="row"
+                                justify="center"
+                                align="center"
+                                width="auto"
+                                height="100%"
+                                // className="to-[ bg-gradient-to-r from-transparent from-0% to-[--gray-1] to-100%"
+                            >
+                                <img
+                                    src={logo}
+                                    // width="100%"
+                                    // height="100%"
+                                    style={{
+                                        width: "auto",
+                                        height: "90%",
+                                        filter: colorTheme === "light" && "invert(1)",
+                                        // filter: "drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.2))",
+                                    }}
+                                />
+                            </Flex>
+                        </Box>
+                    </>
+                )}
             </Box>
         </>
     );

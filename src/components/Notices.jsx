@@ -1,5 +1,5 @@
 import { Box } from "@radix-ui/themes";
-import { AnimatePresence, motion, useAnimationControls } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Markdown from "react-markdown";
 import { animateScroll, Element } from "react-scroll";
@@ -16,7 +16,6 @@ export default function Notices({}) {
     const boxRef = useRef(null);
 
     const [currentSlide, setCurrentSlide] = useState(``);
-    const animationControls = useAnimationControls();
     const currentSlideIndex = useRef(0);
 
     const slidesFiltered = useMemo(() => {
@@ -71,9 +70,9 @@ export default function Notices({}) {
                 currentSlideIndex.current = 0;
             }
             animateScroll.scrollToTop({
-                duration: 0,
+                duration: 750,
                 delay: 0,
-                smooth: "linear",
+                smooth: true,
                 spy: true,
                 containerId: "container",
             });
@@ -94,7 +93,18 @@ export default function Notices({}) {
     }, [runSlide, slidesFiltered, loadSlide]);
 
     return (
-        <Box minWidth="100%" height="100%" maxWidth="100%" maxHeight="100%" overflow="hidden" ref={boxRef}>
+        <Box
+            minWidth="100%"
+            height="100%"
+            maxWidth="100%"
+            maxHeight="100%"
+            overflow="visible"
+            ref={boxRef}
+
+            // style={{
+            //     maskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 90%, rgba(0,0,0,0))",
+            // }}
+        >
             <AnimatePresence mode="wait">
                 <motion.div
                     // fade the div when currentSlide changes
@@ -112,11 +122,10 @@ export default function Notices({}) {
                             height: "100%",
                             width: "100%",
                             overflow: "hidden",
-                            padding: "48px",
                         }}
                     >
                         <Markdown
-                            className={`prose prose-2xl prose-neutral ${colorTheme === "dark" && "prose-invert"}`}
+                            className={`prose prose-2xl prose-neutral ${colorTheme === "dark" && "prose-invert"} overflow-hidden`}
                             remarkPlugins={[remarkGfm]}
                             rehypePlugins={[rehypeRaw]}
                         >

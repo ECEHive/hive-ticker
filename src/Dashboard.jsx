@@ -1,4 +1,4 @@
-import { Box, Grid } from "@radix-ui/themes";
+import { Box, Flex } from "@radix-ui/themes";
 import Config from "./components/Config";
 import Music from "./components/Music";
 import Notices from "./components/Notices";
@@ -20,24 +20,36 @@ export default function Dashboard({}) {
         >
             <Config />
 
-            <Grid
+            <Flex
+                direction="column"
+                // gap="6"
+                height="100%"
+                width="100%"
+                maxHeight="100vh"
+                overflow="hidden"
+                display="inline-flex"
+            >
+                {/* <Grid
                 columns="550px calc(100% - 550px)"
-                rows="calc(100% - 235px) 235px"
+                rows="1fr auto"
                 minWidth="100%"
                 width="100%"
                 height="100%"
                 maxHeight="100%"
-            >
-                <Box gridColumn="2" gridRow="1" width="100%" height="100%">
-                    <Notices />
-                </Box>
-                <Box gridColumn="1" gridRow="1" width="100%" minWidth="100%" height="100%">
-                    <SpaceInfo />
-                </Box>
-                <Box gridColumn="1/3" gridRow="2" height="100%" width="100%">
+            > */}
+                <Flex direction="row" height="100%" minHeight="0px" width="100%" gap="8" p="7">
+                    <Box width="550px" height="100%">
+                        <SpaceInfo />
+                    </Box>
+                    <Box width="100%" height="100%">
+                        <Notices />
+                    </Box>
+                </Flex>
+                <Box height="auto" width="100%">
                     <Music />
                 </Box>
-            </Grid>
+            </Flex>
+            {/* </Grid> */}
         </Box>
     );
 }
