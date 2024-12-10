@@ -84,8 +84,8 @@ export default function Music() {
                 {spotifyEnabled && playerState ? (
                     <Box
                         // className="border-t-2 border-[--gray-6]"
-                        className="mx-8 mb-8 h-[200px] w-auto rounded-2xl shadow-md"
-                        // className="h-[250px] w-full"
+                        // className="mx-8 mb-8 h-[200px] w-auto rounded-2xl shadow-md"
+                        className="h-[200px] w-full"
                         style={{
                             backgroundImage: spotifyEnabled && `url('${playerState?.item.album.images[0].url}')`,
                             backgroundSize: "100vw 100vh",
@@ -103,9 +103,9 @@ export default function Music() {
                                 backdropFilter:
                                     spotifyEnabled &&
                                     playerState &&
-                                    `blur(100px) ${colorTheme === "dark" ? "brightness(0.35)" : "brightness(.7)"}`,
+                                    `blur(100px) ${colorTheme === "dark" ? "brightness(0.2)" : "brightness(.7)"}`,
                             }}
-                            className="rounded-2xl"
+                            // className="rounded-2xl"
                         >
                             <Flex
                                 width="100%"
@@ -152,7 +152,11 @@ export default function Music() {
                                                 onCycleComplete={pauseMarquee}
                                                 play={playMarquee}
                                                 loop={0}
-                                                style={{ overflow: "hidden" }}
+                                                style={{
+                                                    overflow: "hidden",
+                                                    maskImage:
+                                                        "linear-gradient(to left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1) 10%)",
+                                                }}
                                             >
                                                 <p
                                                     className="max-w-full text-6xl font-bold text-gray-50"

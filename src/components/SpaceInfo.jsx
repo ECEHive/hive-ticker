@@ -53,12 +53,13 @@ export default function SpaceInfo({}) {
 
     return (
         <Box
-            width="100%"
+            width="auto"
             height="100%"
             minHeight="100%"
-            minWidth="525px"
+            maxWidth="650px"
             maxHeight="100%"
-            maxWidth="100%"
+            p="7"
+            pr="7"
             // className="overflow-hidden border-r-2 border-[--gray-6]"
         >
             <Flex direction="column" justify="center" align="center" gap="8" height="100%" width="100%">
@@ -134,7 +135,7 @@ export default function SpaceInfo({}) {
                                     key={timeHelper[0]}
                                 >
                                     <p
-                                        className={`${timeHelper[0] !== "Closing" && openState.openNow ? "font-mono" : "font-sans"} text-8xl font-medium`}
+                                        className={`${timeHelper[0] !== "Closing" && openState.openNow ? "font-mono" : "font-sans"} text-8xl font-semibold`}
                                     >
                                         {timeHelper[0]}
                                     </p>
