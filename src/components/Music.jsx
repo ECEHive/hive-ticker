@@ -204,7 +204,7 @@ export default function Music() {
                     </Box>
                 ) : (
                     <>
-                        <Box className="mb-8 h-[50px] w-full">
+                        <Box className="h-[75px] w-full p-4">
                             <Flex
                                 direction="row"
                                 justify="center"
