@@ -123,7 +123,7 @@ export default function Music() {
                                 <img
                                     src={playerState?.item.album.images[0].url}
                                     alt="album cover"
-                                    className="h-full rounded-lg"
+                                    className="h-full rounded-lg border-[1px] border-solid border-slate-400/30"
                                 />
 
                                 <Flex

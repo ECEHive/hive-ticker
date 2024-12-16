@@ -99,7 +99,7 @@ export default function Notices({}) {
             maxWidth="100%"
             maxHeight="100%"
             overflow="visible"
-            p="7"
+            // p="7"
             ref={boxRef}
 
             // style={{
@@ -122,6 +122,7 @@ export default function Notices({}) {
                         style={{
                             height: "100%",
                             width: "100%",
+                            padding: "40px",
                             overflow: "hidden",
                         }}
                     >
