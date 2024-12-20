@@ -89,9 +89,9 @@ export default function SpaceInfo({}) {
                                 </AnimatePresence>
                             );
                         })}
-                        <Flex width="auto" height="100%" direction="column" align="start" justify="end" gap="0">
-                            <Text className="font-mono text-5xl font-medium">{time[1].slice(0, 1)}</Text>
-                            <Text className="font-mono mb-4 text-5xl font-medium">{time[1].slice(1, 2)}</Text>
+                        <Flex width="auto" height="100%" direction="row" align="end" justify="center" gap="0" pb="4">
+                            <Text className="font-sans text-5xl font-medium">{time[1].slice(0, 1)}</Text>
+                            <Text className="font-sans text-5xl font-medium">{time[1].slice(1, 2)}</Text>
                         </Flex>
                     </Flex>
 
