@@ -37,17 +37,17 @@ export default function SpaceInfo({}) {
         console.log(openState);
 
         if (timeUntilOpen.asMinutes() < 60 && timeUntilOpen.asMinutes() > 0) {
-            return ["Opening", timeUntilOpen.humanize(true)];
+            return ["Opening", `at ${openTime.format("ha")}`, openTime, closeTime];
         } else if (timeUntilClose.asMinutes() < 60 && timeUntilClose.asMinutes() > 0) {
-            return ["Closing", timeUntilClose.humanize(true)];
+            return ["hours", "Closing soon", openTime, closeTime];
         } else if (!openState.openNow) {
             if (dayjs().hour() >= closeTime.hour() && dayjs().minute() >= closeTime.minute()) {
-                return ["Closed", "After hours"];
+                return ["Closed", "After hours", openTime, closeTime];
             } else {
-                return ["Closed", "Before hours"];
+                return ["Closed", "Before hours", openTime, closeTime];
             }
         } else {
-            return [`${openTime.format("hA")} - ${closeTime.format("hA")}`, "Today's hours"];
+            return ["hours", "Today's hours"];
         }
     }, [openState]);
 
@@ -58,13 +58,22 @@ export default function SpaceInfo({}) {
             minHeight="100%"
             maxWidth="650px"
             maxHeight="100%"
-            p="7"
-            pr="7"
+
             // className="overflow-hidden border-r-2 border-[--gray-6]"
         >
             <Flex direction="column" justify="center" align="center" gap="8" height="100%" width="100%">
                 {/* clock */}
-                <Flex direction="column" justify="start" align="start" gap="1" height="auto" width="100%">
+                <Flex
+                    direction="column"
+                    justify="start"
+                    align="start"
+                    gap="1"
+                    height="auto"
+                    width="100%"
+                    flexGrow="1"
+                    p="7"
+                    pb="0"
+                >
                     <Flex direction="row" align="start" justify="center" gap="0" height="auto" width="auto">
                         {digitMap.map((digit, index) => {
                             return (
@@ -89,16 +98,16 @@ export default function SpaceInfo({}) {
                                 </AnimatePresence>
                             );
                         })}
-                        <Flex width="auto" height="100%" direction="row" align="end" justify="center" gap="0" pb="4">
-                            <Text className="font-sans text-5xl font-medium">{time[1].slice(0, 1)}</Text>
-                            <Text className="font-sans text-5xl font-medium">{time[1].slice(1, 2)}</Text>
+                        <Flex width="auto" height="100%" direction="column" align="start" justify="end" gap="0">
+                            <Text className="font-mono text-5xl font-medium">{time[1].slice(0, 1)}</Text>
+                            <Text className="mb-4 font-mono text-5xl font-medium">{time[1].slice(1, 2)}</Text>
                         </Flex>
                     </Flex>
 
                     <Flex direction="column" align="start" justify="start" gap="0" height="auto" width="100%">
                         {dateLines.map((line, index) => {
                             return (
-                                <Text key={index} className="text-7xl font-medium text-[--gray-11]">
+                                <Text key={index} className="text-6xl font-medium text-[--gray-11]">
                                     {line}
                                 </Text>
                             );
@@ -121,7 +130,16 @@ export default function SpaceInfo({}) {
                     /> 
                 </Flex> */}
 
-                <Flex direction="column" align="start" justify="end" gap="0" height="auto" width="100%" flexGrow="1">
+                <Flex
+                    direction="column"
+                    align="start"
+                    justify="end"
+                    gap="0"
+                    height="auto"
+                    width="100%"
+                    className="border-t-[1px] border-[--gray-6]"
+                    p="7"
+                >
                     {/* <Text className="text-4xl font-medium text-[--gray-11]">9/29/2024</Text> */}
 
                     {/* hours */}
@@ -135,9 +153,11 @@ export default function SpaceInfo({}) {
                                     key={timeHelper[0]}
                                 >
                                     <p
-                                        className={`${timeHelper[0] !== "Closing" && openState.openNow ? "font-mono" : "font-sans"} text-8xl font-semibold`}
+                                        className={`${timeHelper[0] !== "Closing" && openState.openNow ? "font-mono" : "font-sans"} text-7xl font-semibold`}
                                     >
-                                        {timeHelper[0]}
+                                        {timeHelper[0] === "hours"
+                                            ? `${timeHelper[2].format("h:mma")}- ${timeHelper[3].format("h:mma")}`
+                                            : timeHelper[0]}
                                     </p>
                                 </motion.div>
                             </AnimatePresence>
