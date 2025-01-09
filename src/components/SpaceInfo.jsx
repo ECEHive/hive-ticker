@@ -22,7 +22,7 @@ export default function SpaceInfo({}) {
     }, [date]);
 
     const timeHelper = useMemo(() => {
-        if (!openState?.openToday) return ["Closed", "Today"];
+        if (!openState?.openToday) return ["Closed", "Today", "", ""];
 
         const openTime = dayjs()
             .set("hour", openState.hours[0].split(":")[0])
@@ -47,7 +47,7 @@ export default function SpaceInfo({}) {
                 return ["Closed", "Before hours", openTime, closeTime];
             }
         } else {
-            return ["hours", "Today's hours"];
+            return ["hours", "Today's hours", openTime, closeTime];
         }
     }, [openState]);
 
