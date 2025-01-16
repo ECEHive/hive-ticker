@@ -150,6 +150,17 @@ export default function SpaceInfo({}) {
                                     initial={{ x: 20, opacity: 0 }}
                                     animate={{ x: 0, opacity: 1 }}
                                     exit={{ x: -20, opacity: 0 }}
+                                    key={timeHelper[1]}
+                                >
+                                    <p className="text-5xl font-medium text-[--gray-11]">{timeHelper[1]}</p>
+                                </motion.div>
+                            </AnimatePresence>
+
+                            <AnimatePresence mode="wait">
+                                <motion.div
+                                    initial={{ x: 20, opacity: 0 }}
+                                    animate={{ x: 0, opacity: 1 }}
+                                    exit={{ x: -20, opacity: 0 }}
                                     key={timeHelper[0]}
                                 >
                                     <p
@@ -159,17 +170,6 @@ export default function SpaceInfo({}) {
                                             ? `${timeHelper[2].format("h:mma")}- ${timeHelper[3].format("h:mma")}`
                                             : timeHelper[0]}
                                     </p>
-                                </motion.div>
-                            </AnimatePresence>
-
-                            <AnimatePresence mode="wait">
-                                <motion.div
-                                    initial={{ x: 20, opacity: 0 }}
-                                    animate={{ x: 0, opacity: 1 }}
-                                    exit={{ x: -20, opacity: 0 }}
-                                    key={timeHelper[1]}
-                                >
-                                    <p className="text-5xl font-medium text-[--gray-11]">{timeHelper[1]}</p>
                                 </motion.div>
                             </AnimatePresence>
                         </Flex>
