@@ -59,7 +59,7 @@ export default function SpaceInfo({}) {
             maxWidth="650px"
             maxHeight="100%"
 
-            // className="overflow-hidden border-r-2 border-[--sand-6]"
+            // className="overflow-hidden border-r-2 border-[--sand-7]"
         >
             <Flex direction="column" justify="center" align="center" gap="8" height="100%" width="100%">
                 {/* clock */}
@@ -134,7 +134,7 @@ export default function SpaceInfo({}) {
                     gap="0"
                     height="auto"
                     width="100%"
-                    className="border-t-[3px] border-[--sand-6]"
+                    className="border-t-[3px] border-[--sand-7]"
                     p="7"
                 >
                     {/* <Text className="text-4xl font-medium text-[--gray-11]">9/29/2024</Text> */}
