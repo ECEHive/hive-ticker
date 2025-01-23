@@ -161,7 +161,7 @@ export default function SpaceInfo({}) {
                                     key={timeHelper[0]}
                                 >
                                     <p
-                                        className={`${timeHelper[0] !== "Closing" && openState.openNow ? "font-mono" : "font-sans"} text-7xl font-semibold`}
+                                        className={`${timeHelper[0] !== "Closing" && openState.openNow ? "font-mono" : "font-sans"} text-[5rem] font-semibold`}
                                     >
                                         {timeHelper[0] === "hours"
                                             ? `${timeHelper[2].format("h:mma")}- ${timeHelper[3].format("h:mma")}`
