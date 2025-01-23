@@ -83,7 +83,7 @@ export default function Music() {
             <Box height="auto" width="100%" maxWidth="100%" minWidth="100%">
                 {spotifyEnabled && playerState ? (
                     <Box
-                        // className="border-t-2 border-[--gray-6]"
+                        // className="border-t-2 border-[--sand-6]"
                         // className="mx-8 mb-8 h-[200px] w-auto rounded-2xl shadow-md"
                         className="h-[200px] w-full"
                         style={{
@@ -123,7 +123,7 @@ export default function Music() {
                                 <img
                                     src={playerState?.item.album.images[0].url}
                                     alt="album cover"
-                                    className="h-full rounded-lg border-[1px] border-solid border-slate-400/30"
+                                    className="h-full rounded-lg border-[1px] border-solid border-[--sand-11] shadow-md"
                                 />
 
                                 <Flex
@@ -194,7 +194,7 @@ export default function Music() {
                                     // height="100%"
                                     style={{
                                         width: "auto",
-                                        height: "90%",
+                                        height: "100%",
                                         // filter: colorTheme === "light" && "invert(1)",
                                         // filter: "drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.2))",
                                     }}

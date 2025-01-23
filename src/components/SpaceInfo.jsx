@@ -59,7 +59,7 @@ export default function SpaceInfo({}) {
             maxWidth="650px"
             maxHeight="100%"
 
-            // className="overflow-hidden border-r-2 border-[--gray-6]"
+            // className="overflow-hidden border-r-2 border-[--sand-6]"
         >
             <Flex direction="column" justify="center" align="center" gap="8" height="100%" width="100%">
                 {/* clock */}
@@ -98,10 +98,7 @@ export default function SpaceInfo({}) {
                                 </AnimatePresence>
                             );
                         })}
-                        <Flex width="auto" height="100%" direction="column" align="start" justify="end" gap="0">
-                            <Text className="font-mono text-5xl font-medium">{time[1].slice(0, 1)}</Text>
-                            <Text className="mb-4 font-mono text-5xl font-medium">{time[1].slice(1, 2)}</Text>
-                        </Flex>
+                        <Text className="mb-4 self-end font-mono text-5xl font-medium">{time[1]}</Text>
                     </Flex>
 
                     <Flex direction="column" align="start" justify="start" gap="0" height="auto" width="100%">
@@ -137,7 +134,7 @@ export default function SpaceInfo({}) {
                     gap="0"
                     height="auto"
                     width="100%"
-                    className="border-t-[1px] border-[--gray-6]"
+                    className="border-t-[3px] border-[--sand-6]"
                     p="7"
                 >
                     {/* <Text className="text-4xl font-medium text-[--gray-11]">9/29/2024</Text> */}

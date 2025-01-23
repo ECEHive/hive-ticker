@@ -1,4 +1,4 @@
-import { Box, Flex, Separator } from "@radix-ui/themes";
+import { Box, Flex } from "@radix-ui/themes";
 import Config from "./components/Config";
 import Music from "./components/Music";
 import Notices from "./components/Notices";
@@ -38,16 +38,14 @@ export default function Dashboard({}) {
                 maxHeight="100%"
             > */}
                 <Flex direction="row" height="100%" minHeight="0px" width="100%" position="relative">
-                    <Box width="auto" height="100%">
+                    <Box width="auto" height="100%" className="border-r-[3px] border-solid border-[--sand-6]">
                         <SpaceInfo />
                     </Box>
-                    <Separator orientation="vertical" className="h-full" />
                     <Box width="100%" height="100%">
                         <Notices />
                     </Box>
                 </Flex>
-                <Separator orientation="horizontal" className="w-full" />
-                <Box height="auto" width="100%">
+                <Box height="auto" width="100%" className="border-t-[3px] border-solid border-[--sand-6]">
                     <Music />
                 </Box>
             </Flex>
