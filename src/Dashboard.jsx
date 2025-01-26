@@ -1,7 +1,7 @@
 import { Box, Flex } from "@radix-ui/themes";
+import Announcement from "./components/Announcement";
 import Config from "./components/Config";
 import Music from "./components/Music";
-import Notices from "./components/Notices";
 import SpaceInfo from "./components/SpaceInfo";
 import useSpotify from "./hooks/useSpotify";
 
@@ -42,7 +42,8 @@ export default function Dashboard({}) {
                         <SpaceInfo />
                     </Box>
                     <Box width="100%" height="100%">
-                        <Notices />
+                        {/* <Notices /> */}
+                        <Announcement />
                     </Box>
                 </Flex>
                 <Box height="auto" width="100%" className="border-t-[3px] border-solid border-[--sand-7]">
