@@ -1,4 +1,4 @@
-import { ClockIcon, IdCardIcon, TrashIcon } from "@radix-ui/react-icons";
+import { ClockIcon, ExitIcon, IdCardIcon, TrashIcon } from "@radix-ui/react-icons";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
@@ -59,15 +59,6 @@ function TimeProvider({ children }) {
         },
     });
 
-    // const [alertSchedule, setAlertSchedule] = useLocalStorage("alert-schedule", {
-    //     "10:05": {
-    //         type: "open-reminder",
-    //     },
-    //     "23:39": {
-    //         type: "open",
-    //     },
-    // });
-
     const openState = useMemo(() => {
         const time = dayjs();
         const day = time.format("dddd").toLowerCase();
@@ -120,12 +111,12 @@ function TimeProvider({ children }) {
         () => ({
             hourly: (time) => {
                 return {
-                    title: `The time is ${time.format("h:mm A")}`,
+                    title: `The time is ${time.format("hA")}`,
                     icon: ClockIcon,
                     bullets: [
                         {
                             icon: TrashIcon,
-                            text: "Remember to keep your work area clean",
+                            text: "Help keep the space clean!",
                         },
                         // {
                         //     icon: PersonIcon,
@@ -153,7 +144,7 @@ function TimeProvider({ children }) {
             closed: (timeRaw) => {
                 return {
                     title: `The HIVE is now closed`,
-                    icon: ClockIcon,
+                    icon: ExitIcon,
                     bullets: [
                         {
                             icon: TrashIcon,
@@ -161,7 +152,7 @@ function TimeProvider({ children }) {
                         },
                         {
                             icon: IdCardIcon,
-                            text: "Remember to sign out of SUMS when leaving",
+                            text: "Sign out of SUMS when leaving",
                         },
                     ],
                 };
@@ -213,21 +204,24 @@ function TimeProvider({ children }) {
             };
         }
 
-        // special alerts
-        if (currentAlert && !alertBlock.current) {
-            recentAlertType.current = currentAlert.type;
-            console.log("alerting");
-            // make announcement
-            alertBlock.current = true;
-            setAlertActive(true);
+        // play alert
+        if (currentAlert && currentAlert.type !== recentAlertType.current) {
             setAlertContent(alertTemplates[currentAlert.type](timeRaw));
 
-            // play chime sound and wait for it to finish before continuing
-            const audio = new Audio(chime3Sound);
-            audio.play();
-            audio.onended = () => {
-                // play alert audio
-            };
+            if (!alertBlock.current || recentAlertType.current !== currentAlert.type) {
+                recentAlertType.current = currentAlert.type;
+                console.log("alerting");
+                // make announcement
+                alertBlock.current = true;
+                setAlertActive(true);
+
+                // play chime sound and wait for it to finish before continuing
+                const audio = new Audio(chime3Sound);
+                audio.play();
+                audio.onended = () => {
+                    // play alert audio
+                };
+            }
         } else if (alertBlock.current && (!currentAlert || currentAlert.type !== recentAlertType.current)) {
             console.log("alert done");
             setAlertContent(null);

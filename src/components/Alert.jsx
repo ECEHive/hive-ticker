@@ -1,4 +1,3 @@
-import { ClockIcon } from "@radix-ui/react-icons";
 import { Box, Flex, Text } from "@radix-ui/themes";
 import useTime from "../hooks/useTime";
 
@@ -20,7 +19,7 @@ export default function Alert({}) {
                         }}
                     >
                         <Flex direction="column" justify="center" align="center" width="auto" gap="5">
-                            <ClockIcon width="125" height="125" />
+                            <alertContent.icon width="125" height="125" />
                             <Text className="text-center text-9xl font-bold">{alertContent.title}</Text>
                         </Flex>
 
