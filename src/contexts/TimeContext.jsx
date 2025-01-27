@@ -8,8 +8,8 @@ import PropTypes from "prop-types";
 import { createContext, useEffect, useMemo, useRef, useState } from "react";
 
 // audio imports
-import chimeSound from "../assets/audio/chime.mp3";
-import closedSound from "../assets/audio/closed.mp3";
+import { ClockIcon, TrashIcon } from "@radix-ui/react-icons";
+import chime2Sound from "../assets/audio/chime_2.mp3";
 
 const TimeContext = createContext();
 dayjs.extend(duration);
@@ -23,6 +23,7 @@ function TimeProvider({ children }) {
     const [date, setDate] = useState("Sun Sep 29");
 
     const alertBlock = useRef(false);
+    const recentAlertTime = useRef("");
     const [alertActive, setAlertActive] = useState(false);
     const [alertContent, setAlertContent] = useState(null);
 
@@ -66,12 +67,31 @@ function TimeProvider({ children }) {
     //     },
     // });
 
+    const alertTemplates = {
+        hourly: (time) => {
+            return {
+                title: `The time is ${time.format("hh:mm A")}`,
+                icon: ClockIcon,
+                bullets: [
+                    {
+                        icon: TrashIcon,
+                        text: "Remember to keep your work area clean",
+                    },
+                    // {
+                    //     icon: PersonIcon,
+                    //     text: "This is a community run space, be respectful of it",
+                    // },
+                ],
+            };
+        },
+    };
+
     const alertSchedule = useMemo(() => {
         return {
-            "00:47": {
+            "12:29": {
                 type: "closed",
             },
-            "00:48": {
+            "12:26": {
                 type: "closed",
             },
         };
@@ -127,38 +147,57 @@ function TimeProvider({ children }) {
 
     useEffect(() => {
         if (alertBlock.current) return;
-        if (timeRaw.minute === 0 && openState.openNow) {
-            // hourly announcement
-        }
-        if (alertSchedule[timeRaw.format("HH:mm")]) {
-            console.log("alerting");
-            // make announcement
+
+        // hourly alerts
+        if (timeRaw.minute() === 0 && openState.openNow && recentAlertTime.current !== timeRaw.format("HH:mm")) {
+            console.log("hourly alert");
+            recentAlertTime.current = timeRaw.format("HH:mm");
             alertBlock.current = true;
             setAlertActive(true);
-            setAlertContent(alertSchedule[timeRaw.format("HH:mm")].type);
+            setAlertContent(alertTemplates["hourly"](timeRaw));
 
-            // play chime sound and wait for it to finish before continuing
-            const audio = new Audio(chimeSound);
+            const audio = new Audio(chime2Sound);
             audio.play();
-            audio.onended = () => {
-                // play closed sound
-                const audio = new Audio(closedSound);
-                audio.play();
 
-                // wait for audio to finish playing
-                audio.onended = () => {
-                    console.log("alert done");
-                    setTimeout(() => {
-                        setAlertContent(null);
-                        setAlertActive(false);
-                    }, 10000);
-                    setTimeout(() => {
-                        alertBlock.current = false;
-                    }, 60000);
-                };
+            audio.onended = () => {
+                console.log("alert done");
+                setTimeout(() => {
+                    setAlertContent(null);
+                    setAlertActive(false);
+                    alertBlock.current = false;
+                }, 40000);
             };
         }
-    }, [timeRaw, openState, alertSchedule]);
+
+        // special alerts
+        // if (alertSchedule[timeRaw.format("HH:mm")] && recentAlertTime.current !== timeRaw.format("HH:mm")) {
+        //     console.log("alerting");
+        //     // make announcement
+        //     recentAlertTime.current = timeRaw.format("HH:mm");
+        //     alertBlock.current = true;
+        //     setAlertActive(true);
+        //     setAlertContent(alertSchedule[timeRaw.format("HH:mm")].type);
+
+        //     // play chime sound and wait for it to finish before continuing
+        //     const audio = new Audio(chime3Sound);
+        //     audio.play();
+        //     audio.onended = () => {
+        //         // play closed sound
+        //         const audio = new Audio(closedSound);
+        //         audio.play();
+
+        //         // wait for audio to finish playing
+        //         audio.onended = () => {
+        //             console.log("alert done");
+        //             setTimeout(() => {
+        //                 setAlertContent(null);
+        //                 setAlertActive(false);
+        //                 alertBlock.current = false;
+        //             }, 10000);
+        //         };
+        //     };
+        // }
+    }, [timeRaw, openState, alertSchedule, alertTemplates]);
 
     return (
         <TimeContext.Provider value={{ time, date, openState, hours, setHours, alertActive, alertContent }}>

@@ -8,8 +8,8 @@ import useSpotify from "./hooks/useSpotify";
 import useTime from "./hooks/useTime";
 
 export default function Dashboard({}) {
-    const { spotifyEnabled } = useSpotify();
     const { alertActive } = useTime();
+    const { spotifyEnabled, playerState } = useSpotify();
 
     return (
         <Box
@@ -48,7 +48,11 @@ export default function Dashboard({}) {
                         {alertActive ? <Alert /> : <Notices />}
                     </Box>
                 </Flex>
-                <Box height="auto" width="100%" className="border-t-[3px] border-solid border-[--sand-7]">
+                <Box
+                    height="auto"
+                    width="100%"
+                    className={`${spotifyEnabled && playerState && "border-t-[3px]"} border-solid border-[--sand-7]`}
+                >
                     <Music />
                 </Box>
             </Flex>
