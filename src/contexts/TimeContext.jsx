@@ -1,3 +1,4 @@
+import { ClockIcon, IdCardIcon, TrashIcon } from "@radix-ui/react-icons";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
@@ -8,10 +9,8 @@ import PropTypes from "prop-types";
 import { createContext, useEffect, useMemo, useRef, useState } from "react";
 
 // audio imports
-import { ClockIcon, TrashIcon } from "@radix-ui/react-icons";
 import chime2Sound from "../assets/audio/chime_2.mp3";
 import chime3Sound from "../assets/audio/chime_3.mp3";
-import closedSound from "../assets/audio/closed.mp3";
 
 const TimeContext = createContext();
 dayjs.extend(duration);
@@ -25,7 +24,7 @@ function TimeProvider({ children }) {
     const [date, setDate] = useState("Sun Sep 29");
 
     const alertBlock = useRef(false);
-    const recentAlertTime = useRef("");
+    const recentAlertType = useRef("");
     const [alertActive, setAlertActive] = useState(false);
     const [alertContent, setAlertContent] = useState(null);
 
@@ -68,39 +67,6 @@ function TimeProvider({ children }) {
     //         type: "open",
     //     },
     // });
-
-    const alertTemplates = useMemo(
-        () => ({
-            hourly: (time) => {
-                return {
-                    title: `The time is ${time.format("hh:mm A")}`,
-                    icon: ClockIcon,
-                    bullets: [
-                        {
-                            icon: TrashIcon,
-                            text: "Remember to keep your work area clean",
-                        },
-                        // {
-                        //     icon: PersonIcon,
-                        //     text: "This is a community run space, be respectful of it",
-                        // },
-                    ],
-                };
-            },
-        }),
-        [],
-    );
-
-    const alertSchedule = useMemo(() => {
-        return {
-            // "12:29": {
-            //     type: "closed",
-            // },
-            // "12:26": {
-            //     type: "closed",
-            // },
-        };
-    }, []);
 
     const openState = useMemo(() => {
         const time = dayjs();
@@ -150,57 +116,123 @@ function TimeProvider({ children }) {
         };
     }, [timeRaw]);
 
+    const alertTemplates = useMemo(
+        () => ({
+            hourly: (time) => {
+                return {
+                    title: `The time is ${time.format("h:mm A")}`,
+                    icon: ClockIcon,
+                    bullets: [
+                        {
+                            icon: TrashIcon,
+                            text: "Remember to keep your work area clean",
+                        },
+                        // {
+                        //     icon: PersonIcon,
+                        //     text: "This is a community run space, be respectful of it",
+                        // },
+                    ],
+                };
+            },
+            closingSoon: (timeRaw) => {
+                return {
+                    title: `The HIVE is closing soon`,
+                    icon: ClockIcon,
+                    bullets: [
+                        {
+                            icon: TrashIcon,
+                            text: "Start cleaning up your work area",
+                        },
+                        {
+                            icon: IdCardIcon,
+                            text: "Remember to sign out of SUMS when leaving",
+                        },
+                    ],
+                };
+            },
+            closed: (timeRaw) => {
+                return {
+                    title: `The HIVE is now closed`,
+                    icon: ClockIcon,
+                    bullets: [
+                        {
+                            icon: TrashIcon,
+                            text: "Clean your work area",
+                        },
+                        {
+                            icon: IdCardIcon,
+                            text: "Remember to sign out of SUMS when leaving",
+                        },
+                    ],
+                };
+            },
+        }),
+        [],
+    );
+
+    const alertSchedule = useMemo(() => {
+        const openTime = dayjs()
+            .set("hour", openState.hours[0].split(":")[0])
+            .set("minute", openState.hours[0].split(":")[1]);
+
+        const closeTime = dayjs()
+            .set("hour", openState.hours[1].split(":")[0])
+            .set("minute", openState.hours[1].split(":")[1]);
+
+        if (openState.openToday) {
+            const data = [
+                {
+                    start: closeTime.subtract(15, "minute"),
+                    end: closeTime,
+                    type: "closingSoon",
+                    chime: chime3Sound,
+                },
+                {
+                    start: closeTime,
+                    end: closeTime.add(10, "minute"),
+                    type: "closed",
+                    chime: chime3Sound,
+                },
+            ];
+            return data;
+        }
+    }, [openState]);
+
     useEffect(() => {
-        if (alertBlock.current) return;
-
         // hourly alerts
-        if (timeRaw.minute() === 0 && openState.openNow && recentAlertTime.current !== timeRaw.format("HH:mm")) {
-            console.log("hourly alert");
-            recentAlertTime.current = timeRaw.format("HH:mm");
-            alertBlock.current = true;
-            setAlertActive(true);
-            setAlertContent(alertTemplates["hourly"](timeRaw));
-
-            const audio = new Audio(chime2Sound);
-            audio.play();
-
-            audio.onended = () => {
-                console.log("alert done");
-                setTimeout(() => {
-                    setAlertContent(null);
-                    setAlertActive(false);
-                    alertBlock.current = false;
-                }, 40000);
+        let currentAlert = alertSchedule.find((alert) => {
+            return timeRaw.isBetween(alert.start, alert.end, "minute", "[)");
+        });
+        if (timeRaw.minute() === 0 && openState.openNow) {
+            // hourly alert
+            currentAlert = {
+                start: timeRaw,
+                end: timeRaw.add(1, "minute"),
+                type: "hourly",
+                chime: chime2Sound,
             };
         }
 
         // special alerts
-        if (alertSchedule[timeRaw.format("HH:mm")] && recentAlertTime.current !== timeRaw.format("HH:mm")) {
+        if (currentAlert && !alertBlock.current) {
+            recentAlertType.current = currentAlert.type;
             console.log("alerting");
             // make announcement
-            recentAlertTime.current = timeRaw.format("HH:mm");
             alertBlock.current = true;
             setAlertActive(true);
-            setAlertContent(alertSchedule[timeRaw.format("HH:mm")].type);
+            setAlertContent(alertTemplates[currentAlert.type](timeRaw));
 
             // play chime sound and wait for it to finish before continuing
             const audio = new Audio(chime3Sound);
             audio.play();
             audio.onended = () => {
-                // play closed sound
-                const audio = new Audio(closedSound);
-                audio.play();
-
-                // wait for audio to finish playing
-                audio.onended = () => {
-                    console.log("alert done");
-                    setTimeout(() => {
-                        setAlertContent(null);
-                        setAlertActive(false);
-                        alertBlock.current = false;
-                    }, 10000);
-                };
+                // play alert audio
             };
+        } else if (alertBlock.current && (!currentAlert || currentAlert.type !== recentAlertType.current)) {
+            console.log("alert done");
+            setAlertContent(null);
+            setAlertActive(false);
+            alertBlock.current = false;
         }
     }, [timeRaw, openState, alertSchedule, alertTemplates]);
 
