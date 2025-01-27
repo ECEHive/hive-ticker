@@ -10,6 +10,8 @@ import { createContext, useEffect, useMemo, useRef, useState } from "react";
 // audio imports
 import { ClockIcon, TrashIcon } from "@radix-ui/react-icons";
 import chime2Sound from "../assets/audio/chime_2.mp3";
+import chime3Sound from "../assets/audio/chime_3.mp3";
+import closedSound from "../assets/audio/closed.mp3";
 
 const TimeContext = createContext();
 dayjs.extend(duration);
@@ -67,33 +69,36 @@ function TimeProvider({ children }) {
     //     },
     // });
 
-    const alertTemplates = {
-        hourly: (time) => {
-            return {
-                title: `The time is ${time.format("hh:mm A")}`,
-                icon: ClockIcon,
-                bullets: [
-                    {
-                        icon: TrashIcon,
-                        text: "Remember to keep your work area clean",
-                    },
-                    // {
-                    //     icon: PersonIcon,
-                    //     text: "This is a community run space, be respectful of it",
-                    // },
-                ],
-            };
-        },
-    };
+    const alertTemplates = useMemo(
+        () => ({
+            hourly: (time) => {
+                return {
+                    title: `The time is ${time.format("hh:mm A")}`,
+                    icon: ClockIcon,
+                    bullets: [
+                        {
+                            icon: TrashIcon,
+                            text: "Remember to keep your work area clean",
+                        },
+                        // {
+                        //     icon: PersonIcon,
+                        //     text: "This is a community run space, be respectful of it",
+                        // },
+                    ],
+                };
+            },
+        }),
+        [],
+    );
 
     const alertSchedule = useMemo(() => {
         return {
-            "12:29": {
-                type: "closed",
-            },
-            "12:26": {
-                type: "closed",
-            },
+            // "12:29": {
+            //     type: "closed",
+            // },
+            // "12:26": {
+            //     type: "closed",
+            // },
         };
     }, []);
 
@@ -170,33 +175,33 @@ function TimeProvider({ children }) {
         }
 
         // special alerts
-        // if (alertSchedule[timeRaw.format("HH:mm")] && recentAlertTime.current !== timeRaw.format("HH:mm")) {
-        //     console.log("alerting");
-        //     // make announcement
-        //     recentAlertTime.current = timeRaw.format("HH:mm");
-        //     alertBlock.current = true;
-        //     setAlertActive(true);
-        //     setAlertContent(alertSchedule[timeRaw.format("HH:mm")].type);
+        if (alertSchedule[timeRaw.format("HH:mm")] && recentAlertTime.current !== timeRaw.format("HH:mm")) {
+            console.log("alerting");
+            // make announcement
+            recentAlertTime.current = timeRaw.format("HH:mm");
+            alertBlock.current = true;
+            setAlertActive(true);
+            setAlertContent(alertSchedule[timeRaw.format("HH:mm")].type);
 
-        //     // play chime sound and wait for it to finish before continuing
-        //     const audio = new Audio(chime3Sound);
-        //     audio.play();
-        //     audio.onended = () => {
-        //         // play closed sound
-        //         const audio = new Audio(closedSound);
-        //         audio.play();
+            // play chime sound and wait for it to finish before continuing
+            const audio = new Audio(chime3Sound);
+            audio.play();
+            audio.onended = () => {
+                // play closed sound
+                const audio = new Audio(closedSound);
+                audio.play();
 
-        //         // wait for audio to finish playing
-        //         audio.onended = () => {
-        //             console.log("alert done");
-        //             setTimeout(() => {
-        //                 setAlertContent(null);
-        //                 setAlertActive(false);
-        //                 alertBlock.current = false;
-        //             }, 10000);
-        //         };
-        //     };
-        // }
+                // wait for audio to finish playing
+                audio.onended = () => {
+                    console.log("alert done");
+                    setTimeout(() => {
+                        setAlertContent(null);
+                        setAlertActive(false);
+                        alertBlock.current = false;
+                    }, 10000);
+                };
+            };
+        }
     }, [timeRaw, openState, alertSchedule, alertTemplates]);
 
     return (
