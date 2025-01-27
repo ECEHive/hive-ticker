@@ -80,7 +80,6 @@ export default function Notices({}) {
             loadSlide(slidesFiltered[currentSlideIndex.current]?.content);
             ready = false;
             runSlide().then(() => {
-                console.log("resolved");
                 currentSlideIndex.current = (currentSlideIndex.current + 1) % slidesFiltered.length;
                 ready = true;
             });
@@ -88,7 +87,6 @@ export default function Notices({}) {
 
         return () => {
             clearInterval(interval);
-            console.log("clear");
         };
     }, [runSlide, slidesFiltered, loadSlide]);
 

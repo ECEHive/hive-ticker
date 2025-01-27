@@ -204,23 +204,16 @@ export default function Music() {
                     </Box>
                 ) : (
                     <>
-                        <Box className="h-[75px] w-full p-4">
-                            <Flex
-                                direction="row"
-                                justify="center"
-                                align="center"
-                                width="auto"
-                                height="100%"
-                                // className="to-[ bg-gradient-to-r from-transparent from-0% to-[--gray-1] to-100%"
-                            >
+                        <Box className="absolute bottom-0 h-[120px] w-full p-10">
+                            <Flex direction="row" justify="end" align="center" width="auto" height="100%">
                                 <img
                                     src={logo}
                                     // width="100%"
                                     // height="100%"
                                     style={{
                                         width: "auto",
-                                        height: "90%",
-                                        filter: colorTheme === "light" && "invert(1)",
+                                        height: "100%",
+                                        filter: colorTheme === "light" && "invert(.9)",
                                         // filter: "drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.2))",
                                     }}
                                 />

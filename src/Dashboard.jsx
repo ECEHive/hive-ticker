@@ -1,12 +1,15 @@
 import { Box, Flex } from "@radix-ui/themes";
-import Announcement from "./components/Announcement";
+import Alert from "./components/Alert";
 import Config from "./components/Config";
 import Music from "./components/Music";
+import Notices from "./components/Notices";
 import SpaceInfo from "./components/SpaceInfo";
 import useSpotify from "./hooks/useSpotify";
+import useTime from "./hooks/useTime";
 
 export default function Dashboard({}) {
     const { spotifyEnabled } = useSpotify();
+    const { alertActive } = useTime();
 
     return (
         <Box
@@ -42,8 +45,7 @@ export default function Dashboard({}) {
                         <SpaceInfo />
                     </Box>
                     <Box width="100%" height="100%">
-                        {/* <Notices /> */}
-                        <Announcement />
+                        {alertActive ? <Alert /> : <Notices />}
                     </Box>
                 </Flex>
                 <Box height="auto" width="100%" className="border-t-[3px] border-solid border-[--sand-7]">

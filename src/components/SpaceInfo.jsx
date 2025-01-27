@@ -34,8 +34,6 @@ export default function SpaceInfo({}) {
         const timeUntilClose = dayjs.duration(closeTime.diff(dayjs(), "milliseconds"));
         const timeUntilOpen = dayjs.duration(openTime.diff(dayjs(), "milliseconds"));
 
-        console.log(openState);
-
         if (timeUntilOpen.asMinutes() < 60 && timeUntilOpen.asMinutes() > 0) {
             return ["Opening", `at ${openTime.format("ha")}`, openTime, closeTime];
         } else if (timeUntilClose.asMinutes() < 60 && timeUntilClose.asMinutes() > 0) {
