@@ -24,21 +24,29 @@ export default function Alert({}) {
                         </Flex>
 
                         <Flex direction="column" justify="start" align="start" width="auto" gap="6">
-                            {alertContent?.bullets.map((bullet, index) => (
-                                <Flex direction="row" justify="start" align="center" gap="9" key={index}>
-                                    <bullet.icon
-                                        width="80"
-                                        height="80"
-                                        style={{ minWidth: "80px", minHeight: "80px" }}
-                                    />
+                            {alertContent?.bullets ? (
+                                alertContent.bullets.map((bullet, index) => (
+                                    <Flex direction="row" justify="start" align="center" gap="9" key={index}>
+                                        <bullet.icon
+                                            width="80"
+                                            height="80"
+                                            style={{ minWidth: "80px", minHeight: "80px" }}
+                                        />
 
-                                    <Flex direction="column" justify="start" align="start" height="auto">
-                                        <Text className="text-6xl font-normal" style={{ lineHeight: "1.2em" }}>
-                                            {bullet.text}
-                                        </Text>
+                                        <Flex direction="column" justify="start" align="start" height="auto">
+                                            <Text className="text-6xl font-normal" style={{ lineHeight: "1.2em" }}>
+                                                {bullet.text}
+                                            </Text>
+                                        </Flex>
                                     </Flex>
-                                </Flex>
-                            ))}
+                                ))
+                            ) : (
+                                <>
+                                    <Text className="text-6xl font-normal" style={{ lineHeight: "1.2em" }}>
+                                        {alertContent.text}
+                                    </Text>
+                                </>
+                            )}
                         </Flex>
                     </Flex>
                 </Box>

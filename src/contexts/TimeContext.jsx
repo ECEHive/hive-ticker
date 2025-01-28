@@ -1,4 +1,4 @@
-import { ClockIcon, ExitIcon, IdCardIcon, TrashIcon } from "@radix-ui/react-icons";
+import { ClockIcon, ExitIcon, IdCardIcon, SunIcon, TrashIcon } from "@radix-ui/react-icons";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
@@ -125,6 +125,13 @@ function TimeProvider({ children }) {
                     ],
                 };
             },
+            opened: (timeRaw) => {
+                return {
+                    title: `The HIVE is now open`,
+                    icon: SunIcon,
+                    text: "Good morning and welcome to the HIVE!",
+                };
+            },
             closingSoon: (timeRaw) => {
                 return {
                     title: `The HIVE is closing soon`,
@@ -182,6 +189,12 @@ function TimeProvider({ children }) {
                     start: closeTime,
                     end: closeTime.add(10, "minute"),
                     type: "closed",
+                    chime: chime3Sound,
+                },
+                {
+                    start: openTime,
+                    end: openTime.add(10, "minute"),
+                    type: "opened",
                     chime: chime3Sound,
                 },
             ];
