@@ -107,6 +107,8 @@ function TimeProvider({ children }) {
         };
     }, [timeRaw]);
 
+    // ALERT STUFF
+
     const alertTemplates = useMemo(
         () => ({
             hourly: (time) => {
@@ -139,7 +141,7 @@ function TimeProvider({ children }) {
                     bullets: [
                         {
                             icon: TrashIcon,
-                            text: "Start cleaning up your work area",
+                            text: "Start cleaning your work area",
                         },
                         {
                             icon: IdCardIcon,
