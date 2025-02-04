@@ -150,6 +150,18 @@ function TimeProvider({ children }) {
                     ],
                 };
             },
+            openingSoon: (timeRaw) => {
+                return {
+                    title: `The HIVE is opening soon`,
+                    icon: SunIcon,
+                    bullets: [
+                        {
+                            icon: IdCardIcon,
+                            text: "Remember to sign in for your shift",
+                        },
+                    ],
+                };
+            },
             closed: (timeRaw) => {
                 return {
                     title: `The HIVE is now closed`,
@@ -194,6 +206,12 @@ function TimeProvider({ children }) {
                     chime: chime3Sound,
                 },
                 {
+                    start: openTime.subtract(5, "minute"),
+                    end: openTime,
+                    type: "openingSoon",
+                    chime: chime3Sound,
+                },
+                {
                     start: openTime,
                     end: openTime.add(10, "minute"),
                     type: "opened",
@@ -231,7 +249,7 @@ function TimeProvider({ children }) {
                 setAlertActive(true);
 
                 // play chime sound and wait for it to finish before continuing
-                const audio = new Audio(chime3Sound);
+                const audio = new Audio(currentAlert.chime);
                 audio.play();
                 audio.onended = () => {
                     // play alert audio
