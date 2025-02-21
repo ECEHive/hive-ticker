@@ -129,14 +129,14 @@ function TimeProvider({ children }) {
             },
             opened: (timeRaw) => {
                 return {
-                    title: `The HIVE is now open`,
+                    title: `The Hive is now open`,
                     icon: SunIcon,
-                    text: "Good morning and welcome to the HIVE!",
+                    text: "Good morning and welcome to the Hive!",
                 };
             },
             closingSoon: (timeRaw) => {
                 return {
-                    title: `The HIVE is closing soon`,
+                    title: `The Hive is closing soon`,
                     icon: ClockIcon,
                     bullets: [
                         {
@@ -152,7 +152,7 @@ function TimeProvider({ children }) {
             },
             openingSoon: (timeRaw) => {
                 return {
-                    title: `The HIVE is opening soon`,
+                    title: `The Hive is opening soon`,
                     icon: SunIcon,
                     bullets: [
                         {
@@ -164,7 +164,7 @@ function TimeProvider({ children }) {
             },
             closed: (timeRaw) => {
                 return {
-                    title: `The HIVE is now closed`,
+                    title: `The Hive is now closed`,
                     icon: ExitIcon,
                     bullets: [
                         {
