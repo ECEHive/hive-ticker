@@ -100,30 +100,12 @@ export default function SpaceInfo({}) {
                     </Flex>
 
                     <Flex direction="column" align="start" justify="start" gap="0" height="auto" width="100%">
-                        {dateLines.map((line, index) => {
-                            return (
-                                <Text key={index} className="text-6xl font-medium text-[--gray-11]">
-                                    {line}
-                                </Text>
-                            );
-                        })}
+                        <Text className="text-6xl font-medium text-[--gray-11]">{dateLines[0]}</Text>
+                        <Text className="text-6xl font-medium text-[--gray-11]">
+                            {dateLines[1]} {dateLines[2]}
+                        </Text>
                     </Flex>
                 </Flex>
-
-                {/* <Flex dir="row" align="center" justify="start" gap="4" height="auto" width="100%">
-                    <Separator orientation="horizontal" size="3" className="w-1/2 bg-[--gray-10]" />
-                    <img
-                        src={logo}
-                        // width="100%"
-                        // height="100%"
-                        style={{
-                            width: "auto",
-                            height: "50px",
-                            filter: colorTheme === "light" && "invert(1)",
-                            // filter: "drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.2))",
-                        }}
-                    /> 
-                </Flex> */}
 
                 <Flex
                     direction="column"

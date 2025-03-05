@@ -204,7 +204,7 @@ export default function Music() {
                     </Box>
                 ) : (
                     <>
-                        <Box className="absolute bottom-0 h-[130px] w-full p-10">
+                        <Box className="absolute bottom-0 h-[135px] w-full p-10">
                             <Flex direction="row" justify="end" align="center" width="auto" height="100%">
                                 <img
                                     src={logo}

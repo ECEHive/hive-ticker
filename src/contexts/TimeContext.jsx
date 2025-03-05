@@ -60,9 +60,7 @@ function TimeProvider({ children }) {
     });
 
     const openState = useMemo(() => {
-        const time = dayjs();
-        const day = time.format("dddd").toLowerCase();
-
+        const day = timeRaw.format("dddd").toLowerCase();
         const todayHours = hours[day];
 
         if (todayHours.open) {
@@ -92,7 +90,7 @@ function TimeProvider({ children }) {
                 openToday: false,
             };
         }
-    }, [hours]);
+    }, [hours, timeRaw]);
 
     useEffect(() => {
         const secondInterval = setInterval(() => {
@@ -108,7 +106,6 @@ function TimeProvider({ children }) {
     }, [timeRaw]);
 
     // ALERT STUFF
-
     const alertTemplates = useMemo(
         () => ({
             hourly: (time) => {
@@ -220,7 +217,7 @@ function TimeProvider({ children }) {
             ];
             return data;
         }
-    }, [openState]);
+    }, [openState, timeRaw]);
 
     useEffect(() => {
         // hourly alerts
