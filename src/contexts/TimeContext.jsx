@@ -62,6 +62,7 @@ function TimeProvider({ children }) {
     const openState = useMemo(() => {
         const day = dayjs().format("dddd").toLowerCase();
         const todayHours = hours[day];
+        console.log(todayHours);
 
         if (todayHours.open) {
             const openTime = dayjs()
@@ -180,15 +181,15 @@ function TimeProvider({ children }) {
     );
 
     const alertSchedule = useMemo(() => {
-        const openTime = dayjs()
-            .set("hour", openState.hours[0].split(":")[0])
-            .set("minute", openState.hours[0].split(":")[1]);
-
-        const closeTime = dayjs()
-            .set("hour", openState.hours[1].split(":")[0])
-            .set("minute", openState.hours[1].split(":")[1]);
-
         if (openState.openToday) {
+            const openTime = dayjs()
+                .set("hour", openState.hours[0].split(":")[0])
+                .set("minute", openState.hours[0].split(":")[1]);
+
+            const closeTime = dayjs()
+                .set("hour", openState.hours[1].split(":")[0])
+                .set("minute", openState.hours[1].split(":")[1]);
+
             const data = [
                 {
                     start: closeTime.subtract(15, "minute"),
@@ -221,6 +222,7 @@ function TimeProvider({ children }) {
             ];
             return data;
         }
+        return [];
     }, [openState]);
 
     useEffect(() => {
