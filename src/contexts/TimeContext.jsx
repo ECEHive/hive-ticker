@@ -24,7 +24,7 @@ function TimeProvider({ children }) {
     const [date, setDate] = useState("Sun Sep 29");
 
     const alertBlock = useRef(false);
-    const recentAlertType = useRef("");
+    const recentAlertId = useRef("");
     const [alertActive, setAlertActive] = useState(false);
     const [alertContent, setAlertContent] = useState(null);
 
@@ -60,7 +60,7 @@ function TimeProvider({ children }) {
     });
 
     const openState = useMemo(() => {
-        const day = timeRaw.format("dddd").toLowerCase();
+        const day = dayjs().format("dddd").toLowerCase();
         const todayHours = hours[day];
 
         if (todayHours.open) {
@@ -90,7 +90,7 @@ function TimeProvider({ children }) {
                 openToday: false,
             };
         }
-    }, [hours, timeRaw]);
+    }, [hours]);
 
     useEffect(() => {
         const secondInterval = setInterval(() => {
@@ -195,29 +195,33 @@ function TimeProvider({ children }) {
                     end: closeTime,
                     type: "closingSoon",
                     chime: chime3Sound,
+                    id: "closingSoon",
                 },
                 {
                     start: closeTime,
                     end: closeTime.add(10, "minute"),
                     type: "closed",
                     chime: chime3Sound,
+                    id: "closed",
                 },
                 {
                     start: openTime.subtract(5, "minute"),
                     end: openTime,
                     type: "openingSoon",
                     chime: chime3Sound,
+                    id: "openingSoon",
                 },
                 {
                     start: openTime,
                     end: openTime.add(10, "minute"),
                     type: "opened",
                     chime: chime3Sound,
+                    id: "opened",
                 },
             ];
             return data;
         }
-    }, [openState, timeRaw]);
+    }, [openState]);
 
     useEffect(() => {
         // hourly alerts
@@ -231,15 +235,16 @@ function TimeProvider({ children }) {
                 end: timeRaw.add(1, "minute"),
                 type: "hourly",
                 chime: chime2Sound,
+                id: `${timeRaw.format("hh:mm")}`,
             };
         }
 
         // play alert
-        if (currentAlert && currentAlert.type !== recentAlertType.current) {
+        if (currentAlert && currentAlert.id !== recentAlertId.current) {
             setAlertContent(alertTemplates[currentAlert.type](timeRaw));
 
-            if (!alertBlock.current || recentAlertType.current !== currentAlert.type) {
-                recentAlertType.current = currentAlert.type;
+            if (!alertBlock.current || recentAlertId.current !== currentAlert.id) {
+                recentAlertId.current = currentAlert.id;
                 console.log("alerting");
                 // make announcement
                 alertBlock.current = true;
@@ -249,10 +254,10 @@ function TimeProvider({ children }) {
                 const audio = new Audio(currentAlert.chime);
                 audio.play();
                 audio.onended = () => {
-                    // play alert audio
+                    // play stevie audio
                 };
             }
-        } else if (alertBlock.current && (!currentAlert || currentAlert.type !== recentAlertType.current)) {
+        } else if (alertBlock.current && !currentAlert) {
             console.log("alert done");
             setAlertContent(null);
             setAlertActive(false);
