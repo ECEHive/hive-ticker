@@ -4,6 +4,7 @@ import Config from "./components/Config";
 import Music from "./components/Music";
 import Notices from "./components/Notices";
 import SpaceInfo from "./components/SpaceInfo";
+import WeatherAlerts from "./components/WeatherAlerts";
 import useSpotify from "./hooks/useSpotify";
 import useTime from "./hooks/useTime";
 
@@ -40,6 +41,7 @@ export default function Dashboard({}) {
                 height="100%"
                 maxHeight="100%"
             > */}
+                <WeatherAlerts />
                 <Flex direction="row" height="100%" minHeight="0px" width="100%" position="relative">
                     <Box width="auto" height="100%" className="border-r-[3px] border-solid border-[--sand-7]">
                         <SpaceInfo />
