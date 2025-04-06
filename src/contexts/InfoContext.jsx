@@ -10,7 +10,7 @@ function InfoProvider({ children }) {
             title: "Welcome",
             timestamp: dayjs(),
             enabled: true,
-            content: `# Welcome to The HIVE!`,
+            content: `# Welcome to The Hive!`,
         },
     ]);
 
