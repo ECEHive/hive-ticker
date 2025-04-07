@@ -56,7 +56,7 @@ export default function Footer() {
                     <Box
                         // className="border-t-2 border-[--sand-7]"
                         // className="mx-8 mb-8 h-[200px] w-auto rounded-2xl shadow-md"
-                        className="h-[125px] w-full"
+                        className="h-[130px] w-full"
                         style={{
                             backgroundImage: spotifyEnabled && `url('${playerState?.item.album.images[0].url}')`,
                             backgroundSize: "100% auto",
