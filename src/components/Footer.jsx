@@ -52,32 +52,32 @@ export default function Footer() {
     return (
         <>
             <Box height="auto" width="100%" maxWidth="100%" minWidth="100%">
-                {spotifyEnabled && playerState ? (
-                    <Box
-                        // className="border-t-2 border-[--sand-7]"
-                        // className="mx-8 mb-8 h-[200px] w-auto rounded-2xl shadow-md"
-                        className="h-[130px] w-full"
+                <Box
+                    // className="border-t-2 border-[--sand-7]"
+                    // className="mx-8 mb-8 h-[200px] w-auto rounded-2xl shadow-md"
+                    className="h-[130px] w-full"
+                    style={{
+                        backgroundImage: spotifyEnabled && `url('${playerState?.item.album.images[0].url}')`,
+                        backgroundSize: "100% auto",
+                        backgroundPosition: "center",
+                        backgroundClip: "border-box",
+                    }}
+                >
+                    <Flex
+                        direction="row"
+                        align="center"
+                        justify="between"
+                        width="100%"
+                        height="100%"
                         style={{
-                            backgroundImage: spotifyEnabled && `url('${playerState?.item.album.images[0].url}')`,
-                            backgroundSize: "100% auto",
-                            backgroundPosition: "center",
-                            backgroundClip: "border-box",
+                            backdropFilter:
+                                spotifyEnabled &&
+                                playerState &&
+                                `blur(75px) ${colorTheme === "dark" ? "brightness(0.2)" : "brightness(0.7)"}`,
                         }}
+                        // className="rounded-2xl"
                     >
-                        <Flex
-                            direction="row"
-                            align="center"
-                            justify="between"
-                            width="100%"
-                            height="100%"
-                            style={{
-                                backdropFilter:
-                                    spotifyEnabled &&
-                                    playerState &&
-                                    `blur(75px) ${colorTheme === "dark" ? "brightness(0.25)" : "brightness(0.75)"}`,
-                            }}
-                            // className="rounded-2xl"
-                        >
+                        {spotifyEnabled && playerState && (
                             <Flex
                                 width="100%"
                                 height="100%"
@@ -91,11 +91,6 @@ export default function Footer() {
                                 p="6"
                                 // px="8"
                             >
-                                {/* <img
-                                    src={playerState?.item.album.images[0].url}
-                                    alt="album cover"
-                                    className="h-full rounded-lg shadow-md"
-                                /> */}
                                 <FaMusic size={40} />
 
                                 <Flex
@@ -170,48 +165,30 @@ export default function Footer() {
                                     </Flex>
                                 </Flex>
                             </Flex>
-                            <Flex
-                                direction="column"
-                                justify="center"
-                                align="center"
-                                width="auto"
-                                height="100%"
-                                p="6"
-                                // className="to-[ bg-gradient-to-r from-transparent from-0% to-[--gray-1] to-100%"
-                            >
-                                <img
-                                    src={logo}
-                                    // width="100%"
-                                    // height="100%"
-                                    style={{
-                                        width: "auto",
-                                        height: "100%",
-                                        // filter: colorTheme === "light" && "invert(1)",
-                                        // filter: "drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.2))",
-                                    }}
-                                />
-                            </Flex>
+                        )}
+                        <Flex
+                            direction="column"
+                            justify="center"
+                            align="center"
+                            width="auto"
+                            height="100%"
+                            p="6"
+                            // className="to-[ bg-gradient-to-r from-transparent from-0% to-[--gray-1] to-100%"
+                        >
+                            <img
+                                src={logo}
+                                // width="100%"
+                                // height="100%"
+                                style={{
+                                    width: "auto",
+                                    height: "100%",
+                                    // filter: colorTheme === "light" && "invert(1)",
+                                    // filter: "drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.2))",
+                                }}
+                            />
                         </Flex>
-                    </Box>
-                ) : (
-                    <>
-                        <Box className="absolute bottom-0 h-[135px] w-full p-10">
-                            <Flex direction="row" justify="end" align="center" width="auto" height="100%">
-                                <img
-                                    src={logo}
-                                    // width="100%"
-                                    // height="100%"
-                                    style={{
-                                        width: "auto",
-                                        height: "100%",
-                                        filter: colorTheme === "light" && "invert(.9)",
-                                        // filter: "drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.2))",
-                                    }}
-                                />
-                            </Flex>
-                        </Box>
-                    </>
-                )}
+                    </Flex>
+                </Box>
             </Box>
         </>
     );
