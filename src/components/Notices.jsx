@@ -99,10 +99,6 @@ export default function Notices({}) {
             overflow="visible"
             // p="7"
             ref={boxRef}
-
-            // style={{
-            //     maskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 90%, rgba(0,0,0,0))",
-            // }}
         >
             <AnimatePresence mode="wait">
                 <motion.div

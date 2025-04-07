@@ -1,4 +1,5 @@
-import { Box, Flex, Text } from "@radix-ui/themes";
+import { InfoCircledIcon } from "@radix-ui/react-icons";
+import { Box, Callout, Flex, Text } from "@radix-ui/themes";
 import dayjs from "dayjs";
 import { AnimatePresence, motion } from "framer-motion";
 import { useMemo } from "react";
@@ -56,22 +57,12 @@ export default function SpaceInfo({}) {
             minHeight="100%"
             maxWidth="650px"
             maxHeight="100%"
-
+            px="7"
             // className="overflow-hidden border-r-2 border-[--sand-7]"
         >
-            <Flex direction="column" justify="center" align="center" gap="8" height="100%" width="100%">
+            <Flex direction="column" justify="start" align="center" gap="8" minHeight="100%" width="100%">
                 {/* clock */}
-                <Flex
-                    direction="column"
-                    justify="start"
-                    align="start"
-                    gap="1"
-                    height="auto"
-                    width="100%"
-                    flexGrow="1"
-                    p="7"
-                    pb="0"
-                >
+                <Flex direction="column" justify="start" align="start" gap="1" height="auto" width="100%" pt="7">
                     <Flex direction="row" align="start" justify="center" gap="0" height="auto" width="auto">
                         {digitMap.map((digit, index) => {
                             return (
@@ -107,21 +98,34 @@ export default function SpaceInfo({}) {
                     </Flex>
                 </Flex>
 
+                <Flex height="auto" width="100%">
+                    <Callout.Root size="3" color="red" className="w-full items-center">
+                        <Callout.Icon>
+                            <InfoCircledIcon
+                                style={{
+                                    width: "2.5rem",
+                                    height: "2.5rem",
+                                    // marginTop: "15px",
+                                }}
+                            />
+                        </Callout.Icon>
+                        <Callout.Text className="text-4xl">Closing day: April 18</Callout.Text>
+                    </Callout.Root>
+                </Flex>
+
+                {/* hours */}
                 <Flex
                     direction="column"
                     align="start"
                     justify="end"
                     gap="0"
-                    height="auto"
+                    height="100%"
                     width="100%"
-                    className="border-t-[3px] border-[--sand-7]"
-                    p="7"
+                    pb="7"
+                    className="flex flex-grow"
                 >
-                    {/* <Text className="text-4xl font-medium text-[--gray-11]">9/29/2024</Text> */}
-
-                    {/* hours */}
                     {timeHelper && (
-                        <Flex direction="column" align="start" justify="center" gap="2" height="auto">
+                        <Flex direction="column" align="start" justify="end" gap="2" height="100%">
                             <AnimatePresence mode="wait">
                                 <motion.div
                                     initial={{ x: 20, opacity: 0 }}

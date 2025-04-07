@@ -19,7 +19,7 @@ export default function Alert({}) {
                         }}
                     >
                         <Flex direction="column" justify="center" align="center" width="auto" gap="5">
-                            <alertContent.icon width="125" height="125" />
+                            {/* <alertContent.icon width="125" height="125" /> */}
                             <Text className="text-center text-9xl font-bold">{alertContent.title}</Text>
                         </Flex>
 
@@ -34,7 +34,10 @@ export default function Alert({}) {
                                         />
 
                                         <Flex direction="column" justify="start" align="start" height="auto">
-                                            <Text className="text-6xl font-normal" style={{ lineHeight: "1.2em" }}>
+                                            <Text
+                                                className="w-full text-6xl font-normal"
+                                                style={{ lineHeight: "1.2em" }}
+                                            >
                                                 {bullet.text}
                                             </Text>
                                         </Flex>

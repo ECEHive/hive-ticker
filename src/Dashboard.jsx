@@ -1,7 +1,7 @@
 import { Box, Flex } from "@radix-ui/themes";
-import Alert from "./components/Alert";
 import Config from "./components/Config";
-import Music from "./components/Music";
+import Music from "./components/Footer";
+import Alert from "./components/MainAlert";
 import Notices from "./components/Notices";
 import SpaceInfo from "./components/SpaceInfo";
 import useSpotify from "./hooks/useSpotify";
@@ -40,23 +40,20 @@ export default function Dashboard({}) {
                 height="100%"
                 maxHeight="100%"
             > */}
+
                 <Flex direction="row" height="100%" minHeight="0px" width="100%" position="relative">
                     <Box width="auto" height="100%" className="border-r-[3px] border-solid border-[--sand-7]">
                         <SpaceInfo />
                     </Box>
                     <Box width="100%" height="100%">
+                        {/* <TopAlert /> */}
                         {alertActive ? <Alert /> : <Notices />}
                     </Box>
                 </Flex>
-                <Box
-                    height="auto"
-                    width="100%"
-                    className={`${spotifyEnabled && playerState && "border-t-[3px]"} border-solid border-[--sand-7]`}
-                >
+                <Box height="auto" width="100%" className="border-t-[3px] border-solid border-[--sand-7]">
                     <Music />
                 </Box>
             </Flex>
-            {/* </Grid> */}
         </Box>
     );
 }

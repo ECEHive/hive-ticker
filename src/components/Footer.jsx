@@ -1,44 +1,15 @@
+import { DotFilledIcon } from "@radix-ui/react-icons";
 import { Box, Flex } from "@radix-ui/themes";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Marquee from "react-fast-marquee";
+import { FaMusic } from "react-icons/fa6";
 import logo from "../assets/hive_logo_white.svg";
 import useSpotify from "../hooks/useSpotify";
 import useTheme from "../hooks/useTheme";
 
-export default function Music() {
+export default function Footer() {
     const { playerState, currentToken, spotifyEnabled } = useSpotify();
     const { colorTheme } = useTheme();
-
-    // const [latestProgress, timestamp, durationMs, durationFormatted] = useMemo(() => {
-    //     if (!playerState) return [0, 0, 0, "0:00"];
-
-    //     return [
-    //         playerState?.progress_ms,
-    //         dayjs.utc(),
-    //         dayjs.duration(playerState?.item.duration_ms),
-    //         dayjs.duration(playerState?.item.duration_ms).format("m:ss"),
-    //     ];
-    // }, [playerState]);
-
-    // const [progressMs, setProgressMs] = useState(0);
-    // const [progressFormatted, setProgressFormatted] = useState("0:00");
-
-    // useEffect(() => {
-    //     const interval = setInterval(() => {
-    //         if (!playerState?.is_playing) return;
-    //         // const progress = dayjs.duration(dayjs.utc().diff(dayjs(timestamp), "ms")).add(latestProgress, "ms");
-    //         // const min = dayjs.duration(Math.min(progress.asMilliseconds(), durationMs.asMilliseconds()));
-    //         // setProgressMs(min.asMilliseconds());
-    //         // setProgressFormatted(min.format("m:ss"));
-    //     }, 1000);
-
-    //     return () => clearInterval(interval);
-    // }, [latestProgress, timestamp, playerState, durationMs]);
-
-    // const progressPercent = useMemo(() => {
-    //     if (!playerState) return 0;
-    //     return Math.min((progressMs / durationMs) * 100, 100);
-    // }, [progressMs, durationMs, playerState]);
 
     const [playMarquee, setPlayMarquee] = useState(true);
     const [currentTrackId, setcurrentTrackId] = useState(null);
@@ -85,10 +56,10 @@ export default function Music() {
                     <Box
                         // className="border-t-2 border-[--sand-7]"
                         // className="mx-8 mb-8 h-[200px] w-auto rounded-2xl shadow-md"
-                        className="h-[200px] w-full"
+                        className="h-[125px] w-full"
                         style={{
                             backgroundImage: spotifyEnabled && `url('${playerState?.item.album.images[0].url}')`,
-                            backgroundSize: "100vw 100vh",
+                            backgroundSize: "100% auto",
                             backgroundPosition: "center",
                             backgroundClip: "border-box",
                         }}
@@ -103,7 +74,7 @@ export default function Music() {
                                 backdropFilter:
                                     spotifyEnabled &&
                                     playerState &&
-                                    `blur(100px) ${colorTheme === "dark" ? "brightness(0.2)" : "brightness(.7)"}`,
+                                    `blur(75px) ${colorTheme === "dark" ? "brightness(0.25)" : "brightness(0.75)"}`,
                             }}
                             // className="rounded-2xl"
                         >
@@ -116,15 +87,16 @@ export default function Music() {
                                 direction="row"
                                 align="center"
                                 justify="start"
-                                gap="8"
+                                gap="5"
                                 p="6"
                                 // px="8"
                             >
-                                <img
+                                {/* <img
                                     src={playerState?.item.album.images[0].url}
                                     alt="album cover"
                                     className="h-full rounded-lg shadow-md"
-                                />
+                                /> */}
+                                <FaMusic size={40} />
 
                                 <Flex
                                     direction="column"
@@ -158,24 +130,43 @@ export default function Music() {
                                                         "linear-gradient(to left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1) 10%)",
                                                 }}
                                             >
-                                                <p
-                                                    className="max-w-full text-6xl font-bold text-gray-50"
-                                                    ref={titleRef}
-                                                >
-                                                    {playerState?.item.name}
-                                                </p>
-                                                <div
-                                                    style={{
-                                                        width: "120px",
-                                                    }}
-                                                />
+                                                <Flex dir="row" justify="center" align="center" gap="2" ref={titleRef}>
+                                                    <p className="text-[3.5rem] font-semibold leading-none text-gray-50">
+                                                        {playerState?.item.name}
+                                                    </p>
+                                                    <DotFilledIcon width="25px" height="25px" className="mx-2" />
+                                                    <p className="text-[3.4rem] font-normal leading-none text-gray-300">
+                                                        {playerState?.item.artists
+                                                            .map((artist) => artist.name)
+                                                            .join(", ")}
+                                                    </p>
+
+                                                    <div
+                                                        style={{
+                                                            width: "120px",
+                                                        }}
+                                                    />
+                                                </Flex>
                                             </Marquee>
                                         ) : (
-                                            <p className="max-w-full text-6xl font-bold text-gray-50" ref={titleRef}>
-                                                {playerState?.item.name}
-                                            </p>
+                                            <Flex
+                                                dir="row"
+                                                justify="center"
+                                                align="center"
+                                                gap="2"
+                                                ref={titleRef}
+                                                className="whitespace-nowrap"
+                                            >
+                                                <p className="text-[3.5rem] font-semibold leading-none text-gray-50">
+                                                    {playerState?.item.name}
+                                                </p>
+                                                <DotFilledIcon width="25px" height="25px" className="mx-2" />
+                                                <p className="text-[3.4rem] font-normal leading-none text-gray-300">
+                                                    {playerState?.item.artists.map((artist) => artist.name).join(", ")}
+                                                </p>
+                                            </Flex>
                                         )}
-                                        <p className="text-4xl text-gray-300">{playerState?.item.artists[0].name}</p>
+                                        {/* <p className="text-4xl text-gray-300">{playerState?.item.artists[0].name}</p> */}
                                     </Flex>
                                 </Flex>
                             </Flex>
@@ -185,7 +176,7 @@ export default function Music() {
                                 align="center"
                                 width="auto"
                                 height="100%"
-                                p="8"
+                                p="6"
                                 // className="to-[ bg-gradient-to-r from-transparent from-0% to-[--gray-1] to-100%"
                             >
                                 <img
