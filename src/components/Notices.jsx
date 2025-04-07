@@ -20,6 +20,8 @@ export default function Notices({}) {
 
     const slidesFiltered = useMemo(() => {
         console.log("slides changed");
+        console.log(infoSlides);
+        if (!infoSlides) return [];
         return infoSlides.filter((slide) => slide.enabled);
     }, [infoSlides]);
 
