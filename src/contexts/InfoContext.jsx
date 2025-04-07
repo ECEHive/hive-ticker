@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import { createContext, useCallback, useEffect, useState } from "react";
-import base from "../utils/airtable";
 
 const InfoContext = createContext();
 
@@ -8,23 +7,27 @@ function InfoProvider({ children }) {
     const [infoSlides, setInfoSlides] = useState([]);
 
     const fetchInfoSlides = useCallback(async () => {
-        return base("Slides")
-            .select({
-                // Selecting the first 3 records in Grid view:
-                view: "Grid view",
+        fetch("https://n8n.lemmony.click/webhook/ticker-slides")
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
             })
-            .all()
-            .then((records) => {
-                let result = records.map((record) => {
+            .then((data) => {
+                let result = data[0].data.map((record) => {
                     return {
-                        title: record.get("Title"),
+                        title: record.Title,
                         timestamp: "",
-                        content: record.get("Content"),
-                        enabled: record.get("Enabled"),
+                        content: record.Content,
+                        enabled: record.Enabled,
                     };
                 });
                 if (JSON.stringify(result) === JSON.stringify(infoSlides)) return;
                 setInfoSlides(result);
+            })
+            .catch((error) => {
+                console.error("Error fetching info slides:", error);
             });
     }, [infoSlides]);
 
