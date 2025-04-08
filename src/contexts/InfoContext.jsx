@@ -10,7 +10,7 @@ function InfoProvider({ children }) {
         fetch("https://n8n.lemmony.click/webhook/ticker?target=slides")
             .then((response) => {
                 if (!response.ok) {
-                    throw new Error("Network response was not ok");
+                    throw new Error("couldn't fetch slides");
                 }
                 return response.json();
             })
