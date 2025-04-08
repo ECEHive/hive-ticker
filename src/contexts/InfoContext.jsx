@@ -15,7 +15,7 @@ function InfoProvider({ children }) {
                 return response.json();
             })
             .then((data) => {
-                let result = data[0].data.map((record) => {
+                let result = data.data.map((record) => {
                     return {
                         title: record.Title,
                         timestamp: "",
