@@ -7,7 +7,7 @@ function InfoProvider({ children }) {
     const [infoSlides, setInfoSlides] = useState([]);
 
     const fetchInfoSlides = useCallback(async () => {
-        fetch("https://n8n.lemmony.click/webhook/ticker-slides")
+        fetch("https://n8n.lemmony.click/webhook/ticker?target=slides")
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Network response was not ok");
