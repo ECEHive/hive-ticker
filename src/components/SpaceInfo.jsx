@@ -145,10 +145,10 @@ export default function SpaceInfo({}) {
                                     key={timeHelper[0]}
                                 >
                                     <p
-                                        className={`${timeHelper[0] !== "Closing" && openState.openNow ? "font-mono" : "font-sans"} text-[5.7rem] font-semibold leading-none`}
+                                        className={`${timeHelper[0] !== "Closing" && openState.openNow ? "font-mono" : "font-sans"} text-7xl font-semibold leading-none`}
                                     >
                                         {timeHelper[0] === "hours"
-                                            ? `${timeHelper[2].format("h:mma")}- ${timeHelper[3].format("h:mma")}`
+                                            ? `${timeHelper[2].minute() === 0 ? timeHelper[2].format("ha") : timeHelper[2].format("h:mma")}-${timeHelper[3].minute() === 0 ? timeHelper[3].format("ha") : timeHelper[3].format("h:mma")}`
                                             : timeHelper[0]}
                                     </p>
                                 </motion.div>

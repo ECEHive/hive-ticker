@@ -77,55 +77,88 @@ export default function Footer() {
                         }}
                         // className="rounded-2xl"
                     >
-                        {spotifyEnabled && playerState && (
-                            <Flex
-                                width="100%"
-                                height="100%"
-                                maxHeight="100%"
-                                maxWidth="100%"
-                                overflow="hidden"
-                                direction="row"
-                                align="center"
-                                justify="start"
-                                gap="5"
-                                p="6"
-                                // px="8"
-                            >
-                                <FaMusic size={40} />
+                        <Flex
+                            width="100%"
+                            height="100%"
+                            maxHeight="100%"
+                            maxWidth="100%"
+                            overflow="hidden"
+                            direction="row"
+                            align="center"
+                            justify="start"
+                            gap="5"
+                            p="6"
+                            // px="8"
+                        >
+                            {spotifyEnabled && playerState && (
+                                <>
+                                    <FaMusic size={40} />
 
-                                <Flex
-                                    direction="column"
-                                    align="start"
-                                    justify="center"
-                                    gap="4"
-                                    width="100%"
-                                    maxWidth="100%"
-                                    height="100%"
-                                    overflow="hidden"
-                                    // p="4"
-                                >
                                     <Flex
                                         direction="column"
                                         align="start"
-                                        justify="start"
+                                        justify="center"
                                         gap="4"
                                         width="100%"
                                         maxWidth="100%"
+                                        height="100%"
                                         overflow="hidden"
-                                        ref={infoRef}
+                                        // p="4"
                                     >
-                                        {enableMarquee ? (
-                                            <Marquee
-                                                onCycleComplete={pauseMarquee}
-                                                play={playMarquee}
-                                                loop={0}
-                                                style={{
-                                                    overflow: "hidden",
-                                                    maskImage:
-                                                        "linear-gradient(to left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1) 10%)",
-                                                }}
-                                            >
-                                                <Flex dir="row" justify="center" align="center" gap="2" ref={titleRef}>
+                                        <Flex
+                                            direction="column"
+                                            align="start"
+                                            justify="start"
+                                            gap="4"
+                                            width="100%"
+                                            maxWidth="100%"
+                                            overflow="hidden"
+                                            ref={infoRef}
+                                        >
+                                            {enableMarquee ? (
+                                                <Marquee
+                                                    onCycleComplete={pauseMarquee}
+                                                    play={playMarquee}
+                                                    loop={0}
+                                                    style={{
+                                                        overflow: "hidden",
+                                                        maskImage:
+                                                            "linear-gradient(to left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1) 10%)",
+                                                    }}
+                                                >
+                                                    <Flex
+                                                        dir="row"
+                                                        justify="center"
+                                                        align="center"
+                                                        gap="2"
+                                                        ref={titleRef}
+                                                    >
+                                                        <p className="text-[3.5rem] font-semibold leading-none text-gray-50">
+                                                            {playerState?.item.name}
+                                                        </p>
+                                                        <DotFilledIcon width="25px" height="25px" className="mx-2" />
+                                                        <p className="text-[3.4rem] font-normal leading-none text-gray-300">
+                                                            {playerState?.item.artists
+                                                                .map((artist) => artist.name)
+                                                                .join(", ")}
+                                                        </p>
+
+                                                        <div
+                                                            style={{
+                                                                width: "120px",
+                                                            }}
+                                                        />
+                                                    </Flex>
+                                                </Marquee>
+                                            ) : (
+                                                <Flex
+                                                    dir="row"
+                                                    justify="center"
+                                                    align="center"
+                                                    gap="2"
+                                                    ref={titleRef}
+                                                    className="whitespace-nowrap"
+                                                >
                                                     <p className="text-[3.5rem] font-semibold leading-none text-gray-50">
                                                         {playerState?.item.name}
                                                     </p>
@@ -135,41 +168,18 @@ export default function Footer() {
                                                             .map((artist) => artist.name)
                                                             .join(", ")}
                                                     </p>
-
-                                                    <div
-                                                        style={{
-                                                            width: "120px",
-                                                        }}
-                                                    />
                                                 </Flex>
-                                            </Marquee>
-                                        ) : (
-                                            <Flex
-                                                dir="row"
-                                                justify="center"
-                                                align="center"
-                                                gap="2"
-                                                ref={titleRef}
-                                                className="whitespace-nowrap"
-                                            >
-                                                <p className="text-[3.5rem] font-semibold leading-none text-gray-50">
-                                                    {playerState?.item.name}
-                                                </p>
-                                                <DotFilledIcon width="25px" height="25px" className="mx-2" />
-                                                <p className="text-[3.4rem] font-normal leading-none text-gray-300">
-                                                    {playerState?.item.artists.map((artist) => artist.name).join(", ")}
-                                                </p>
-                                            </Flex>
-                                        )}
-                                        {/* <p className="text-4xl text-gray-300">{playerState?.item.artists[0].name}</p> */}
+                                            )}
+                                            {/* <p className="text-4xl text-gray-300">{playerState?.item.artists[0].name}</p> */}
+                                        </Flex>
                                     </Flex>
-                                </Flex>
-                            </Flex>
-                        )}
+                                </>
+                            )}
+                        </Flex>
                         <Flex
                             direction="column"
                             justify="center"
-                            align="center"
+                            align="end"
                             width="auto"
                             height="100%"
                             p="6"
