@@ -5,11 +5,10 @@ import Markdown from "react-markdown";
 import { animateScroll, Element } from "react-scroll";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
-import useInfo from "../hooks/useInfo";
+import useAirtable from "../hooks/useAirtable";
 import useTheme from "../hooks/useTheme";
 
 export default function Notices({}) {
-    const { infoSlides } = useInfo();
     const { colorTheme } = useTheme();
 
     const mdRef = useRef(null);
@@ -17,6 +16,17 @@ export default function Notices({}) {
 
     const [currentSlide, setCurrentSlide] = useState(``);
     const currentSlideIndex = useRef(0);
+
+    const infoSlides = useAirtable("slides", 60000, (data) => {
+        return data.map((slide) => {
+            return {
+                title: slide.Title,
+                timestamp: "",
+                content: slide.Content,
+                enabled: slide.Enabled,
+            };
+        });
+    });
 
     const slidesFiltered = useMemo(() => {
         console.log("slides changed");
@@ -61,7 +71,6 @@ export default function Notices({}) {
     }, []);
 
     useEffect(() => {
-        console.log("effect");
         currentSlideIndex.current = 0;
         loadSlide("");
 
@@ -130,6 +139,7 @@ export default function Notices({}) {
                             {currentSlide}
                         </Markdown>
                         <div name="bottom" ref={mdRef} />
+                        {/* <Calendar /> */}
                     </Element>
                 </motion.div>
             </AnimatePresence>

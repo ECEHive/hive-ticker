@@ -57,7 +57,7 @@ export default function Footer() {
                     // className="mx-8 mb-8 h-[200px] w-auto rounded-2xl shadow-md"
                     className="h-[130px] w-full"
                     style={{
-                        backgroundImage: spotifyEnabled && `url('${playerState?.item.album.images[0].url}')`,
+                        backgroundImage: spotifyEnabled && `url('${playerState?.item?.album?.images[0]?.url}')`,
                         backgroundSize: "100% auto",
                         backgroundPosition: "center",
                         backgroundClip: "border-box",
@@ -90,7 +90,7 @@ export default function Footer() {
                             p="6"
                             // px="8"
                         >
-                            {spotifyEnabled && playerState && (
+                            {spotifyEnabled && playerState?.item && (
                                 <>
                                     <FaMusic size={40} />
 
