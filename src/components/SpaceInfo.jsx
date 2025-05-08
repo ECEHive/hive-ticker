@@ -1,4 +1,4 @@
-import { Box, Callout, Flex, Text } from "@radix-ui/themes";
+import { Box, Flex, Text } from "@radix-ui/themes";
 import dayjs from "dayjs";
 import { AnimatePresence, motion } from "framer-motion";
 import { useMemo } from "react";
@@ -96,10 +96,10 @@ export default function SpaceInfo({}) {
                         </Text>
                     </Flex>
                 </Flex>
-
+                {/* 
                 <Flex height="auto" width="100%">
                     <Callout.Root size="3" color="red" className="w-full items-center rounded-none">
-                        {/* <Callout.Icon>
+                        <Callout.Icon>
                             <InfoCircledIcon
                                 style={{
                                     width: "2.5rem",
@@ -107,10 +107,10 @@ export default function SpaceInfo({}) {
                                     // marginTop: "15px",
                                 }}
                             />
-                        </Callout.Icon> */}
+                        </Callout.Icon>
                         <Callout.Text className="px-4 text-5xl leading-snug">Closing day: April 18</Callout.Text>
                     </Callout.Root>
-                </Flex>
+                </Flex> */}
 
                 {/* hours */}
                 <Flex
