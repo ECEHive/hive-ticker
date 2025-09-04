@@ -96,8 +96,8 @@ export default function SpaceInfo({}) {
                         </Text>
                     </Flex>
                 </Flex>
-                {/* 
-                <Flex height="auto" width="100%">
+
+                {/* <Flex height="auto" width="100%">
                     <Callout.Root size="3" color="red" className="w-full items-center rounded-none">
                         <Callout.Icon>
                             <InfoCircledIcon
@@ -107,7 +107,7 @@ export default function SpaceInfo({}) {
                                     // marginTop: "15px",
                                 }}
                             />
-                        </Callout.Icon>
+                        </Callout.Icon> 
                         <Callout.Text className="px-4 text-5xl leading-snug">Closing day: April 18</Callout.Text>
                     </Callout.Root>
                 </Flex> */}
