@@ -1,6 +1,6 @@
 import { Flex } from "@radix-ui/themes";
 import Alert from "./components/MainAlert";
-import Hero from "./components/specialSlides/hero";
+import Hero from "./components/specialSlides/Hero";
 import useTime from "./hooks/useTime";
 
 export default function FrontDesk({}) {
