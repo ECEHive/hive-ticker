@@ -76,13 +76,13 @@ function TimeProvider({ children }) {
                 return {
                     openNow: true,
                     openToday: true,
-                    hours: todayHours.hours,
+                    hours: [openTime, closeTime],
                 };
             } else {
                 return {
                     openNow: false,
                     openToday: true,
-                    hours: todayHours.hours,
+                    hours: [openTime, closeTime],
                 };
             }
         } else {
@@ -105,6 +105,30 @@ function TimeProvider({ children }) {
             clearInterval(secondInterval);
         };
     }, [timeRaw]);
+
+    const timeHelper = useMemo(() => {
+        if (!openState?.openToday) return ["Closed", "Today", "", ""];
+
+        const openTime = openState.hours[0];
+        const closeTime = openState.hours[1];
+
+        const timeUntilClose = dayjs.duration(closeTime.diff(dayjs(), "milliseconds"));
+        const timeUntilOpen = dayjs.duration(openTime.diff(dayjs(), "milliseconds"));
+
+        if (timeUntilOpen.asMinutes() < 60 && timeUntilOpen.asMinutes() > 0) {
+            return ["Opening", `at ${openTime.format("ha")}`, openTime, closeTime];
+        } else if (timeUntilClose.asMinutes() < 60 && timeUntilClose.asMinutes() > 0) {
+            return ["hours", "Closing soon", openTime, closeTime];
+        } else if (!openState.openNow) {
+            if (dayjs().hour() >= closeTime.hour() && dayjs().minute() >= closeTime.minute()) {
+                return ["Closed", "After hours", openTime, closeTime];
+            } else {
+                return ["Closed", "Before hours", openTime, closeTime];
+            }
+        } else {
+            return ["hours", "Today's hours", openTime, closeTime];
+        }
+    }, [openState]);
 
     // ALERT STUFF
     const alertTemplates = useMemo(
@@ -182,13 +206,8 @@ function TimeProvider({ children }) {
 
     const alertSchedule = useMemo(() => {
         if (openState.openToday) {
-            const openTime = dayjs()
-                .set("hour", openState.hours[0].split(":")[0])
-                .set("minute", openState.hours[0].split(":")[1]);
-
-            const closeTime = dayjs()
-                .set("hour", openState.hours[1].split(":")[0])
-                .set("minute", openState.hours[1].split(":")[1]);
+            const openTime = openState.hours[0];
+            const closeTime = openState.hours[1];
 
             const data = [
                 {
@@ -268,7 +287,7 @@ function TimeProvider({ children }) {
     }, [timeRaw, openState, alertSchedule, alertTemplates]);
 
     return (
-        <TimeContext.Provider value={{ time, date, openState, hours, setHours, alertActive, alertContent }}>
+        <TimeContext.Provider value={{ time, date, openState, hours, setHours, alertActive, alertContent, timeHelper }}>
             {children}
         </TimeContext.Provider>
     );

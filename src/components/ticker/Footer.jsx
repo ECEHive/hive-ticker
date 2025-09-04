@@ -3,9 +3,9 @@ import { Box, Flex } from "@radix-ui/themes";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Marquee from "react-fast-marquee";
 import { FaMusic } from "react-icons/fa6";
-import logo from "../assets/hive_logo_white.svg";
-import useSpotify from "../hooks/useSpotify";
-import useTheme from "../hooks/useTheme";
+import logo from "../../assets/hive_logo_white.svg";
+import useSpotify from "../../hooks/useSpotify";
+import useTheme from "../../hooks/useTheme";
 
 export default function Footer() {
     const { playerState, currentToken, spotifyEnabled } = useSpotify();

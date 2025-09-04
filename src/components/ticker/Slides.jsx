@@ -5,10 +5,10 @@ import Markdown from "react-markdown";
 import { animateScroll, Element } from "react-scroll";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
-import useAirtable from "../hooks/useAirtable";
-import useTheme from "../hooks/useTheme";
+import useAirtable from "../../hooks/useAirtable";
+import useTheme from "../../hooks/useTheme";
 
-export default function Notices({}) {
+export default function Slides({}) {
     const { colorTheme } = useTheme();
 
     const mdRef = useRef(null);

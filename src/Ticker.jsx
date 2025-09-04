@@ -1,8 +1,8 @@
 import { Box, Flex } from "@radix-ui/themes";
-import Music from "./components/Footer";
 import Alert from "./components/MainAlert";
-import Notices from "./components/Notices";
-import SpaceInfo from "./components/SpaceInfo";
+import Music from "./components/ticker/Footer";
+import Slides from "./components/ticker/Slides";
+import SpaceInfo from "./components/ticker/SpaceInfo";
 import useTime from "./hooks/useTime";
 
 export default function Ticker({}) {
@@ -15,7 +15,7 @@ export default function Ticker({}) {
                     <SpaceInfo />
                 </Box>
                 <Box width="100%" height="100%">
-                    {alertActive ? <Alert /> : <Notices />}
+                    {alertActive ? <Alert /> : <Slides />}
                 </Box>
             </Flex>
             <Box height="auto" width="100%" className="border-t-[3px] border-solid border-[--sand-7]">
