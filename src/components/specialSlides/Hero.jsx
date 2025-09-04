@@ -1,5 +1,5 @@
 import { Flex } from "@radix-ui/themes";
-import hiveLogoWhite from "../../assets/hive_logo_ondark.svg";
+import hiveLogoWhite from "../../assets/hive_logo_onDark.svg";
 import idcSilhouette from "../../assets/idc_silhouette.svg";
 import useTime from "../../hooks/useTime";
 
