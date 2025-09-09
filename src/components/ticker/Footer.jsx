@@ -8,7 +8,7 @@ import useSpotify from "../../hooks/useSpotify";
 import useTheme from "../../hooks/useTheme";
 
 export default function Footer() {
-    const { playerState, currentToken, spotifyEnabled } = useSpotify();
+    const { playerState, spotifyEnabled } = useSpotify();
     const { colorTheme } = useTheme();
 
     const [playMarquee, setPlayMarquee] = useState(true);
