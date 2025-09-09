@@ -139,7 +139,6 @@ export default function Slides({}) {
                             {currentSlide}
                         </Markdown>
                         <div name="bottom" ref={mdRef} />
-                        {/* <Calendar /> */}
                     </Element>
                 </motion.div>
             </AnimatePresence>

@@ -9,7 +9,15 @@ export default function Hero({}) {
     return (
         <>
             <Flex direction="column" height="100%" width="100%" justify="center" align="center" position="relative">
-                <Flex direction="column" align="center" justify="center" height="auto" width="auto" zIndex="1" gap="6">
+                <Flex
+                    direction="column"
+                    align="center"
+                    justify="center"
+                    height="auto"
+                    width="auto"
+                    gap="6"
+                    className="z-10"
+                >
                     <Flex
                         direction="row"
                         align="center"
@@ -38,8 +46,8 @@ export default function Hero({}) {
                         )}
                     </Flex>
                 </Flex>
-                <Flex height="100%" width="100%" position="absolute" justify="center" align="center" zIndex="0">
-                    <img src={idcSilhouette} alt="IDC Silhouette" className="opacity-10" />
+                <Flex height="100%" width="100%" position="absolute" justify="center" align="center" className="z-0">
+                    <img src={idcSilhouette} alt="IDC Silhouette" className="opacity-15" />
                 </Flex>
             </Flex>
         </>

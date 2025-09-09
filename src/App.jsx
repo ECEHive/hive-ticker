@@ -7,6 +7,7 @@ import Config from "./components/Config";
 import { SpotifyProvider } from "./contexts/SpotifyContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { TimeProvider } from "./contexts/TimeContext";
+import Downstairs from "./Downstairs";
 import FrontDesk from "./FrontDesk";
 import useTheme from "./hooks/useTheme";
 import Ticker from "./Ticker";
@@ -49,6 +50,7 @@ function AppChild() {
                             <Routes>
                                 <Route index element={<Ticker />} />
                                 <Route path="frontdesk" element={<FrontDesk />} />
+                                <Route path="downstairs" element={<Downstairs />} />
                             </Routes>
                         </Flex>
                     </Box>
