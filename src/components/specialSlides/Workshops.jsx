@@ -1,7 +1,9 @@
 import { Flex, Grid } from "@radix-ui/themes";
+import dayjs from "dayjs";
+import { motion } from "motion/react";
 import { useEffect } from "react";
-import newsletterQR from "../../assets/newsletter_qr.svg";
 import useAirtable from "../../hooks/useAirtable";
+import SpecialSlideTemplate from "./template";
 
 export default function Workshops({}) {
     const workshopCalendar = useAirtable("workshops", 120000, (data) => {
@@ -13,38 +15,91 @@ export default function Workshops({}) {
     }, [workshopCalendar]);
 
     return (
-        <>
-            <Flex direction="row" align="start" justify="start" width="100%">
-                <Flex direction="column" align="start" justify="start" width="100%" gap="5">
-                    <Flex direction="row" align="center" justify="start" height="" width="100%">
-                        <p className="text-8xl font-bold">Upcoming workshops</p>
-                    </Flex>
-                    <p className="text-5xl font-normal">Sign ups are sent in our newsletter!</p>
-                </Flex>
-                <img src={newsletterQR} className="h-48" />
-            </Flex>
+        <SpecialSlideTemplate title="Upcoming Events & Workshops">
+            <Grid width="100%" gap="4" height="100%" columns="5" rows="auto">
+                {[...Array(21).keys()].map((dateOffset) => {
+                    const day = dayjs()
+                        .startOf("week")
+                        .add(dateOffset + 1, "day")
+                        .startOf("day");
+                    const passed = day.isBefore(dayjs(), "day");
 
-            <Flex direction="column" overflow="auto" height="auto" width="100%" mt="6">
-                <Grid className="" width="100%" gap="4" height="100%" columns="3" rows="auto">
-                    {workshopCalendar.map((event) => (
-                        <>
-                            <Flex
-                                key={event.id}
-                                direction="column"
-                                align="start"
-                                justify="start"
-                                p="5"
-                                gap="3"
-                                className="rounded-lg bg-zinc-800"
-                            >
-                                <Flex dir="row" align="center" justify="start" gap="3">
-                                    <p className="text-4xl font-bold">{event["Name"]}</p>
+                    // if it's a weekend skip
+                    if (day.day() === 0 || day.day() === 6) return null;
+
+                    const events =
+                        workshopCalendar?.filter((event) => day.isSame(dayjs(event["Event Date"]), "day")) || [];
+
+                    return (
+                        <Flex
+                            direction="column"
+                            key={dateOffset}
+                            gap="2"
+                            justify="start"
+                            align="start"
+                            className={`${day.isSame(dayjs(), "day") && "border-4 border-amber-100"} bg-zinc-800 p-5`}
+                        >
+                            <p className="text-xl font-medium text-[--gray-11]">{day.format("ddd, MMM D")}</p>
+
+                            {events.length > 0 ? (
+                                <>
+                                    {events.map((event, index) => {
+                                        const seatsOpen = event["Capacity"] - event["Attendees Registered"];
+
+                                        return (
+                                            <motion.div
+                                                key={dateOffset}
+                                                initial={{ opacity: 0 }}
+                                                animate={{ opacity: 1 }}
+                                                className={`flex flex-col gap-2`}
+                                            >
+                                                <Flex direction="column" gap="1">
+                                                    <p className="text-4xl font-semibold">{event["Name"]}</p>
+                                                    <p className="text-2xl font-medium">
+                                                        {dayjs(event["Event Date"]).format("h:mm A")}
+                                                    </p>
+                                                </Flex>
+
+                                                <Flex direction="column" gap="1">
+                                                    {seatsOpen !== 0 ? (
+                                                        <span className="inline-flex text-3xl">
+                                                            <p className="font-mono font-medium">{seatsOpen}</p>
+                                                            <p className="text-[--gray-11]">&nbsp;open seats</p>
+                                                        </span>
+                                                    ) : (
+                                                        <span className="inline-flex text-3xl">
+                                                            <p className="font-mono font-medium">
+                                                                {event["Waitlist Length"]}
+                                                            </p>
+                                                            <p className="text-[--gray-11]">&nbsp;on waitlist</p>
+                                                        </span>
+                                                    )}
+                                                </Flex>
+                                            </motion.div>
+                                        );
+                                    })}
+                                </>
+                            ) : (
+                                <Flex
+                                    direction="column"
+                                    justify="center"
+                                    flexGrow="1"
+                                    className="h-full grow self-center"
+                                >
+                                    {/* <p className="text-3xl font-medium text-[--gray-8]">No events</p> */}
                                 </Flex>
-                            </Flex>
-                        </>
-                    ))}
-                </Grid>
+                            )}
+                        </Flex>
+                    );
+                })}
+            </Grid>
+            <Flex className="mt-6 flex flex-row items-center justify-start gap-4">
+                <p className="text-3xl font-medium">
+                    Event signups are sent in our weekly newsletter! Subscribe at{" "}
+                    <a className="underline">newsletter.hivemakerspace.com</a>
+                </p>
+                {/* <img src={newsletterQR} className="h-16" /> */}
             </Flex>
-        </>
+        </SpecialSlideTemplate>
     );
 }

@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Hero from "./components/specialSlides/Hero";
 import Printers from "./components/specialSlides/Printers";
-// import Workshops from "./components/specialSlides/Workshops";
+import Workshops from "./components/specialSlides/Workshops";
 import useTime from "./hooks/useTime";
 
 export default function FrontDesk({}) {
@@ -15,16 +15,16 @@ export default function FrontDesk({}) {
         () => [
             {
                 component: <Hero key="hero" />,
-                duration: 15000,
+                duration: 10000,
             },
             {
                 component: <Printers key="printers" />,
-                duration: 30000,
+                duration: 20000,
             },
-            // "workshops": {
-            //     component: <Workshops key="workshops" />,
-            //     duration: 30000,
-            // },
+            {
+                component: <Workshops key="workshops" />,
+                duration: 20000,
+            },
         ],
         [],
     );
