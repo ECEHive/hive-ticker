@@ -22,7 +22,6 @@ export default function Workshops({}) {
                         .startOf("week")
                         .add(dateOffset + 1, "day")
                         .startOf("day");
-                    const passed = day.isBefore(dayjs(), "day");
 
                     // if it's a weekend skip
                     if (day.day() === 0 || day.day() === 6) return null;
@@ -48,7 +47,7 @@ export default function Workshops({}) {
 
                                         return (
                                             <motion.div
-                                                key={dateOffset}
+                                                key={index}
                                                 initial={{ opacity: 0 }}
                                                 animate={{ opacity: 1 }}
                                                 className={`flex flex-col gap-2`}

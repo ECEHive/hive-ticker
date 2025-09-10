@@ -9,7 +9,7 @@ import useLiveSpaceData from "../../hooks/useLiveSpaceData";
 
 import bambuLogo from "../../assets/printing/bambu.svg";
 import formlabsLogo from "../../assets/printing/formlabs.svg";
-import SpecialSlideTemplate from "./template";
+import SpecialSlideTemplate from "./Template";
 
 export default function Printers() {
     const printerStates = useLiveSpaceData("getPrinters", 60000, (data) => {
