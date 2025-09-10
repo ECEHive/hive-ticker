@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import { motion } from "motion/react";
 import { useEffect } from "react";
 import useAirtable from "../../hooks/useAirtable";
-import SpecialSlideTemplate from "./template";
+import SpecialSlideTemplate from "./Template";
 
 export default function Workshops({}) {
     const workshopCalendar = useAirtable("workshops", 120000, (data) => {
