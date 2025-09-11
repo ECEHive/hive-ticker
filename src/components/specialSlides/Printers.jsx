@@ -74,20 +74,34 @@ export default function Printers() {
                                     <p className="font-bold">{printer.name}</p>
                                 </Flex>
 
-                                <Flex direction="column" justify="start" align="start" gap="2" width="100%">
+                                <Flex
+                                    direction="column"
+                                    justify="start"
+                                    align="start"
+                                    gap="2"
+                                    width="100%"
+                                    height="100%"
+                                >
                                     <Flex direction="row" justify="start" align="start" gap="2">
                                         <span className="inline-flex text-3xl">
-                                            <p className="font-medium">
-                                                {printer.queueLength} print
-                                                {printer.queueLength != 1 ? "s" : ""}&nbsp;
-                                            </p>
-                                            <p className="text-[--gray-11]">queued</p>
+                                            {printer.queueLength > 0 ? (
+                                                <>
+                                                    <p className="font-medium">
+                                                        {printer.queueLength} print
+                                                        {printer.queueLength != 1 ? "s" : ""}&nbsp;
+                                                    </p>
+                                                    <p className="text-[--gray-11]">queued</p>
+                                                </>
+                                            ) : (
+                                                // <p>No prints queued&nbsp;</p>
+                                                <></>
+                                            )}
                                         </span>
                                     </Flex>
 
-                                    <Flex direction="row" justify="start" align="center" gap="2">
-                                        <span className="inline-flex text-3xl">
-                                            {printer.queueTime > 0 ? (
+                                    {printer.queueTime > 0 ? (
+                                        <Flex direction="row" justify="start" align="center" gap="2">
+                                            <span className="inline-flex text-3xl">
                                                 <>
                                                     <p className="font-medium">
                                                         {dayjs.duration(printer.queueTime, "seconds").humanize()}
@@ -95,13 +109,23 @@ export default function Printers() {
                                                     </p>
                                                     <p className="text-[--gray-11]">until empty</p>
                                                 </>
-                                            ) : (
-                                                <p>No wait!&nbsp;</p>
-                                            )}
-                                        </span>
-                                    </Flex>
+                                            </span>
+                                        </Flex>
+                                    ) : (
+                                        <Flex
+                                            direction="row"
+                                            justify="center"
+                                            align="center"
+                                            gap="2"
+                                            width="100%"
+                                            height="100%"
+                                            flexGrow="1"
+                                        >
+                                            <p className="text-4xl font-medium text-green-100">No wait!&nbsp;</p>
+                                        </Flex>
+                                    )}
                                 </Flex>
-                                <Flex direction="row" justify="start" align="end" flexGrow="1" width="100%">
+                                <Flex direction="row" justify="start" align="end" width="100%">
                                     <Flex direction="row" justify="between" width="100%" align="center">
                                         <span className="inline-flex items-center">
                                             <img

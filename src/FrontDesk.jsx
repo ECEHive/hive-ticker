@@ -16,14 +16,17 @@ export default function FrontDesk({}) {
             {
                 component: <Hero key="hero" />,
                 duration: 10000,
+                skip: true,
             },
             {
                 component: <Printers key="printers" />,
                 duration: 20000,
+                skip: false,
             },
             {
                 component: <Workshops key="workshops" />,
                 duration: 20000,
+                skip: true,
             },
         ],
         [],
@@ -44,6 +47,17 @@ export default function FrontDesk({}) {
         });
     }, []);
 
+    const incrimentSlide = useCallback(() => {
+        currentSlideIndex.current += 1;
+
+        while (slides[currentSlideIndex.current].skip) {
+            currentSlideIndex.current += 1;
+            if (currentSlideIndex.current >= slides.length) {
+                currentSlideIndex.current = 0;
+            }
+        }
+    }, [slides]);
+
     useEffect(() => {
         currentSlideIndex.current = 0;
         loadSlide(slides[0].component);
@@ -51,10 +65,8 @@ export default function FrontDesk({}) {
         let ready = true;
         const interval = setInterval(() => {
             if (!ready) return;
-            currentSlideIndex.current += 1;
-            if (currentSlideIndex.current >= slides.length) {
-                currentSlideIndex.current = 0;
-            }
+
+            incrimentSlide();
 
             loadSlide(slides[currentSlideIndex.current].component);
             ready = false;
@@ -66,7 +78,7 @@ export default function FrontDesk({}) {
         return () => {
             clearInterval(interval);
         };
-    }, [loadSlide, slides, runSlide]);
+    }, [loadSlide, slides, runSlide, incrimentSlide]);
 
     return (
         <>
@@ -81,9 +93,16 @@ export default function FrontDesk({}) {
                 align="start"
                 p="7"
                 gap="6"
+                onClick={() => {
+                    // advance to next slide
+                    incrimentSlide();
+                    loadSlide(slides[currentSlideIndex.current].component);
+                }}
             >
                 {alertActive ? (
-                    <Alert />
+                    <>
+                        <Alert />
+                    </>
                 ) : (
                     <AnimatePresence mode="wait">
                         <motion.div
