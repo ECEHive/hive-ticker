@@ -16,7 +16,7 @@ export default function FrontDesk({}) {
             {
                 component: <Hero key="hero" />,
                 duration: 10000,
-                skip: true,
+                skip: false,
             },
             {
                 component: <Printers key="printers" />,
@@ -26,7 +26,7 @@ export default function FrontDesk({}) {
             {
                 component: <Workshops key="workshops" />,
                 duration: 20000,
-                skip: true,
+                skip: false,
             },
         ],
         [],
