@@ -48,14 +48,14 @@ export default function FrontDesk({}) {
     }, []);
 
     const incrimentSlide = useCallback(() => {
-        currentSlideIndex.current += 1;
+        // currentSlideIndex.current += 1;
 
-        while (slides[currentSlideIndex.current].skip) {
-            currentSlideIndex.current += 1;
-            if (currentSlideIndex.current >= slides.length) {
-                currentSlideIndex.current = 0;
-            }
+        // while (slides[currentSlideIndex.current].skip) {
+        currentSlideIndex.current += 1;
+        if (currentSlideIndex.current >= slides.length) {
+            currentSlideIndex.current = 0;
         }
+        // }
     }, [slides]);
 
     useEffect(() => {
