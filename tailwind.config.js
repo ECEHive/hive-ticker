@@ -23,19 +23,24 @@ export default {
                         h1: {
                             ...defaultTypograhyStyle,
                             marginBottom: ".3em",
+                            lineHeight: "1em",
                         },
                         h2: {
                             ...defaultTypograhyStyle,
+                            lineHeight: "1em",
                         },
                         h3: {
                             ...defaultTypograhyStyle,
+                            lineHeight: "1em",
                         },
                         h4: {
                             ...defaultTypograhyStyle,
+                            lineHeight: "1em",
                         },
                         p: {
                             ...defaultTypograhyStyle,
                             fontSize: "1.275em",
+                            lineHeight: "1em",
                         },
                         // increase all font sizes in table
                         table: {
